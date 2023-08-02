@@ -53,8 +53,12 @@ def load_config(config_path: Pathlike) -> StrDict[Any]:
 
 @beartype
 def download_file(
-        url: str, dir: Optional[Pathlike] = None, file_name: Optional[str] = None, replace_existing: bool = True,
-        show_progress_bar: bool = True) -> tuple[Pathlike, int]:
+    url: str,
+    dir: Optional[Pathlike] = None,
+    file_name: Optional[str] = None,
+    replace_existing: bool = True,
+    show_progress_bar: bool = True,
+) -> tuple[Pathlike, int]:
     """
     Download a file from a URL.
 
@@ -101,8 +105,11 @@ def download_file(
 
 @beartype
 def extract_file(
-        file_path: Pathlike, dir: Optional[Pathlike] = None, replace_existing: bool = True,
-        remove_archive: bool = False) -> tuple[Pathlike, list[Pathlike]]:
+    file_path: Pathlike,
+    dir: Optional[Pathlike] = None,
+    replace_existing: bool = True,
+    remove_archive: bool = False,
+) -> tuple[Pathlike, list[Pathlike]]:
     """
     Extract files from an archive.
 

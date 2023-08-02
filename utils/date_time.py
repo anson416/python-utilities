@@ -46,8 +46,11 @@ def get_time(time_format: str = r"%H:%M:%S") -> str:
 
 @beartype
 def get_datetime(
-        date_format: str = r"%Y-%m-%d", time_format: str = r"%H:%M:%S", datetime_sep: str = " ",
-        date_first: bool = True) -> str:
+    date_format: str = r"%Y-%m-%d",
+    time_format: str = r"%H:%M:%S",
+    datetime_sep: str = " ",
+    date_first: bool = True,
+) -> str:
     """
     Get current date and time.
 

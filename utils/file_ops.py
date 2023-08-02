@@ -19,7 +19,10 @@ __all__ = ["get_basename",
 
 
 @beartype
-def get_basename(file_path: Pathlike, split_ext: bool = False) -> Union[str, tuple[str, str]]:
+def get_basename(
+    file_path: Pathlike,
+    split_ext: bool = False,
+) -> Union[str, tuple[str, str]]:
     """
     Get either basename or file name and extension of a file.
 
@@ -126,7 +129,11 @@ def remove_file(file_path: Pathlike) -> bool:
 
 
 @beartype
-def list_files(dir: Pathlike, exts: Optional[Union[Array[str], str]] = None, base_only: bool = False) -> list[str]:
+def list_files(
+    dir: Pathlike,
+    exts: Optional[Union[Array[str], str]] = None,
+    base_only: bool = False
+) -> list[str]:
     """
     Get all file paths or names under a directory recursively. Similar to the ls command on Linux.
 

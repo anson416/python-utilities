@@ -58,7 +58,12 @@ def args2str(args: argparse.Namespace, sep: str = ", ", end: str = "") -> str:
 
 
 @beartype
-def dict2str(dic: dict[Any, Any], kv_sep: str = " : ", item_sep: str = "\n", str_end: str = "") -> str:
+def dict2str(
+    dic: dict[Any, Any],
+    kv_sep: str = " : ",
+    item_sep: str = "\n",
+    str_end: str = "",
+) -> str:
     """
     Convert a dictionary into formatted string.
 
@@ -81,7 +86,11 @@ def dict2str(dic: dict[Any, Any], kv_sep: str = " : ", item_sep: str = "\n", str
 
 
 @beartype
-def arr2dict(arr: Array[Any], start: int = 0, key_to_str: bool = False) -> dict[Union[int, str], Any]:
+def arr2dict(
+    arr: Array[Any],
+    start: int = 0,
+    key_to_str: bool = False,
+) -> dict[Union[int, str], Any]:
     """
     Convert an array into dictionary.
 
@@ -101,7 +110,12 @@ def arr2dict(arr: Array[Any], start: int = 0, key_to_str: bool = False) -> dict[
 
 
 @beartype
-def num2str(num: Union[float, int], prec: int = 2, dp: str = ".", sep: str = "") -> str:
+def num2str(
+    num: Union[float, int],
+    prec: int = 2,
+    dp: str = ".",
+    sep: str = "",
+) -> str:
     """
     Format a large number to string with unit.
 
@@ -132,7 +146,13 @@ def num2str(num: Union[float, int], prec: int = 2, dp: str = ".", sep: str = "")
 
 
 @beartype
-def datasize2str(size: int, div: Union[float, int] = 1024, prec: int = 0, dp: str = ".", sep: str = " ") -> str:
+def datasize2str(
+    size: int,
+    div: Union[float, int] = 1024,
+    prec: int = 0,
+    dp: str = ".",
+    sep: str = " ",
+) -> str:
     """
     Format data size to string with unit.
 
