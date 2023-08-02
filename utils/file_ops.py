@@ -21,7 +21,7 @@ __all__ = ["get_basename",
 @beartype
 def get_basename(file_path: Pathlike, split_ext: bool = False) -> Union[str, tuple[str, str]]:
     """
-    Return either basename or file name and extension of a file.
+    Get either basename or file name and extension of a file.
 
     Args:
         file_path (Pathlike): Target file
@@ -39,13 +39,13 @@ def get_basename(file_path: Pathlike, split_ext: bool = False) -> Union[str, tup
 @beartype
 def get_file_size(file_path: Pathlike) -> int:
     """
-    Return size of a file.
+    Get the size of a file.
 
     Args:
         file_path (Pathlike): Target file
 
     Returns:
-        int: File size
+        int: File size (in bytes)
     """
 
     return os.path.getsize(file_path)
@@ -54,7 +54,7 @@ def get_file_size(file_path: Pathlike) -> int:
 @beartype
 def get_parent_dir(file_path: Pathlike) -> Pathlike:
     """
-    Return parent directory of a file. To get the parent directory of any Python script, do get_parent_dir(__file__).
+    Get the parent directory of a file. To get the parent directory of any Python script, do get_parent_dir(__file__).
 
     Args:
         file_path (Pathlike): Target file
@@ -92,7 +92,7 @@ def remove_dir(dir: Pathlike, only_empty: bool = False) -> bool:
         only_empty (bool, optional): If True, remove dir only if it is empty. Defaults to False.
 
     Returns:
-        bool: If True, the directory is successfully removed
+        bool: True iff the directory is removed
     """
 
     removed = False
@@ -113,7 +113,7 @@ def remove_file(file_path: Pathlike) -> bool:
         file_path (Pathlike): Target file
 
     Returns:
-        bool: If True, the file is successfully removed
+        bool: True iff the file is removed
     """
 
     removed = False
@@ -128,8 +128,7 @@ def remove_file(file_path: Pathlike) -> bool:
 @beartype
 def list_files(dir: Pathlike, exts: Optional[Union[Array[str], str]] = None, base_only: bool = False) -> list[str]:
     """
-    Return all files in a directory recursively. Similar to ls command in 
-    Linux.
+    Get all file paths or names under a directory recursively. Similar to the ls command on Linux.
 
     Args:
         dir (Pathlike): Target directory
@@ -156,7 +155,7 @@ def list_files(dir: Pathlike, exts: Optional[Union[Array[str], str]] = None, bas
             else:
                 files.append(file_path)
         elif os.path.isdir(item_path):
-            files.extend(list_files(item_path, extensions=exts, base_only=base_only))
+            files.extend(list_files(item_path, exts=exts, base_only=base_only))
 
     return files
 
@@ -174,7 +173,7 @@ def read_file(file_path: Pathlike, remove_spaces: bool = False, remove_empty: bo
     Returns:
         list[str]: Lines in a file
     """
-    
+
     with open(file_path, "r") as f:
         lines = list(map(lambda x: x.rstrip("\n"), f.readlines()))
 

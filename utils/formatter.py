@@ -97,8 +97,7 @@ def arr2dict(arr: Array[Any], start: int = 0, key_to_str: bool = False) -> dict[
         arr2dict(["a", "b"], start=1, key_to_str=True) -> {"1": "a", "2": "b"}
     """
 
-    return {(str(i) if key_to_str else i): item
-            for i, item in enumerate(arr, start=start)}
+    return {(str(i) if key_to_str else i): item for i, item in enumerate(arr, start=start)}
 
 
 @beartype
@@ -138,8 +137,8 @@ def datasize2str(size: int, div: Union[float, int] = 1024, prec: int = 0, dp: st
     Format data size to string with unit.
 
     Args:
-        size (int): Target size (in bytes)
-        div (Union[float, int], optional): 1 KB equals x B. Defaults to 1024.
+        size (int): Data size (in bytes)
+        div (Union[float, int], optional): 1 KB equals div B. Defaults to 1024.
         prec (int, optional): Number of digits after decimal point (i.e., precision). Defaults to 0.
         dp (str, optional): Separator between integer part and decimal part. Defaults to ".".
         sep (str, optional): Separator between number and unit. Defaults to " ".

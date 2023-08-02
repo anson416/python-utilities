@@ -1,2 +1,3 @@
 beartype
-termcolor
+colorama
+python>=3.9

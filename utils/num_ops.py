@@ -17,7 +17,7 @@ def is_even(num: int) -> bool:
         num (int): Target number
 
     Returns:
-        bool: True if the number is even
+        bool: True iff the number is even
     """
 
     return num % 2 == 0
@@ -32,7 +32,7 @@ def is_odd(num: int) -> bool:
         num (int): Target number
 
     Returns:
-        bool: True if the number is old
+        bool: True iff the number is old
     """
 
     return num % 2 != 0
@@ -48,7 +48,7 @@ def rescale_num(num: float, a: float, b: float, c: float, d: float) -> float:
         a (float): Lower bound of original interval
         b (float): Upper bound of original interval
         c (float): Lower bound of new interval
-        d (float): Upper bound of new inteval
+        d (float): Upper bound of new interval
 
     Returns:
         float: Rescaled number

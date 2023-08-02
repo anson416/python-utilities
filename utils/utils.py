@@ -7,43 +7,17 @@ import os
 import tarfile
 import urllib.request
 import zipfile
-from datetime import datetime
 from typing import Any, Optional
 
 from . import beartype
 from .error import err2str, raise_err
 from .file_ops import get_basename, remove_file
-from .logger import logger
 from .types import Pathlike, StrDict
 
-__all__ = ["get_datetime",
-           "load_config",
+__all__ = ["load_config",
            "download_file",
            "extract_file",
-           "is_package_installed"]
-
-
-@beartype
-def get_datetime(datetime_sep: str = " ", date_sep: str = "-", time_sep: str = ":") -> str:
-    """
-    Return formatted date and time.
-
-    Args:
-        datetime_sep (str, optional): Separator between date and time. Defaults to " ".
-        date_sep (str, optional): Separator between elements in date. Defaults to "-".
-        time_sep (str, optional): Separator between elements in time. Defaults to ":".
-
-    Returns:
-        str: Date and time
-
-    Examples:
-        get_datetime(datetime_sep="_", date_sep="", time_sep="-") -> 20230101_08-02-47
-    """
-
-    date_format = f"%Y{date_sep}%m{date_sep}%d"
-    time_format = f"%H{time_sep}%M{time_sep}%S"
-    
-    return datetime.now().strftime(f"{date_format}{datetime_sep}{time_format}")
+           "has_package"]
 
 
 @beartype
@@ -175,15 +149,25 @@ def extract_file(
 
 
 @beartype
-def is_package_installed(package_name: str) -> bool:
+def has_package(package_name: str, raise_err: bool = False) -> bool:
     """
     Return True if a package is installed in the current environment.
 
     Args:
         package_name (str): Name of package
+        raise_err (bool, optional): If True, raise ImportError if package_name is not found
+
+    Raises:
+        ImportError: Raise if raise_err == True and package_name is not found
 
     Returns:
-        bool: True if the package is installed
+        bool: True iff package_name is found
     """
-    
-    return importlib.util.find_spec(package_name) != None
+
+    if importlib.util.find_spec(package_name):
+        return True
+    else:
+        if raise_err:
+            raise ImportError(f"package \"{package_name}\" not found")
+        else:
+            return False
