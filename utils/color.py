@@ -4,6 +4,7 @@
 from typing import Optional
 
 from colorama import Back, Fore, Style, just_fix_windows_console
+from termcolor import colored
 
 from . import beartype
 
@@ -12,7 +13,6 @@ __all__ = ["Color",
 
 just_fix_windows_console()
 
-from termcolor import colored
 
 class Color:
     _FORE = Fore.__dict__

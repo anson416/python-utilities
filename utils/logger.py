@@ -22,25 +22,23 @@ class _ConsoleFormatter(logging.Formatter):
     @beartype
     def format(self, record: logging.LogRecord) -> str:
         info = "[%(asctime)s @%(name)s/%(filename)s:%(lineno)d]"
-        # info = colored("[%(asctime)s @%(name)s/%(filename)s:%(lineno)d]", "GREEN")
-        msg = colored("%(message)s", "RESET")
-        print(record.levelno)
+        msg = colored("%(message)s", "white")
 
         if record.levelno == logging.DEBUG:
-            fmt = colored(f"{info} [DBG]", "WHITE")
+            fmt = colored(f"{info} [DBG]", "dark_grey")
         elif record.levelno == logging.INFO:
-            fmt = colored(f"{info} [DBG]", "GREEN")
+            fmt = colored(f"{info} [INF]", "green")
         elif record.levelno == logging.WARNING:
-            fmt = colored(f"{info} [DBG]", "YELLOW")
+            fmt = colored(f"{info} [WRN]", "yellow")
         elif record.levelno == logging.ERROR:
-            fmt = colored(f"{info} [DBG]", "RED")
+            fmt = colored(f"{info} [ERR]", "light_red")
         elif record.levelno == logging.CRITICAL:
-            fmt = colored(f"{info} [DBG]", "MAGENTA")
+            fmt = colored(f"{info} [CRT]", "red")
         else:
             fmt = f"{info} {msg}"
         fmt += f" {msg}"
-        self._style._fmt = fmt  # pylint: disable=W0212
-        # self._fmt = fmt
+        self._style._fmt = fmt
+        
         return super().format(record)
 
 
