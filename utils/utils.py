@@ -11,15 +11,47 @@ from .file_ops import get_basename, remove_file
 from .types import Pathlike, StrDict
 
 __all__ = [
+    "has_package",
     "load_config",
     "download_file",
     "extract_file",
-    "has_package",
 ]
 
 
 @beartype
-def load_config(config_path: Pathlike) -> StrDict[Any]:
+def has_package(
+    package_name: str,
+    raise_err: bool = False,
+) -> bool:
+    """
+    Return True if a package is installed in the current environment.
+
+    Args:
+        package_name (str): Name of package
+        raise_err (bool, optional): If True, raise ImportError if package_name is not found
+
+    Raises:
+        ImportError: Raise if raise_err == True and package_name is not found
+
+    Returns:
+        bool: True iff package_name is found
+    """
+
+    import importlib.util
+
+    if importlib.util.find_spec(package_name):
+        return True
+    else:
+        if raise_err:
+            raise ImportError(f"Package \"{package_name}\" not found")
+        else:
+            return False
+
+
+@beartype
+def load_config(
+    config_path: Pathlike,
+) -> StrDict[Any]:
     """
     Load a .json or .yaml file.
 
@@ -147,30 +179,3 @@ def extract_file(
         remove_file(file_path)
 
     return output_dir, extracted_files
-
-
-@beartype
-def has_package(package_name: str, raise_err: bool = False) -> bool:
-    """
-    Return True if a package is installed in the current environment.
-
-    Args:
-        package_name (str): Name of package
-        raise_err (bool, optional): If True, raise ImportError if package_name is not found
-
-    Raises:
-        ImportError: Raise if raise_err == True and package_name is not found
-
-    Returns:
-        bool: True iff package_name is found
-    """
-
-    import importlib.util
-
-    if importlib.util.find_spec(package_name):
-        return True
-    else:
-        if raise_err:
-            raise ImportError(f"Package \"{package_name}\" not found")
-        else:
-            return False

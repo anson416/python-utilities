@@ -11,7 +11,9 @@ __all__ = [
 
 
 @beartype
-def is_even(num: int) -> bool:
+def is_even(
+    num: int,
+) -> bool:
     """
     Return True if a number is even.
 
@@ -26,7 +28,9 @@ def is_even(num: int) -> bool:
 
 
 @beartype
-def is_odd(num: int) -> bool:
+def is_odd(
+    num: int,
+) -> bool:
     """
     Return True if a number is old.
 
@@ -41,7 +45,13 @@ def is_odd(num: int) -> bool:
 
 
 @beartype
-def rescale_num(num: float, a: float, b: float, c: float, d: float) -> float:
+def rescale_num(
+    num: float,
+    a: float,
+    b: float,
+    c: float,
+    d: float,
+) -> float:
     """
     Map a number in [a, b] (a != b) to [c, d].
 

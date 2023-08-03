@@ -18,7 +18,11 @@ __all__ = [
 
 
 @beartype
-def arr2str(arr: Array[Any], sep: str = "\n", end: str = "") -> str:
+def arr2str(
+    arr: Array[Any],
+    sep: str = "\n",
+    end: str = "",
+) -> str:
     """
     Convert an array into formatted string.
 
@@ -38,7 +42,11 @@ def arr2str(arr: Array[Any], sep: str = "\n", end: str = "") -> str:
 
 
 @beartype
-def args2str(args: argparse.Namespace, sep: str = ", ", end: str = "") -> str:
+def args2str(
+    args: argparse.Namespace,
+    sep: str = ", ",
+    end: str = "",
+) -> str:
     """
     Convert arguments into formatted string.
 

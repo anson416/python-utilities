@@ -13,7 +13,9 @@ __all__ = [
 
 
 @beartype
-def get_err_type(err: Exception) -> str:
+def get_err_type(
+    err: Exception,
+) -> str:
     """
     Get the type of error from an error.
 
@@ -28,7 +30,10 @@ def get_err_type(err: Exception) -> str:
 
 
 @beartype
-def err2str(err: Exception, sep: str = ": ") -> str:
+def err2str(
+    err: Exception,
+    sep: str = ": ",
+) -> str:
     """
     Convert an error into formatted string.
 
@@ -44,7 +49,10 @@ def err2str(err: Exception, sep: str = ": ") -> str:
 
 
 @beartype
-def raise_err(err: Exception, msg: Optional[str] = None) -> None:
+def raise_err(
+    err: Exception,
+    msg: Optional[str] = None,
+) -> None:
     """
     Raise error.
 

@@ -41,7 +41,9 @@ def get_basename(
 
 
 @beartype
-def get_file_size(file_path: Pathlike) -> int:
+def get_file_size(
+    file_path: Pathlike,
+) -> int:
     """
     Get the size of a file.
 
@@ -56,7 +58,9 @@ def get_file_size(file_path: Pathlike) -> int:
 
 
 @beartype
-def get_parent_dir(file_path: Pathlike) -> Pathlike:
+def get_parent_dir(
+    file_path: Pathlike,
+) -> Pathlike:
     """
     Get the parent directory of a file. To get the parent directory of any Python script, do get_parent_dir(__file__).
 
@@ -71,7 +75,10 @@ def get_parent_dir(file_path: Pathlike) -> Pathlike:
 
 
 @beartype
-def create_dir(dir: Pathlike, remove_existing: bool = False) -> None:
+def create_dir(
+    dir: Pathlike,
+    remove_existing: bool = False,
+) -> None:
     """
     Create a tree of directory.
 
@@ -87,7 +94,10 @@ def create_dir(dir: Pathlike, remove_existing: bool = False) -> None:
 
 
 @beartype
-def remove_dir(dir: Pathlike, only_empty: bool = False) -> bool:
+def remove_dir(
+    dir: Pathlike,
+    only_empty: bool = False,
+) -> bool:
     """
     Remove a directory.
 
@@ -111,7 +121,9 @@ def remove_dir(dir: Pathlike, only_empty: bool = False) -> bool:
 
 
 @beartype
-def remove_file(file_path: Pathlike) -> bool:
+def remove_file(
+    file_path: Pathlike,
+) -> bool:
     """
     Remove a file if it exists.
 
@@ -171,7 +183,11 @@ def list_files(
 
 
 @beartype
-def read_file(file_path: Pathlike, remove_spaces: bool = False, remove_empty: bool = False) -> list[str]:
+def read_file(
+    file_path: Pathlike,
+    remove_spaces: bool = False,
+    remove_empty: bool = False,
+) -> list[str]:
     """
     Read lines from a file (with formatting).
 
