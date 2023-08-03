@@ -48,7 +48,7 @@ def get_time(time_format: str = r"%H:%M:%S") -> str:
 def get_datetime(
     date_format: str = r"%Y-%m-%d",
     time_format: str = r"%H:%M:%S",
-    datetime_sep: str = " ",
+    sep: str = " ",
     date_first: bool = True,
 ) -> str:
     """
@@ -57,11 +57,11 @@ def get_datetime(
     Args:
         date_format (str, optional): Format string for date. Defaults to r"%Y-%m-%d".
         time_format (str, optional): Format string for time. Defaults to r"%H:%M:%S".
-        datetime_sep (str, optional): Separator between date and time. Defaults to " ".
+        sep (str, optional): Separator between date and time. Defaults to " ".
         date_first (bool, optional): If True, put date before time. Otherwise, put time before date.
 
     Returns:
         str: Current date and time
     """
     
-    return datetime_sep.join((get_date(date_format), get_time(time_format))[::(-1) ** (not date_first)])
+    return sep.join((get_date(date_format), get_time(time_format))[::(-1) ** (not date_first)])
