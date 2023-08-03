@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 # File: utils.py
 
-import importlib.util
-import json
 import os
 import tarfile
-import urllib.request
 import zipfile
 from typing import Any, Optional
 
@@ -13,10 +10,12 @@ from . import beartype
 from .file_ops import get_basename, remove_file
 from .types import Pathlike, StrDict
 
-__all__ = ["load_config",
-           "download_file",
-           "extract_file",
-           "has_package"]
+__all__ = [
+    "load_config",
+    "download_file",
+    "extract_file",
+    "has_package",
+]
 
 
 @beartype
@@ -34,12 +33,14 @@ def load_config(config_path: Pathlike) -> StrDict[Any]:
     ext = get_basename(config_path, split_ext=True)[1].lower()
     with open(config_path, "r") as f:
         if ext == ".json":
+            import json
+
             return json.load(f)
         elif ext == ".yaml":
             try:
                 import yaml
             except ImportError:
-                raise ImportError("Cannot import yaml. Try `pip install -U pyyaml`.")
+                raise ImportError("Could not import yaml. Try `pip3 install -U pyyaml`.")
 
             return yaml.safe_load(f)
         else:
@@ -69,6 +70,8 @@ def download_file(
         tuple[Pathlike, int]: Path to and size of downloaded file
     """
 
+    import urllib.request
+
     download_dir = dir if dir else "./"
     file_path = os.path.join(
         download_dir, f"{file_name}{get_basename(url, split_ext=True)[1]}" if file_name else get_basename(url))
@@ -82,7 +85,7 @@ def download_file(
             try:
                 from tqdm import tqdm
             except ImportError:
-                raise ImportError("Cannot import tqdm. Try `pip install -U tqdm`.")
+                raise ImportError("Could not import tqdm. Try `pip3 install -U tqdm`.")
                 
             with tqdm(
                     total=file_size, unit="B", unit_scale=True, unit_divisor=1024, miniters=1, mininterval=0.1,
@@ -162,10 +165,12 @@ def has_package(package_name: str, raise_err: bool = False) -> bool:
         bool: True iff package_name is found
     """
 
+    import importlib.util
+
     if importlib.util.find_spec(package_name):
         return True
     else:
         if raise_err:
-            raise ImportError(f"package \"{package_name}\" not found")
+            raise ImportError(f"Package \"{package_name}\" not found")
         else:
             return False

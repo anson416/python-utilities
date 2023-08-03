@@ -2,20 +2,21 @@
 # File: file_ops.py
 
 import os
-import shutil
 from typing import Optional, Union
 
 from . import beartype
 from .types import Array, Pathlike
 
-__all__ = ["get_basename",
-           "get_file_size",
-           "get_parent_dir",
-           "create_dir",
-           "remove_dir",
-           "remove_file",
-           "list_files",
-           "read_file"]
+__all__ = [
+    "get_basename",
+    "get_file_size",
+    "get_parent_dir",
+    "create_dir",
+    "remove_dir",
+    "remove_file",
+    "list_files",
+    "read_file",
+]
 
 
 @beartype
@@ -97,6 +98,8 @@ def remove_dir(dir: Pathlike, only_empty: bool = False) -> bool:
     Returns:
         bool: True iff the directory is removed
     """
+
+    import shutil
 
     removed = False
 

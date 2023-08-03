@@ -3,9 +3,11 @@
 
 from . import beartype
 
-__all__ = ["is_even",
-           "is_old",
-           "rescale_num"]
+__all__ = [
+    "is_even",
+    "is_old",
+    "rescale_num",
+]
 
 
 @beartype

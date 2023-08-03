@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 # File: color.py
 
-from colorama import just_fix_windows_console
-from termcolor import colored
+try:
+    from colorama import just_fix_windows_console
+except ImportError:
+    raise ImportError("Could not import colorama. Try `pip3 install -U colorama`.")
 
-__all__ = ["colored"]
+try:
+    from termcolor import colored
+except ImportError:
+    raise ImportError("Could not import termcolor. Try `pip3 install -U termcolor`.")
+
+__all__ = [
+    "colored",
+]
 
 just_fix_windows_console()

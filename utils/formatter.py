@@ -7,12 +7,14 @@ from typing import Any, Union
 from . import beartype
 from .types import Array
 
-__all__ = ["arr2str",
-           "args2str",
-           "dict2str",
-           "arr2dict",
-           "num2str",
-           "datasize2str"]
+__all__ = [
+    "arr2str",
+    "args2str",
+    "dict2str",
+    "arr2dict",
+    "num2str",
+    "datasize2str",
+]
 
 
 @beartype

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # File: hardware.py
 
-import multiprocessing
-
 from . import beartype
 from .utils import has_package
 
-__all__ = ["get_n_cpu",
-           "get_total_mem",
-           "get_n_gpu"]
+__all__ = [
+    "get_n_cpu",
+    "get_total_mem",
+    "get_n_gpu",
+]
 
 
 @beartype
@@ -20,6 +20,8 @@ def get_n_cpu() -> int:
         int: Number of CPU cores
     """
 
+    import multiprocessing
+
     return multiprocessing.cpu_count()
 
 
@@ -29,7 +31,7 @@ def get_total_mem() -> int:
     Get the total amount of system memory.
 
     Raises:
-        ImportError: Raise if psutil cannot be imported
+        ImportError: Raise if psutil could not be imported
 
     Returns:
         int: Total amount of system memory
@@ -38,7 +40,7 @@ def get_total_mem() -> int:
     try:
         import psutil
     except ImportError:
-        raise ImportError("Cannot import psutil. Try `pip install -U psutil`.")
+        raise ImportError("Could not import psutil. Try `pip3 install -U psutil`.")
     
     return psutil.virtual_memory().total
 

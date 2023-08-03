@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 # File: error.py
 
-import builtins
 from typing import Optional
 
 from . import beartype
 
-__all__ = ["get_err_type",
-           "err2str",
-           "raise_err"]
+__all__ = [
+    "get_err_type",
+    "err2str",
+    "raise_err",
+]
 
 
 @beartype
@@ -57,5 +58,7 @@ def raise_err(err: Exception, msg: Optional[str] = None) -> None:
         except Exception as e:
             raise_err(e)
     """
+
+    import builtins
 
     raise getattr(builtins, get_err_type(err), Exception)(msg if msg else err)

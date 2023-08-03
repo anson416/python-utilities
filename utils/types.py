@@ -4,9 +4,11 @@
 from pathlib import Path
 from typing import TypeVar, Union
 
-__all__ = ["Array",
-           "Pathlike",
-           "StrDict"]
+__all__ = [
+    "Array",
+    "Pathlike",
+    "StrDict",
+]
 
 T = TypeVar("T")
 

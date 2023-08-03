@@ -5,6 +5,7 @@
 Utilities that can be used anywhere.
 """
 
-from beartype import beartype
-
-CHI_CHAR = r"[\u4e00-\u9fff，。！？；：、「」『』（）【】《》]"
+try:
+    from beartype import beartype
+except ImportError:
+    raise ImportError("Could not import beartype. Try `pip3 install -U beartype`.")

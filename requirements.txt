@@ -1,3 +1,4 @@
 beartype
 colorama
 termcolor
+tqdm
