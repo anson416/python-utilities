@@ -10,7 +10,6 @@ import zipfile
 from typing import Any, Optional
 
 from . import beartype
-from .error import err2str, raise_err
 from .file_ops import get_basename, remove_file
 from .types import Pathlike, StrDict
 
@@ -39,16 +38,12 @@ def load_config(config_path: Pathlike) -> StrDict[Any]:
         elif ext == ".yaml":
             try:
                 import yaml
-            except ImportError as e:
-                err_msg = f"Cannot import yaml. Try `pip install -U pyyaml`. ({err2str(e)})"
-                logger.error(err_msg)
-                raise_err(e, msg=err_msg)
+            except ImportError:
+                raise ImportError("Cannot import yaml. Try `pip install -U pyyaml`.")
 
             return yaml.safe_load(f)
         else:
-            err_msg = f"{ext} is not supported"
-            logger.error(err_msg)
-            raise ValueError(err_msg)
+            raise ValueError(f"{ext} is not supported")
 
 
 @beartype
@@ -86,10 +81,8 @@ def download_file(
         if show_progress_bar:  # Download with progress bar
             try:
                 from tqdm import tqdm
-            except ImportError as e:
-                err_msg = f"Cannot import tqdm. Try `pip install -U tqdm`. ({err2str(e)})"
-                logger.error(err_msg)
-                raise_err(e, msg=err_msg)
+            except ImportError:
+                raise ImportError("Cannot import tqdm. Try `pip install -U tqdm`.")
                 
             with tqdm(
                     total=file_size, unit="B", unit_scale=True, unit_divisor=1024, miniters=1, mininterval=0.1,
@@ -145,9 +138,7 @@ def extract_file(
                 if not(not replace_existing and os.path.exists(file)):
                     f_tar.extract(get_basename(file), path=output_dir)
     else:
-        err_msg = f"{ext} is not supported"
-        logger.error(err_msg)
-        raise ValueError(err_msg)
+        raise ValueError(f"{ext} is not supported")
 
     if remove_archive:
         remove_file(file_path)
