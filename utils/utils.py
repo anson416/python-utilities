@@ -13,7 +13,6 @@ from .types import Pathlike, StrDict
 __all__ = [
     "has_package",
     "load_config",
-    "download_file",
     "extract_file",
 ]
 
@@ -28,10 +27,10 @@ def has_package(
 
     Args:
         package_name (str): Name of package
-        raise_err (bool, optional): If True, raise ImportError if package_name is not found
+        raise_err (bool, optional): If True, raise ImportError if `package_name` is not found
 
     Raises:
-        ImportError: Raise if raise_err == True and package_name is not found
+        ImportError: Raise iff `raise_err` == True and `package_name` is not found
 
     Returns:
         bool: True iff package_name is found
@@ -49,9 +48,7 @@ def has_package(
 
 
 @beartype
-def load_config(
-    config_path: Pathlike,
-) -> StrDict[Any]:
+def load_config(config_path: Pathlike) -> StrDict[Any]:
     """
     Load a .json or .yaml file.
 
@@ -59,7 +56,7 @@ def load_config(
         config_path (Pathlike): Target file
 
     Returns:
-        StrDict[Any]: Dictionary loaded from the file
+        StrDict[Any]: Dictionary loaded from `config_path`
     """
 
     ext = get_basename(config_path, split_ext=True)[1].lower()
@@ -77,58 +74,6 @@ def load_config(
             return yaml.safe_load(f)
         else:
             raise ValueError(f"{ext} is not supported")
-
-
-@beartype
-def download_file(
-    url: str,
-    dir: Optional[Pathlike] = None,
-    file_name: Optional[str] = None,
-    replace_existing: bool = True,
-    show_progress_bar: bool = True,
-) -> tuple[Pathlike, int]:
-    """
-    Download a file from a URL.
-
-    Args:
-        url (str): Target URL
-        dir (Optional[Pathlike], optional): If not None, download the file to dir. Defaults to "./".
-        file_name (Optional[str], optional): If not None, save the file to file_name. Defaults to file name in url.
-        replace_existing (bool, optional): If True, replace the existing file if a file with the same name already \
-            exists. Defaults to True.
-        show_progress_bar (bool, optional): If True, show a progress bar. Defaults to True.
-
-    Returns:
-        tuple[Pathlike, int]: Path to and size of downloaded file
-    """
-
-    import urllib.request
-
-    download_dir = dir if dir else "./"
-    file_path = os.path.join(
-        download_dir, f"{file_name}{get_basename(url, split_ext=True)[1]}" if file_name else get_basename(url))
-
-    # Get info from url
-    response = urllib.request.urlopen(url)
-    file_size = int(response.headers.get("Content-Length", 0))
-
-    if not(not replace_existing and os.path.exists(file_path)):
-        if show_progress_bar:  # Download with progress bar
-            try:
-                from tqdm import tqdm
-            except ImportError:
-                raise ImportError("Could not import tqdm. Try `pip3 install -U tqdm`.")
-                
-            with tqdm(
-                    total=file_size, unit="B", unit_scale=True, unit_divisor=1024, miniters=1, mininterval=0.1,
-                    desc=file_path) as progress_bar:
-                urllib.request.urlretrieve(
-                    url, filename=file_path,
-                    reporthook=lambda blocknum, blocksize, totalsize: progress_bar.update(blocksize))
-        else:  # Download without progress bar
-            urllib.request.urlretrieve(url, filename=file_path)
-        
-    return file_path, file_size
 
 
 @beartype

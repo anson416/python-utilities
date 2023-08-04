@@ -80,10 +80,10 @@ def create_dir(
 
     Args:
         dir (Pathlike): Target directory
-        remove_existing (bool): If True, remove existing dir (if any) before creation. Defaults to False.
+        remove_existing (bool): If True, remove existing `dir` (if any) before creation. Defaults to False.
 
     Returns:
-        bool: True iff dir is created
+        bool: True iff `dir` is created
     """
 
     if remove_existing:
@@ -107,10 +107,10 @@ def remove_dir(
 
     Args:
         dir (Pathlike): Target directory
-        only_empty (bool, optional): If True, remove dir only if it is empty. Defaults to False.
+        only_empty (bool, optional): If True, remove `dir` only if it is empty. Defaults to False.
 
     Returns:
-        bool: True iff dir is removed
+        bool: True iff `dir` is removed
     """
 
     import shutil
@@ -133,7 +133,7 @@ def remove_file(file_path: Pathlike) -> bool:
         file_path (Pathlike): Target file
 
     Returns:
-        bool: True iff file_path is removed
+        bool: True iff `file_path` is removed
     """
 
     removed = False
@@ -157,7 +157,7 @@ def list_files(
     Args:
         dir (Pathlike): Target directory
         exts (Optional[Union[Array[str], str]], optional): If not None, return a file only if its extension is in \
-            exts. Defaults to None.
+            `exts`. Defaults to None.
         base_only (bool, optional): If True, return only basename, not the entire path. Defaults to False.
 
     Returns:

@@ -19,7 +19,7 @@ def is_even(num: int) -> bool:
         num (int): Target number
 
     Returns:
-        bool: True iff the number is even
+        bool: True iff `num` is even
     """
 
     return num % 2 == 0
@@ -34,7 +34,7 @@ def is_odd(num: int) -> bool:
         num (int): Target number
 
     Returns:
-        bool: True iff the number is old
+        bool: True iff `num` is old
     """
 
     return num % 2 != 0

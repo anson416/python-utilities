@@ -28,7 +28,7 @@ def arr2str(
 
     Args:
         arr (Array[Any]): Target array
-        sep (str, optional): Separator between elements in the arr. Defaults to "\\n".
+        sep (str, optional): Separator between elements in `arr`. Defaults to "\\n".
         end (str, optional): Ending string. Defaults to "".
 
     Returns:
@@ -168,7 +168,7 @@ def datasize2str(
 
     Args:
         size (int): Data size (in bytes)
-        div (Union[float, int], optional): 1 KB equals div B. Defaults to 1024.
+        div (Union[float, int], optional): 1 KB equals `div` B. Defaults to 1024.
         prec (int, optional): Number of digits after decimal point (i.e., precision). Defaults to 0.
         dp (str, optional): Separator between integer part and decimal part. Defaults to ".".
         sep (str, optional): Separator between number and unit. Defaults to " ".
