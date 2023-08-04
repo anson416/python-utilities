@@ -11,9 +11,7 @@ __all__ = [
 
 
 @beartype
-def is_even(
-    num: int,
-) -> bool:
+def is_even(num: int) -> bool:
     """
     Return True if a number is even.
 
@@ -28,9 +26,7 @@ def is_even(
 
 
 @beartype
-def is_odd(
-    num: int,
-) -> bool:
+def is_odd(num: int) -> bool:
     """
     Return True if a number is old.
 

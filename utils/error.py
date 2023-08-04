@@ -13,9 +13,7 @@ __all__ = [
 
 
 @beartype
-def get_err_type(
-    err: Exception,
-) -> str:
+def get_err_type(err: Exception) -> str:
     """
     Get the type of error from an error.
 

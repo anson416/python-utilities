@@ -41,9 +41,7 @@ def get_basename(
 
 
 @beartype
-def get_file_size(
-    file_path: Pathlike,
-) -> int:
+def get_file_size(file_path: Pathlike) -> int:
     """
     Get the size of a file.
 
@@ -58,9 +56,7 @@ def get_file_size(
 
 
 @beartype
-def get_parent_dir(
-    file_path: Pathlike,
-) -> Pathlike:
+def get_parent_dir(file_path: Pathlike) -> Pathlike:
     """
     Get the parent directory of a file. To get the parent directory of any Python script, do get_parent_dir(__file__).
 
@@ -78,19 +74,27 @@ def get_parent_dir(
 def create_dir(
     dir: Pathlike,
     remove_existing: bool = False,
-) -> None:
+) -> bool:
     """
     Create a tree of directory.
 
     Args:
         dir (Pathlike): Target directory
-        remove_existing (bool): If True, remove existing directory before creation. Defaults to False.
+        remove_existing (bool): If True, remove existing dir (if any) before creation. Defaults to False.
+
+    Returns:
+        bool: True iff dir is created
     """
 
     if remove_existing:
         remove_dir(dir)
         
-    os.makedirs(dir, exist_ok=True)
+    try:
+        os.makedirs(dir)
+    except OSError:
+        return False
+
+    return True
 
 
 @beartype
@@ -106,7 +110,7 @@ def remove_dir(
         only_empty (bool, optional): If True, remove dir only if it is empty. Defaults to False.
 
     Returns:
-        bool: True iff the directory is removed
+        bool: True iff dir is removed
     """
 
     import shutil
@@ -121,9 +125,7 @@ def remove_dir(
 
 
 @beartype
-def remove_file(
-    file_path: Pathlike,
-) -> bool:
+def remove_file(file_path: Pathlike) -> bool:
     """
     Remove a file if it exists.
 
@@ -131,7 +133,7 @@ def remove_file(
         file_path (Pathlike): Target file
 
     Returns:
-        bool: True iff the file is removed
+        bool: True iff file_path is removed
     """
 
     removed = False

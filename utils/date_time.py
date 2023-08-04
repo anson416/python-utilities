@@ -13,9 +13,7 @@ __all__ = [
 
 
 @beartype
-def get_date(
-    date_format: str = r"%Y-%m-%d",
-) -> str:
+def get_date(date_format: str = r"%Y-%m-%d") -> str:
     """
     Get today's date.
 
@@ -32,9 +30,7 @@ def get_date(
 
 
 @beartype
-def get_time(
-    time_format: str = r"%H:%M:%S",
-) -> str:
+def get_time(time_format: str = r"%H:%M:%S") -> str:
     """
     Get current time.
 

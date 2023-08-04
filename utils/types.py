@@ -6,6 +6,7 @@ from typing import TypeVar, Union
 
 __all__ = [
     "Array",
+    "Path",
     "Pathlike",
     "StrDict",
 ]
