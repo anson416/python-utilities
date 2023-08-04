@@ -1,4 +1,8 @@
+aiohttp
 beartype
 colorama
+psutil
+sortedcollections
 termcolor
 tqdm
+yaml
