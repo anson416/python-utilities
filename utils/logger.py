@@ -13,9 +13,7 @@ from .date_time import get_date, get_datetime, get_time
 from .file_ops import create_dir
 from .types import Pathlike, StrDict
 
-__all__ = [
-    "get_logger",
-]
+__all__ = ["get_logger"]
 
 _LOG_LEVEL_DICT = {
     logging.DEBUG: ("DBG", "dark_grey"),
@@ -67,22 +65,21 @@ class _FileFormatter(logging.Formatter):
 
 @beartype
 def _get_logger_config(
-    datetime_format: Optional[str] = None,
-    dir: Optional[Pathlike] = None,
-    max_bytes: int = 0,
-    backup_count: int = 0,
+    datetime_format: Optional[str],
+    dir: Optional[Pathlike],
+    max_bytes: int,
+    backup_count: int,
 ) -> StrDict[Any]:
     """
     Construct a dict config for logging.config.dictConfig().
 
     Args:
-        datetime_format (Optional[str], optional): Date and time format. Defaults to None.
-        dir (Optional[Pathlike], optional): If not None, logs will be written to "dir/log_\<current_date_time\>/". \
-            Defaults to None.
-        max_bytes (int, optional): If max_bytes > 0 and backup_count > 0, each log file will store at most max_bytes \
-            bytes. Used only if dir is not None. Defaults to 0.
-        backup_count (int, optional): If backup_count > 0 and max_bytes > 0, the system will save at most backup_count \
-            old log files. Used only if dir is not None. Defaults to 0.
+        datetime_format (Optional[str], optional): Date and time format.
+        dir (Optional[Pathlike], optional): If not None, logs will be written to "`dir`/log_<current_date_time>".
+        max_bytes (int, optional): If `max_bytes` > 0 and `backup_count` > 0, each log file will store at most \
+            `max_bytes` bytes. Used only if `dir` is not None.
+        backup_count (int, optional): If `backup_count` > 0 and `max_bytes` > 0, the system will save at most \
+            `backup_count` old log files. Used only if `dir` is not None.
 
     Returns:
         StrDict[Any]: Dict config
@@ -142,15 +139,25 @@ def get_logger(
     """
     Get custom logger.
 
+    Usage:
+        ```python
+        logger = get_logger()
+        logger.debug("logging debug message")
+        logger.info("logging info message")
+        logger.warning("logging warning message")
+        logger.error("logging error message")
+        logger.critical("logging critical message")
+        ```
+
     Args:
         name (Optional[str], optional): Name of logger. Defaults to __name__.
         datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
-        dir (Optional[Pathlike], optional): If not None, logs will be written to "dir/log_\<current_date_time\>/". \
+        dir (Optional[Pathlike], optional): If not None, logs will be written to "`dir`/log_<current_date_time>". \
             Defaults to None.
-        max_bytes (int, optional): If max_bytes > 0 and backup_count > 0, each log file will store at most max_bytes \
-            bytes. Used only if dir is not None. Defaults to 0.
-        backup_count (int, optional): If backup_count > 0 and max_bytes > 0, the system will save at most backup_count \
-            old log files. Used only if dir is not None. Defaults to 0.
+        max_bytes (int, optional): If `max_bytes` > 0 and `backup_count` > 0, each log file will store at most \
+            `max_bytes` bytes. Used only if `dir` is not None. Defaults to 0.
+        backup_count (int, optional): If `backup_count` > 0 and `max_bytes` > 0, the system will save at most \
+            `backup_count` old log files. Used only if `dir` is not None. Defaults to 0.
 
     Returns:
         logging.Logger: Custom logger
