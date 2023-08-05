@@ -25,33 +25,6 @@ from .types import Array, Pathlike, StrDict
 __all__ = ["download_files"]
 
 
-class _URL(object):
-    @beartype
-    def __init__(
-        self,
-        url: Pathlike,
-        file_name: Optional[str] = None,
-    ) -> None:
-        url = url.strip()
-        if isinstance(file_name, str):
-            file_name = file_name.strip()
-        
-        assert url, "URL cannot be empty"
-        
-        self._url = url
-        self._file_name = file_name or get_basename(self._url)
-
-    @property
-    @beartype
-    def url(self) -> Pathlike:
-        return self._url
-    
-    @property
-    @beartype
-    def file_name(self) -> str:
-        return self._file_name
-
-
 @beartype
 async def _download_file(
     url: Pathlike,
@@ -94,7 +67,7 @@ async def _download_file(
 
 @beartype
 def download_files(
-    urls: Array[Union[Array[Pathlike], Pathlike]],
+    urls: Array[Union[Array[Union[Pathlike, str]], Pathlike]],
     download_dir: Pathlike = "./",
     replace_existing: bool = True,
     max_workers: int = 2,
@@ -105,7 +78,9 @@ def download_files(
     Download multiple files from the Internet concurrently.
 
     Args:
-        urls (Array[Union[Array[Pathlike], Pathlike]]): URLs of files to be downloaded
+        urls (Array[Union[Array[Union[Pathlike, str]], Pathlike]]): URLs of files to be downloaded. Must be an Array \
+            (list or tuple), in which each element is either a URL or an Array in which the first element is a URL and \
+            the second element is a file name.
         download_dir (Pathlike, optional): Directory to which files will be downloaded. Defaults to "./".
         replace_existing (bool, optional): If True, existing files will be downloaded again. Defaults to True.
         max_workers (int, optional): Max. number of files that can be downloaded at the same time. Defaults to 2.
@@ -132,6 +107,19 @@ def download_files(
                 results["succeeded"].append(result) if isinstance(result[-1], int) else results["failed"].append(result)
             
             return results
+        
+    @beartype
+    def _process_url(
+        url: Pathlike,
+        file_name: Optional[str] = None
+    ) -> tuple[Pathlike, str]:
+        url = url.strip()
+        if isinstance(file_name, str):
+            file_name = file_name.strip()
+        
+        assert url, "URL cannot be empty"
+
+        return url, file_name or get_basename(url)
     
     download_dir = download_dir.strip()
     
@@ -145,10 +133,10 @@ def download_files(
     for url in urls:
         if isinstance(url, str):
             url = (url,)
-        url = _URL(*url)
-        file_path = os.path.join(download_dir, url.file_name)
+        url, file_name = _process_url(*url)
+        file_path = os.path.join(download_dir, file_name)
         if replace_existing or not os.path.exists(file_path):
-            _urls.append((url.url, file_path))
+            _urls.append((url, file_path))
 
     sem = asyncio.BoundedSemaphore(max_workers)
 
