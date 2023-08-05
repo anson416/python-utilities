@@ -80,7 +80,8 @@ def create_dir(
 
     Args:
         tgt_dir (Pathlike): Target directory
-        remove_existing (bool): If True, remove existing `tgt_dir` (if any) before creation. Defaults to False.
+        remove_existing (bool, optional): If True, remove existing `tgt_dir` (if any) before creation. Defaults to \
+            False.
 
     Returns:
         bool: True iff `tgt_dir` is created
