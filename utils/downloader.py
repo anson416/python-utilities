@@ -59,14 +59,14 @@ async def _download_file(
     session: aiohttp.ClientSession,
     sem: asyncio.Semaphore,
     all_bar: tqdm,
-    leave: bool,
+    leave: bool = False,
 ) -> tuple[Pathlike, Pathlike, Union[Exception, int]]:
     @beartype
     async def _download(
         url: Pathlike,
         file_path: Pathlike,
         session: aiohttp.ClientSession,
-        leave: bool,
+        leave: bool = False,
     ) -> int:
         async with session.get(url) as response:
             assert response.status == 200, f"Could not access {url}"
@@ -101,12 +101,29 @@ def download_files(
     leave: bool = False,
     desc: Optional[str] = "Downloading files",
 ) -> StrDict[list[tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
+    """
+    Download multiple files from the Internet concurrently.
+
+    Args:
+        urls (Array[Union[Array[Pathlike], Pathlike]]): URLs of files to be downloaded
+        download_dir (Pathlike, optional): Directory to which files will be downloaded. Defaults to "./".
+        replace_existing (bool, optional): If True, existing files will be downloaded again. Defaults to True.
+        max_workers (int, optional): Max. number of files that can be downloaded at the same time. Defaults to 2.
+        leave (bool, optional): If True, progress bar for each file will stay. Defaults to False.
+        desc (Optional[str], optional): Description for the overall progress bar. Defaults to "Downloading files".
+
+    Returns:
+        StrDict[list[tuple[Pathlike, Pathlike, Union[Exception, int]]]]: A dictionary in the form \
+            {"succeeded": [], "failed": []}. Each 3-tuple in the list of "succeeded" contains URL, file name and file \
+            size. Each 3-tuple in the list of "failed" contains URL, file name and raised exception.
+    """
+
     @beartype
     async def _download_files(
         urls: list[tuple[Pathlike, Pathlike]],
         sem: asyncio.Semaphore,
         all_bar: tqdm,
-        leave: bool,
+        leave: bool = False,
     ) -> StrDict[list[tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
         async with aiohttp.ClientSession() as session:
             tasks = [_download_file(*url, session, sem, all_bar, leave) for url in urls]
