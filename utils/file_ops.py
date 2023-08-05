@@ -72,25 +72,25 @@ def get_parent_dir(file_path: Pathlike) -> Pathlike:
 
 @beartype
 def create_dir(
-    dir: Pathlike,
+    tgt_dir: Pathlike,
     remove_existing: bool = False,
 ) -> bool:
     """
     Create a tree of directory.
 
     Args:
-        dir (Pathlike): Target directory
-        remove_existing (bool): If True, remove existing `dir` (if any) before creation. Defaults to False.
+        tgt_dir (Pathlike): Target directory
+        remove_existing (bool): If True, remove existing `tgt_dir` (if any) before creation. Defaults to False.
 
     Returns:
-        bool: True iff `dir` is created
+        bool: True iff `tgt_dir` is created
     """
 
     if remove_existing:
-        remove_dir(dir)
+        remove_dir(tgt_dir)
         
     try:
-        os.makedirs(dir)
+        os.makedirs(tgt_dir)
     except OSError:
         return False
 
@@ -99,26 +99,26 @@ def create_dir(
 
 @beartype
 def remove_dir(
-    dir: Pathlike,
+    tgt_dir: Pathlike,
     only_empty: bool = False,
 ) -> bool:
     """
     Remove a directory.
 
     Args:
-        dir (Pathlike): Target directory
-        only_empty (bool, optional): If True, remove `dir` only if it is empty. Defaults to False.
+        tgt_dir (Pathlike): Target directory
+        only_empty (bool, optional): If True, remove `tgt_dir` only if it is empty. Defaults to False.
 
     Returns:
-        bool: True iff `dir` is removed
+        bool: True iff `tgt_dir` is removed
     """
 
     import shutil
 
     removed = False
 
-    if os.path.exists(dir):
-        os.rmdir(dir) if only_empty else shutil.rmtree(dir)
+    if os.path.exists(tgt_dir):
+        os.rmdir(tgt_dir) if only_empty else shutil.rmtree(tgt_dir)
         removed = True
 
     return removed
@@ -147,7 +147,7 @@ def remove_file(file_path: Pathlike) -> bool:
 
 @beartype
 def list_files(
-    dir: Pathlike,
+    tgt_dir: Pathlike,
     exts: Optional[Union[Array[str], str]] = None,
     base_only: bool = False
 ) -> list[str]:
@@ -155,7 +155,7 @@ def list_files(
     Get all file paths or names under a directory recursively. Similar to the ls command on Linux.
 
     Args:
-        dir (Pathlike): Target directory
+        tgt_dir (Pathlike): Target directory
         exts (Optional[Union[Array[str], str]], optional): If not None, return a file only if its extension is in \
             `exts`. Defaults to None.
         base_only (bool, optional): If True, return only basename, not the entire path. Defaults to False.
@@ -169,8 +169,8 @@ def list_files(
 
     files = []
 
-    for item in os.listdir(dir):
-        item_path = os.path.join(dir, item)
+    for item in os.listdir(tgt_dir):
+        item_path = os.path.join(tgt_dir, item)
         if os.path.isfile(item_path):
             file_path = item if base_only else item_path
             if exts:

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# File: download.py
+# File: downloader.py
 
 import asyncio
 import os
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 try:
     import aiohttp
@@ -20,7 +20,7 @@ except ImportError:
 
 from . import beartype
 from .file_ops import create_dir, get_basename
-from .types import Array, Path, Pathlike, StrDict
+from .types import Array, Pathlike, StrDict
 
 __all__ = ["download_files"]
 
@@ -95,7 +95,7 @@ async def _download_file(
 @beartype
 def download_files(
     urls: Array[Union[Array[Pathlike], Pathlike]],
-    dir: Pathlike = "./",
+    download_dir: Pathlike = "./",
     replace_existing: bool = True,
     max_workers: int = 2,
     leave: bool = False,
@@ -116,20 +116,20 @@ def download_files(
             
             return results
     
-    dir = dir.strip()
+    download_dir = download_dir.strip()
     
     assert urls, "urls cannot be empty"
-    assert dir, "dir cannot be empty"
+    assert download_dir, "download_dir cannot be empty"
     assert max_workers > 0, "max_workers must be positive integer"
 
-    create_dir(dir)
+    create_dir(download_dir)
 
     _urls = []
     for url in urls:
         if isinstance(url, str):
             url = (url,)
         url = _URL(*url)
-        file_path = os.path.join(dir, url.file_name)
+        file_path = os.path.join(download_dir, url.file_name)
         if replace_existing or not os.path.exists(file_path):
             _urls.append((url.url, file_path))
 

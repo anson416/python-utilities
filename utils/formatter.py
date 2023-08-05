@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
-import argparse
 from typing import Any, Union
 
 from . import beartype
@@ -43,7 +42,7 @@ def arr2str(
 
 @beartype
 def args2str(
-    args: argparse.Namespace,
+    args,
     sep: str = ", ",
     end: str = "",
 ) -> str:
@@ -51,7 +50,7 @@ def args2str(
     Convert arguments into formatted string.
 
     Args:
-        args (argparse.Namespace): Target arguments from argparse.ArgumentParser().parse_args()
+        args (argparse.Namespace): Arguments from argparse.ArgumentParser().parse_args()
         sep (str, optional): Separator between arguments. Defaults to ", ".
         end (str, optional): Ending string. Defaults to "".
 
@@ -62,9 +61,17 @@ def args2str(
         args2str(Namespace(job='driver', age=47), sep=", ", end="??") -> job=driver, age=47??
     """
 
-    args_list = [f"{key}={value}" for key, value in vars(args).items()]
+    @beartype
+    def _args2str(
+        args: argparse.Namespace,
+        sep: str,
+        end: str,
+    ) -> str:
+        return f"{sep.join([f'{key}={value}' for key, value in vars(args).items()])}{end}"
 
-    return f"{sep.join(args_list)}{end}"
+    import argparse
+    
+    return _args2str(args, sep, end)
 
 
 @beartype
@@ -90,9 +97,7 @@ def dict2str(
         dict2str({1: "a", 2: "b"}, kv_sep=" : ", item_sep="--", str_end="??") -> 1 : a--2 : b??
     """
 
-    dict_list = [f"{key}{kv_sep}{value}" for key, value in dic.items()]
-
-    return f"{item_sep.join(dict_list)}{str_end}"
+    return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{str_end}"
 
 
 @beartype

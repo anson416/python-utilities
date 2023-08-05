@@ -66,7 +66,7 @@ class _FileFormatter(logging.Formatter):
 @beartype
 def _get_logger_config(
     datetime_format: Optional[str],
-    dir: Optional[Pathlike],
+    log_dir: Optional[Pathlike],
     max_bytes: int,
     backup_count: int,
 ) -> StrDict[Any]:
@@ -75,11 +75,12 @@ def _get_logger_config(
 
     Args:
         datetime_format (Optional[str], optional): Date and time format.
-        dir (Optional[Pathlike], optional): If not None, logs will be written to "`dir`/log_<current_date_time>".
+        log_dir (Optional[Pathlike], optional): If not None, logs will be written to \
+            "`log_dir`/log_<current_date_time>".
         max_bytes (int, optional): If `max_bytes` > 0 and `backup_count` > 0, each log file will store at most \
-            `max_bytes` bytes. Used only if `dir` is not None.
+            `max_bytes` bytes. Used only if `log_dir` is not None.
         backup_count (int, optional): If `backup_count` > 0 and `max_bytes` > 0, the system will save at most \
-            `backup_count` old log files. Used only if `dir` is not None.
+            `backup_count` old log files. Used only if `log_dir` is not None.
 
     Returns:
         StrDict[Any]: Dict config
@@ -108,18 +109,18 @@ def _get_logger_config(
             "level": "DEBUG",
         }
     }
-    if dir:
+    if log_dir:
         assert max_bytes >= 0, "max_bytes must be non-negative integer"
         assert backup_count >= 0, "backup_count must be non-negative integer"
 
         date_time = get_datetime(date_format=r'%Y%m%d', time_format=r'%H%M%S', sep='-')
-        dir = os.path.join(dir, f"log_{date_time}")
-        create_dir(dir)
+        log_dir = os.path.join(log_dir, f"log_{date_time}")
+        create_dir(log_dir)
         logger_config["handlers"]["file_handler"] = {
             "class": "logging.handlers.RotatingFileHandler",
             "formatter": "file_formatter",
             "level": "INFO",
-            "filename": os.path.join(dir, "log.jsonl"),
+            "filename": os.path.join(log_dir, "log.jsonl"),
             "maxBytes": max_bytes,
             "backupCount": backup_count,
         }
@@ -132,7 +133,7 @@ def _get_logger_config(
 def get_logger(
     name: Optional[str] = __name__,
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
-    dir: Optional[Pathlike] = None,
+    log_dir: Optional[Pathlike] = None,
     max_bytes: int = 10 * (1024 ** 2),
     backup_count: int = 10,
 ) -> logging.Logger:
@@ -152,12 +153,12 @@ def get_logger(
     Args:
         name (Optional[str], optional): Name of logger. Defaults to __name__.
         datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
-        dir (Optional[Pathlike], optional): If not None, logs will be written to "`dir`/log_<current_date_time>". \
-            Defaults to None.
+        log_dir (Optional[Pathlike], optional): If not None, logs will be written to \
+            "`log_dir`/log_<current_date_time>". Defaults to None.
         max_bytes (int, optional): If `max_bytes` > 0 and `backup_count` > 0, each log file will store at most \
-            `max_bytes` bytes. Used only if `dir` is not None. Defaults to 0.
+            `max_bytes` bytes. Used only if `log_dir` is not None. Defaults to 0.
         backup_count (int, optional): If `backup_count` > 0 and `max_bytes` > 0, the system will save at most \
-            `backup_count` old log files. Used only if `dir` is not None. Defaults to 0.
+            `backup_count` old log files. Used only if `log_dir` is not None. Defaults to 0.
 
     Returns:
         logging.Logger: Custom logger
@@ -165,7 +166,7 @@ def get_logger(
 
     logger_config = _get_logger_config(
         datetime_format=datetime_format,
-        dir=dir,
+        log_dir=log_dir,
         max_bytes=max_bytes,
         backup_count = backup_count,
     )
