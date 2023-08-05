@@ -1,5 +1,6 @@
 aiohttp
 beartype
+beautifulsoup4
 colorama
 psutil
 sortedcollections
