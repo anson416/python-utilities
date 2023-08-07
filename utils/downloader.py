@@ -68,7 +68,7 @@ async def _download_file(
 @beartype
 def download_files(
     urls: Array[Union[Array[Union[Pathlike, str]], Pathlike]],
-    download_dir: Pathlike = ".",
+    download_dir: Pathlike = "./",
     replace_existing: bool = True,
     max_workers: int = 2,
     leave: bool = False,
@@ -81,7 +81,7 @@ def download_files(
         urls (Array[Union[Array[Union[Pathlike, str]], Pathlike]]): URLs of files to be downloaded. Must be an Array \
             (list or tuple), in which each element is either a URL or an Array in which the first element is a URL and \
             the second element is a file name.
-        download_dir (Pathlike, optional): Directory to which files will be downloaded. Defaults to ".".
+        download_dir (Pathlike, optional): Directory to which files will be downloaded. Defaults to "./".
         replace_existing (bool, optional): If True, existing files will be downloaded again. Defaults to True.
         max_workers (int, optional): Max. number of files that can be downloaded at the same time. Defaults to 2.
         leave (bool, optional): If True, progress bar for each file will stay. Defaults to False.
