@@ -5,7 +5,7 @@ from . import beartype
 
 __all__ = [
     "is_even",
-    "is_old",
+    "is_odd",
     "rescale_num",
 ]
 
