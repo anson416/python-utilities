@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 # File: error.py
 
-from typing import Optional
-
 from . import beartype
+from .types import Optional
 
 __all__ = [
     "get_err_type",

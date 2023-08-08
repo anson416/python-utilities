@@ -2,9 +2,16 @@
 # File: __init__.py
 
 from pathlib import Path
-from typing import Dict, List, Tuple, TypeVar, Union
+from typing import Any, Dict, List, Optional, Tuple, TypeVar, Union
 
 __all__ = [
+    "Any",
+    "Dict",
+    "List",
+    "Optional",
+    "Tuple",
+    "Union",
+    "Number",
     "Array",
     "Path",
     "Pathlike",
@@ -12,6 +19,9 @@ __all__ = [
 ]
 
 T = TypeVar("T")
+
+# Type for any real number
+Number = Union[float, int]
 
 # Type for a union of list and tuple
 Array = Union[List[T], Tuple[T, ...]]

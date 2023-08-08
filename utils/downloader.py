@@ -3,7 +3,8 @@
 
 import asyncio
 import os
-from typing import List, Optional, Tuple, Union
+
+from .types import List, Optional, Tuple, Union
 
 try:
     import aiohttp

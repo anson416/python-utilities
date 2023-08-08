@@ -7,13 +7,12 @@ import logging
 import logging.config
 import os
 from logging.handlers import RotatingFileHandler
-from typing import Any, Optional
 
 from . import beartype
 from .color import colored
 from .date_time import get_date, get_datetime, get_time
 from .file_ops import create_dir, remove_file
-from .types import Pathlike, StrDict
+from .types import Any, Optional, Pathlike, StrDict
 
 __all__ = ["get_logger"]
 

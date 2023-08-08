@@ -2,10 +2,9 @@
 # File: file_ops.py
 
 import os
-from typing import List, Optional, Tuple, Union
 
 from . import beartype
-from .types import Array, Pathlike
+from .types import Array, List, Optional, Pathlike, Tuple, Union
 
 __all__ = [
     "get_basename",
@@ -204,7 +203,7 @@ def read_file(
     """
 
     with open(file_path, "r") as f:
-        lines = list(map(lambda x: x.rstrip("\n"), f.readlines()))
+        lines = f.read().splitlines()
 
     if remove_spaces:
         lines = list(map(lambda x: x.strip(), lines))

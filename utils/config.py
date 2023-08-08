@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 # File: config.py
 
-from typing import Any, List
-
 from . import beartype
 from .file_ops import get_basename
-from .types import Pathlike
+from .types import Any, List, Pathlike
 
 
 @beartype
