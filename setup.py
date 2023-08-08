@@ -2,67 +2,46 @@
 # -*- coding: utf-8 -*-
 # File: setup.py
 
+import os
 from setuptools import setup, find_packages
-NAME = 'utils'
-DESCRIPTION = 'My short description for my project.'
-URL = 'https://github.com/anson416/utilities'
-EMAIL = 'lamyiufung2003@gmail.com'
-AUTHOR = 'Awesome Soul'
-REQUIRES_PYTHON = '>=3.7.0'
-VERSION = '0.1.0'
+
+NAME = "utils"
+DESCRIPTION = "Utilities that can be used anywhere."
+AUTHOR = "Anson Lam"
+EMAIL = "lamyiufung2003@gmail.com"
+PYTHON_VERSION = ">=3.7.0"
+URL = "https://github.com/anson416/utilities"
+
+with open(os.path.join(NAME, "__init__.py"), "r") as f:
+    version = [line.split("=")[-1].strip().strip("'\"")
+               for line in f.read().splitlines() if line.startswith("__version__")][0]
+
+with open("README.md", "r") as f:
+    long_description = f.read()
+
+with open("./requirements.txt", "r") as f:
+    install_requires = f.read().splitlines()
 
 setup(
     name=NAME,
-    version=VERSION,
-    install_requires=[
-        "aiohttp",
-        "beartype",
-        "beautifulsoup4",
-        "colorama",
-        "psutil",
-        "sortedcollections",
-        "termcolor",
-        "tqdm",
-        "pyyaml",
-    ],
+    version=version,
+    description=DESCRIPTION,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    author=AUTHOR,
+    author_email=EMAIL,
+    python_requires=PYTHON_VERSION,
+    url=URL,
     packages=find_packages(),
+    install_requires=install_requires,
+    license="Apache-2.0",
+    classifiers=[
+        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+        "Development Status :: 3 - Alpha",
+        "License :: OSI Approved :: Apache Software License",
+        "Natural Language :: English",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Topic :: Utilities",
+    ],
 )
-
-# print(find_packages())
-
-# setup(
-#     name=NAME,
-#     version=about['__version__'],
-#     description=DESCRIPTION,
-#     long_description=long_description,
-#     long_description_content_type='text/markdown',
-#     author=AUTHOR,
-#     author_email=EMAIL,
-#     python_requires=REQUIRES_PYTHON,
-#     url=URL,
-#     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
-#     # If your package is a single module, use this instead of 'packages':
-#     # py_modules=['mypackage'],
-
-#     # entry_points={
-#     #     'console_scripts': ['mycli=mymodule:cli'],
-#     # },
-#     install_requires=REQUIRED,
-#     extras_require=EXTRAS,
-#     include_package_data=True,
-#     license='MIT',
-#     classifiers=[
-#         # Trove classifiers
-#         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-#         'License :: OSI Approved :: MIT License',
-#         'Programming Language :: Python',
-#         'Programming Language :: Python :: 3',
-#         'Programming Language :: Python :: 3.6',
-#         'Programming Language :: Python :: Implementation :: CPython',
-#         'Programming Language :: Python :: Implementation :: PyPy'
-#     ],
-#     # $ setup.py publish support.
-#     cmdclass={
-#         'upload': UploadCommand,
-#     },
-# )
