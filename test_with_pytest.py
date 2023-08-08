@@ -13,3 +13,7 @@ from utils.logger import *
 from utils.num_ops import *
 from utils.types import *
 from utils.utils import *
+
+
+def test_nothing():
+    pass
