@@ -8,7 +8,7 @@ DESCRIPTION = 'My short description for my project.'
 URL = 'https://github.com/anson416/utilities'
 EMAIL = 'lamyiufung2003@gmail.com'
 AUTHOR = 'Awesome Soul'
-REQUIRES_PYTHON = '>=3.5.0'
+REQUIRES_PYTHON = '>=3.7.0'
 VERSION = '0.1.0'
 
 setup(
