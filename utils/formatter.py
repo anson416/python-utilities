@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
-from typing import Any, Dict, Union
-
 from . import beartype
-from .types import Array
+from .types import Any, Array, Dict, Number, Tuple, Union
 
 __all__ = [
     "arr2str",
     "args2str",
     "dict2str",
     "arr2dict",
-    "num2str",
-    "datasize2str",
+    "convert_num",
+    "convert_size",
 ]
 
 
@@ -125,76 +123,71 @@ def arr2dict(
 
 
 @beartype
-def num2str(
-    num: Union[float, int],
-    prec: int = 2,
-    dp: str = ".",
-    sep: str = "",
-) -> str:
+def convert_num(
+    num: Number,
+    threshold: Number = 1000,
+    div: Number = 1000,
+) -> Tuple[Number, str]:
     """
-    Format a large number to string with unit.
+    Format a number to smaller one with unit.
 
     Args:
-        num (Union[float, int]): Target number
-        prec (int, optional): Number of digits after decimal point (i.e., precision). Defaults to 2.
-        dp (str, optional): Separator between integer part and decimal part. Defaults to ".".
-        sep (str, optional): Separator between number and unit. Defaults to "".
+        num (Number): Target number
+        threshold (Number, optional): Keep dividing `num` until absolute of `num` < `threshold`. Defaults to 1000.
+        div (Number, optional): Divide `num` by `div` in every iteration. Defaults to 1000.
 
     Returns:
-        str: Number with unit
+        Tuple[Number, str]: Converted number and corresponding unit
 
     Examples:
-        num2str(1234567, prec=1, dp="_", sep=" ") -> 1_2 M
+        convert_num(1_234_567) -> (1.234567, "M")
     """
+
+    assert threshold > 0, "threshold must be positive number"
+    assert div > 0, "div must be positive number"
 
     UNITS = ["", "K", "M", "B", "T", "Q", "Qu", "S", "Sp", "O", "N"]
 
-    assert prec >= 0, "prec must be non-negative integer"
-
     max_idx = len(UNITS) - 1
     i = 0
-    while abs(num) >= 1000 and i < max_idx:
-        num /= 1000
+    while abs(num) >= threshold and i < max_idx:
+        num /= div
         i += 1
 
-    return f"{num:.{prec}f}".replace(".", dp) + f"{sep}{UNITS[i]}"
+    return num, UNITS[i]
 
 
 @beartype
-def datasize2str(
+def convert_size(
     size: int,
-    div: Union[float, int] = 1024,
-    prec: int = 0,
-    dp: str = ".",
-    sep: str = " ",
-) -> str:
+    threshold: Number = 1024,
+    div: Number = 1024,
+) -> Tuple[Number, str]:
     """
-    Format data size to string with unit.
+    Convert data size to smaller one with unit.
 
     Args:
         size (int): Data size (in bytes)
-        div (Union[float, int], optional): 1 KB equals `div` B. Defaults to 1024.
-        prec (int, optional): Number of digits after decimal point (i.e., precision). Defaults to 0.
-        dp (str, optional): Separator between integer part and decimal part. Defaults to ".".
-        sep (str, optional): Separator between number and unit. Defaults to " ".
+        threshold (Number, optional): Keep dividing `size` until `size` < `threshold`. Defaults to 1024.
+        div (Number, optional): Divide `size` by `div` in every iteration. Defaults to 1024.
 
     Returns:
-        str: Data size with unit
+        Tuple[Number, str]: Converted size and corresponding unit
 
     Example:
-        datasize2str(1298562, div=1000, prec=1, dp="_", sep="") -> 1_3MB
+        convert_size(1_298_562) -> (1.2384052276611328, "MB")
     """
 
     UNITS = ["", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q"]
 
     assert size >= 0, "size must be non-negative integer"
+    assert threshold > 0, "threshold must be positive number"
     assert div > 0, "div must be positive number"
-    assert prec >= 0, "prec must be non-negative integer"
 
     max_idx = len(UNITS) - 1
     i = 0
-    while size >= div and i < max_idx:
+    while size >= threshold and i < max_idx:
         size /= div
         i += 1
 
-    return f"{size:.{prec}f}".replace(".", dp) + f"{sep}{UNITS[i]}B"
+    return size, f"{UNITS[i]}B"
