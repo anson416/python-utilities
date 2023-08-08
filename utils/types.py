@@ -2,7 +2,7 @@
 # File: __init__.py
 
 from pathlib import Path
-from typing import TypeVar, Union
+from typing import Dict, List, Tuple, TypeVar, Union
 
 __all__ = [
     "Array",
@@ -14,10 +14,10 @@ __all__ = [
 T = TypeVar("T")
 
 # Type for a union of list and tuple
-Array = Union[list[T], tuple[T, ...]]
+Array = Union[List[T], Tuple[T, ...]]
 
 # Type for file or directory path
 Pathlike = Union[str, Path]
 
 # Type for dictionary with string as key
-StrDict = dict[str, T]
+StrDict = Dict[str, T]

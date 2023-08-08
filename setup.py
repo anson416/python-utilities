@@ -3,20 +3,29 @@
 # File: setup.py
 
 from setuptools import setup, find_packages
-from utils.file_ops import read_file
-
-NAME = 'mypackage'
+NAME = 'utils'
 DESCRIPTION = 'My short description for my project.'
-URL = 'https://github.com/me/myproject'
-EMAIL = 'me@example.com'
+URL = 'https://github.com/anson416/utilities'
+EMAIL = 'lamyiufung2003@gmail.com'
 AUTHOR = 'Awesome Soul'
-REQUIRES_PYTHON = '>=3.6.0'
+REQUIRES_PYTHON = '>=3.5.0'
 VERSION = '0.1.0'
 
 setup(
     name=NAME,
-    version="1.0.0",
-    install_requires=read_file("./requirements.txt")
+    version=VERSION,
+    install_requires=[
+        "aiohttp",
+        "beartype",
+        "beautifulsoup4",
+        "colorama",
+        "psutil",
+        "sortedcollections",
+        "termcolor",
+        "tqdm",
+        "pyyaml",
+    ],
+    packages=find_packages(),
 )
 
 # print(find_packages())

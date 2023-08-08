@@ -2,7 +2,7 @@
 # File: file_ops.py
 
 import os
-from typing import Optional, Union
+from typing import List, Optional, Tuple, Union
 
 from . import beartype
 from .types import Array, Pathlike
@@ -23,7 +23,7 @@ __all__ = [
 def get_basename(
     file_path: Pathlike,
     split_ext: bool = False,
-) -> Union[str, tuple[str, str]]:
+) -> Union[str, Tuple[str, str]]:
     """
     Get either basename or file name and extension of a file.
 
@@ -32,7 +32,7 @@ def get_basename(
         split_ext (bool, optional): If True, split extension from basename, creating a 2-tuple. Defaults to False.
 
     Returns:
-        Union[str, tuple[str, str]]: Either basename or file name and extension of a file
+        Union[str, Tuple[str, str]]: Either basename or file name and extension of a file
     """
 
     basename = os.path.basename(file_path)
@@ -151,7 +151,7 @@ def list_files(
     tgt_dir: Pathlike,
     exts: Optional[Union[Array[str], str]] = None,
     base_only: bool = False
-) -> list[str]:
+) -> List[str]:
     """
     Get all file paths or names under a directory recursively. Similar to the ls command on Linux.
 
@@ -162,7 +162,7 @@ def list_files(
         base_only (bool, optional): If True, return only basename, not the entire path. Defaults to False.
 
     Returns:
-        list[str]: File paths or names
+        List[str]: File paths or names
     """
 
     if isinstance(exts, str):
@@ -190,7 +190,7 @@ def read_file(
     file_path: Pathlike,
     remove_spaces: bool = False,
     remove_empty: bool = False,
-) -> list[str]:
+) -> List[str]:
     """
     Read lines from a file (with formatting).
 
@@ -200,7 +200,7 @@ def read_file(
         remove_empty (bool, optional): If True, neglect empty lines. Defaults to False.
 
     Returns:
-        list[str]: Lines in a file
+        List[str]: Lines in a file
     """
 
     with open(file_path, "r") as f:

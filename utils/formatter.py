@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
-from typing import Any, Union
+from typing import Any, Dict, Union
 
 from . import beartype
 from .types import Array
@@ -76,7 +76,7 @@ def args2str(
 
 @beartype
 def dict2str(
-    dic: dict[Any, Any],
+    dic: Dict[Any, Any],
     kv_sep: str = " : ",
     item_sep: str = "\n",
     str_end: str = "",
@@ -85,7 +85,7 @@ def dict2str(
     Convert a dictionary into formatted string.
 
     Args:
-        dic (dict[Any, Any]): Target dictionary
+        dic (Dict[Any, Any]): Target dictionary
         kv_sep (str, optional): Separator between key and value. Defaults to " : ".
         item_sep (str, optional): Separator between items. Defaults to "\\n".
         str_end (str, optional): Ending string. Defaults to "".
@@ -105,7 +105,7 @@ def arr2dict(
     arr: Array[Any],
     start: int = 0,
     key_to_str: bool = False,
-) -> dict[Union[int, str], Any]:
+) -> Dict[Union[int, str], Any]:
     """
     Convert an array into dictionary.
 
@@ -115,7 +115,7 @@ def arr2dict(
         key_to_str (bool, optional): If True, keys are converted into string. Defaults to False.
 
     Returns:
-        dict[Union[int, str], Any]: Dictionary from an array
+        Dict[Union[int, str], Any]: Dictionary from an array
 
     Examples:
         arr2dict(["a", "b"], start=1, key_to_str=True) -> {"1": "a", "2": "b"}

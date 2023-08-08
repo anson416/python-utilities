@@ -3,7 +3,7 @@
 
 import asyncio
 import os
-from typing import Optional, Union
+from typing import List, Optional, Tuple, Union
 
 try:
     import aiohttp
@@ -33,7 +33,7 @@ async def _download_file(
     sem: asyncio.Semaphore,
     all_bar: tqdm,
     leave: bool = False,
-) -> tuple[Pathlike, Pathlike, Union[Exception, int]]:
+) -> Tuple[Pathlike, Pathlike, Union[Exception, int]]:
     @beartype
     async def _download(
         url: Pathlike,
@@ -73,7 +73,7 @@ def download_files(
     max_workers: int = 2,
     leave: bool = False,
     desc: Optional[str] = "Downloading files",
-) -> StrDict[list[tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
+) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
     """
     Download multiple files from the Internet concurrently.
 
@@ -88,18 +88,18 @@ def download_files(
         desc (Optional[str], optional): Description for the overall progress bar. Defaults to "Downloading files".
 
     Returns:
-        StrDict[list[tuple[Pathlike, Pathlike, Union[Exception, int]]]]: A dictionary in the form \
+        StrDict[List[Tuple[Pathlike, Pathlike, Union[Exception, int]]]]: A dictionary in the form \
             {"succeeded": [], "failed": []}. Each 3-tuple in the list of "succeeded" contains URL, file name and file \
             size. Each 3-tuple in the list of "failed" contains URL, file name and raised exception.
     """
 
     @beartype
     async def _download_files(
-        urls: list[tuple[Pathlike, Pathlike]],
+        urls: List[Tuple[Pathlike, Pathlike]],
         sem: asyncio.Semaphore,
         all_bar: tqdm,
         leave: bool = False,
-    ) -> StrDict[list[tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
+    ) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
         async with aiohttp.ClientSession() as session:
             tasks = [_download_file(*url, session, sem, all_bar, leave) for url in urls]
             results = {"succeeded": [], "failed": []}
@@ -112,7 +112,7 @@ def download_files(
     def _process_url(
         url: Pathlike,
         file_name: Optional[str] = None
-    ) -> tuple[Pathlike, str]:
+    ) -> Tuple[Pathlike, str]:
         url = url.strip()
         if isinstance(file_name, str):
             file_name = file_name.strip()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: config.py
 
-from typing import Any
+from typing import Any, List
 
 from . import beartype
 from .file_ops import get_basename
@@ -29,7 +29,7 @@ def load_json(json_path: Pathlike) -> Any:
     
 
 @beartype
-def load_jsonl(jsonl_path: Pathlike) -> list[Any]:
+def load_jsonl(jsonl_path: Pathlike) -> List[Any]:
     """
     Load a .jsonl file.
 
@@ -37,7 +37,7 @@ def load_jsonl(jsonl_path: Pathlike) -> list[Any]:
         jsonl_path (Pathlike): Path to .jsonl
 
     Returns:
-        list[Any]: Loaded .json
+        List[Any]: Loaded .json
     """
 
     assert get_basename(jsonl_path, split_ext=True)[1].lower() == ".jsonl", ".jsonl required"
