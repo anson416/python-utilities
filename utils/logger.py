@@ -8,7 +8,6 @@ import logging.config
 import os
 from logging.handlers import RotatingFileHandler
 
-from . import beartype
 from .color import colored
 from .date_time import get_date, get_datetime, get_time
 from .file_ops import create_dir, remove_file
@@ -32,7 +31,6 @@ class _ConsoleFormatter(logging.Formatter):
     """
 
     # Override
-    @beartype
     def format(self, record: logging.LogRecord) -> str:
         info = "[%(asctime)s @%(name)s/%(filename)s:%(lineno)d]"
         msg = colored("%(message)s", "white")
@@ -51,7 +49,6 @@ class _FileFormatter(logging.Formatter):
     """
 
     # Override
-    @beartype
     def format(self, record: logging.LogRecord) -> str:
         log_dict = {
             "name": record.name,
@@ -71,7 +68,6 @@ class _InfiniteFileHandler(RotatingFileHandler):
     A custom file handler for making infinitely many log backups.
     """
 
-    @beartype
     def __init__(
         self,
         filename: str,
@@ -83,7 +79,6 @@ class _InfiniteFileHandler(RotatingFileHandler):
         self._backup_count = 0
 
     # Override
-    @beartype
     def doRollover(self) -> None:
         if self.stream:
             self.stream.close()
@@ -103,7 +98,6 @@ class _InfiniteFileHandler(RotatingFileHandler):
             self.stream = self._open()
 
 
-@beartype
 def _get_logger_config(
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
     log_dir: Optional[Pathlike] = None,
@@ -168,7 +162,6 @@ def _get_logger_config(
     return logger_config
 
 
-@beartype
 def get_logger(
     name: Optional[str] = __name__,
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",

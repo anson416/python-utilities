@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 # File: config.py
 
-from . import beartype
 from .file_ops import get_basename
 from .types import Any, List, Pathlike
 
 
-@beartype
 def load_json(json_path: Pathlike) -> Any:
     """
     Load a .json file.
@@ -26,7 +24,6 @@ def load_json(json_path: Pathlike) -> Any:
         return json.load(f_json)
     
 
-@beartype
 def load_jsonl(jsonl_path: Pathlike) -> List[Any]:
     """
     Load a .jsonl file.
@@ -46,7 +43,6 @@ def load_jsonl(jsonl_path: Pathlike) -> List[Any]:
         return [json.loads(line) for line in f_jsonl]
 
 
-@beartype
 def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
     """
     Load a .yaml file.
@@ -70,7 +66,6 @@ def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
         return yaml.safe_load(f_yaml) if safe else yaml.load(f_yaml)
     
 
-@beartype
 def load_ini(ini_path: Pathlike) -> Any:
     """
     Load a .ini file.
@@ -82,7 +77,6 @@ def load_ini(ini_path: Pathlike) -> Any:
         ConfigParser: Loaded .ini
     """
 
-    @beartype
     def _load_ini(ini_path: Pathlike) -> ConfigParser:
         config = ConfigParser()
         config.read(ini_path)
@@ -96,7 +90,6 @@ def load_ini(ini_path: Pathlike) -> Any:
     return _load_ini(ini_path)
 
 
-@beartype
 def load_xml(xml_path: Pathlike) -> Any:
     """
     Load a .xml file.
@@ -108,7 +101,6 @@ def load_xml(xml_path: Pathlike) -> Any:
         BeautifulSoup: Loaded .xml
     """
 
-    @beartype
     def _load_xml(xml_path: Pathlike) -> BeautifulSoup:
         with open(xml_path, "r") as f_xml:
             return BeautifulSoup(f_xml.read(), features="html.parser")

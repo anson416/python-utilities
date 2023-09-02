@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: error.py
 
-from . import beartype
 from .types import Optional
 
 __all__ = [
@@ -11,7 +10,6 @@ __all__ = [
 ]
 
 
-@beartype
 def get_err_type(err: Exception) -> str:
     """
     Get the type of error from an error.
@@ -26,7 +24,6 @@ def get_err_type(err: Exception) -> str:
     return type(err).__name__
 
 
-@beartype
 def err2str(
     err: Exception,
     sep: str = ": ",
@@ -45,7 +42,6 @@ def err2str(
     return f"{get_err_type(err)}{sep}{err}"
 
 
-@beartype
 def raise_err(
     err: Exception,
     msg: Optional[str] = None,

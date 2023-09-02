@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: num_ops.py
 
-from . import beartype
-
 __all__ = [
     "is_even",
     "is_odd",
@@ -10,7 +8,6 @@ __all__ = [
 ]
 
 
-@beartype
 def is_even(num: int) -> bool:
     """
     Return True if a number is even.
@@ -25,7 +22,6 @@ def is_even(num: int) -> bool:
     return num % 2 == 0
 
 
-@beartype
 def is_odd(num: int) -> bool:
     """
     Return True if a number is old.
@@ -40,7 +36,6 @@ def is_odd(num: int) -> bool:
     return num % 2 != 0
 
 
-@beartype
 def rescale_num(
     num: float,
     a: float,

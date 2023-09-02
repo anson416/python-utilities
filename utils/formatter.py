@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
-from . import beartype
 from .types import Any, Array, Dict, Number, Tuple, Union
 
 __all__ = [
@@ -14,7 +13,6 @@ __all__ = [
 ]
 
 
-@beartype
 def arr2str(
     arr: Array[Any],
     sep: str = "\n",
@@ -38,7 +36,6 @@ def arr2str(
     return f"{sep.join(map(str, arr))}{end}"
 
 
-@beartype
 def args2str(
     args,
     sep: str = ", ",
@@ -59,7 +56,6 @@ def args2str(
         args2str(Namespace(job='driver', age=47), sep=", ", end="??") -> job=driver, age=47??
     """
 
-    @beartype
     def _args2str(
         args: argparse.Namespace,
         sep: str,
@@ -72,7 +68,6 @@ def args2str(
     return _args2str(args, sep, end)
 
 
-@beartype
 def dict2str(
     dic: Dict[Any, Any],
     kv_sep: str = " : ",
@@ -98,7 +93,6 @@ def dict2str(
     return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{str_end}"
 
 
-@beartype
 def arr2dict(
     arr: Array[Any],
     start: int = 0,
@@ -122,7 +116,6 @@ def arr2dict(
     return {(str(i) if key_to_str else i): item for i, item in enumerate(arr, start=start)}
 
 
-@beartype
 def convert_num(
     num: Number,
     threshold: Number = 1000,
@@ -157,7 +150,6 @@ def convert_num(
     return num, UNITS[i]
 
 
-@beartype
 def convert_size(
     size: int,
     threshold: Number = 1024,

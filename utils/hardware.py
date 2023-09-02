@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: hardware.py
 
-from . import beartype
 from .utils import has_package
 
 __all__ = [
@@ -11,7 +10,6 @@ __all__ = [
 ]
 
 
-@beartype
 def get_n_cpu() -> int:
     """
     Get the number of CPU cores.
@@ -25,7 +23,6 @@ def get_n_cpu() -> int:
     return multiprocessing.cpu_count()
 
 
-@beartype
 def get_total_mem() -> int:
     """
     Get the total amount of system memory.
@@ -45,7 +42,6 @@ def get_total_mem() -> int:
     return psutil.virtual_memory().total
 
 
-@beartype
 def get_n_gpu() -> int:
     """
     Get the number of GPUs.

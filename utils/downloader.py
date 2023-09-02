@@ -19,14 +19,12 @@ try:
 except ImportError:
     raise ImportError("Could not import tqdm. Try `pip3 install -U tqdm`.")
 
-from . import beartype
 from .file_ops import create_dir, get_basename
 from .types import Array, Pathlike, StrDict
 
 __all__ = ["download_files"]
 
 
-@beartype
 async def _download_file(
     url: Pathlike,
     file_path: Pathlike,
@@ -35,7 +33,6 @@ async def _download_file(
     all_bar: tqdm,
     leave: bool = False,
 ) -> Tuple[Pathlike, Pathlike, Union[Exception, int]]:
-    @beartype
     async def _download(
         url: Pathlike,
         file_path: Pathlike,
@@ -66,7 +63,6 @@ async def _download_file(
 
     return url, file_path, size
 
-@beartype
 def download_files(
     urls: Array[Union[Array[Union[Pathlike, str]], Pathlike]],
     download_dir: Pathlike = "./",
@@ -94,7 +90,6 @@ def download_files(
             size. Each 3-tuple in the list of "failed" contains URL, file name and raised exception.
     """
 
-    @beartype
     async def _download_files(
         urls: List[Tuple[Pathlike, Pathlike]],
         sem: asyncio.Semaphore,
@@ -109,7 +104,6 @@ def download_files(
             
             return results
         
-    @beartype
     def _process_url(
         url: Pathlike,
         file_name: Optional[str] = None

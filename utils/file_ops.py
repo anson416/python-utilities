@@ -3,7 +3,6 @@
 
 import os
 
-from . import beartype
 from .types import Array, List, Optional, Pathlike, Tuple, Union
 
 __all__ = [
@@ -18,7 +17,6 @@ __all__ = [
 ]
 
 
-@beartype
 def get_basename(
     file_path: Pathlike,
     split_ext: bool = False,
@@ -39,7 +37,6 @@ def get_basename(
     return os.path.splitext(basename) if split_ext else basename
 
 
-@beartype
 def get_file_size(file_path: Pathlike) -> int:
     """
     Get the size of a file.
@@ -54,7 +51,6 @@ def get_file_size(file_path: Pathlike) -> int:
     return os.path.getsize(file_path)
 
 
-@beartype
 def get_parent_dir(file_path: Pathlike) -> Pathlike:
     """
     Get the parent directory of a file. To get the parent directory of any Python script, do get_parent_dir(__file__).
@@ -69,7 +65,6 @@ def get_parent_dir(file_path: Pathlike) -> Pathlike:
     return os.path.dirname(os.path.abspath(file_path))
 
 
-@beartype
 def create_dir(
     tgt_dir: Pathlike,
     remove_existing: bool = False,
@@ -97,7 +92,6 @@ def create_dir(
     return True
 
 
-@beartype
 def remove_dir(
     tgt_dir: Pathlike,
     only_empty: bool = False,
@@ -124,7 +118,6 @@ def remove_dir(
     return removed
 
 
-@beartype
 def remove_file(file_path: Pathlike) -> bool:
     """
     Remove a file if it exists.
@@ -145,7 +138,6 @@ def remove_file(file_path: Pathlike) -> bool:
     return removed
 
 
-@beartype
 def list_files(
     tgt_dir: Pathlike,
     exts: Optional[Union[Array[str], str]] = None,
@@ -184,7 +176,6 @@ def list_files(
     return files
 
 
-@beartype
 def read_file(
     file_path: Pathlike,
     remove_spaces: bool = False,

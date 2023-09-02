@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 # File: utils.py
 
-from . import beartype
-
 __all__ = ["has_package"]
 
 
-@beartype
 def has_package(
     package_name: str,
     raise_err: bool = False,

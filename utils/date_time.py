@@ -3,8 +3,6 @@
 
 from datetime import datetime
 
-from . import beartype
-
 __all__ = [
     "get_date",
     "get_time",
@@ -12,7 +10,6 @@ __all__ = [
 ]
 
 
-@beartype
 def get_date(date_format: str = r"%Y-%m-%d") -> str:
     """
     Get today's date.
@@ -29,7 +26,6 @@ def get_date(date_format: str = r"%Y-%m-%d") -> str:
     return datetime.now().strftime(date_format)
 
 
-@beartype
 def get_time(time_format: str = r"%H:%M:%S") -> str:
     """
     Get current time.
@@ -46,7 +42,6 @@ def get_time(time_format: str = r"%H:%M:%S") -> str:
     return datetime.now().strftime(time_format)
 
 
-@beartype
 def get_datetime(
     date_format: str = r"%Y-%m-%d",
     time_format: str = r"%H:%M:%S",
