@@ -38,7 +38,7 @@ setup(
     classifiers=[
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 3 - Alpha",
-        "License :: OSI Approved :: Apache Software License",
+        # "License :: OSI Approved :: Apache Software License",
         "Natural Language :: English",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: CPython",
