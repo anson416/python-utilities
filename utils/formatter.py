@@ -10,6 +10,7 @@ __all__ = [
     "arr2dict",
     "convert_num",
     "convert_size",
+    "trunc_str",
 ]
 
 
@@ -183,3 +184,32 @@ def convert_size(
         i += 1
 
     return size, f"{UNITS[i]}B"
+
+
+def trunc_str(
+    text: str,
+    n: int,
+    front: bool = True,
+    affix: str = "",
+) -> str:
+    """
+    Truncate a string (if necessary) to certain length.
+
+    Args:
+        text (str): Target string
+        n (int): Maximum length of truncated string
+        front (bool, optional): If True, `text` will be truncated at the back. Otherwise, `text` will be truncated at \
+            the front. Defaults to True.
+        affix (str, optional): If `front` is True, `affix` will act as a suffix. Otherwise, `affix` will act as a \
+            prefix. Defaults to "".
+
+    Returns:
+        str: Truncated string
+    """
+
+    if len(text) <= n:
+        return text
+    
+    truncated = text[:n] if front else text[len(text)-n:]
+
+    return f"{'' if front else affix}{truncated}{affix if front else ''}"
