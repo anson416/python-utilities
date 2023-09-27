@@ -55,7 +55,7 @@ def get_datetime(
         date_format (str, optional): Format string for date. Defaults to r"%Y-%m-%d".
         time_format (str, optional): Format string for time. Defaults to r"%H:%M:%S".
         sep (str, optional): Separator between date and time. Defaults to " ".
-        date_first (bool, optional): If True, put date before time. Defaults to True.
+        date_first (bool, optional): Put date before time. Defaults to True.
 
     Returns:
         str: Current date and time

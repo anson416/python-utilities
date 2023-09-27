@@ -13,7 +13,7 @@ def has_package(
 
     Args:
         package_name (str): Name of package
-        raise_err (bool, optional): If True, raise ImportError if `package_name` is not found
+        raise_err (bool, optional): Raise ImportError if `package_name` is not found
 
     Raises:
         ImportError: Raise iff `raise_err` == True and `package_name` is not found

@@ -49,7 +49,7 @@ def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
 
     Args:
         yaml_path (Pathlike): Path to .yaml
-        safe (bool, optional): If True, load `yaml_path` safely. Defaults to True.
+        safe (bool, optional): Load `yaml_path` safely. Defaults to True.
 
     Returns:
         Any: Loaded .yaml

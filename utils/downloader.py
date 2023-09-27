@@ -80,9 +80,9 @@ def download_files(
             (list or tuple), in which each element is either a URL or an Array in which the first element is a URL and \
             the second element is a file name.
         download_dir (Pathlike, optional): Directory to which files will be downloaded. Defaults to "./".
-        replace_existing (bool, optional): If True, existing files will be downloaded again. Defaults to True.
+        replace_existing (bool, optional): Download existing files again. Defaults to True.
         max_workers (int, optional): Max. number of files that can be downloaded at the same time. Defaults to 2.
-        leave (bool, optional): If True, progress bar for each file will stay. Defaults to False.
+        leave (bool, optional): Keep progress bar for each file. Defaults to False.
         desc (Optional[str], optional): Description for the overall progress bar. Defaults to "Downloading files".
 
     Returns:

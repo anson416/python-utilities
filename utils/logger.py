@@ -113,8 +113,8 @@ def _get_logger_config(
             "`log_dir`/log_<current_date_time>". Defaults to None.
         max_bytes (int, optional): If `max_bytes` > 0, each log file will store at most `max_bytes` bytes. Used only \
             if `log_dir` is not None. Defaults to 0.
-        compress (bool, optional): If True, compress backup (i.e., rotated) log files. Used only if `log_dir` is not \
-            None. Defaults to False.
+        compress (bool, optional): Compress backup (i.e., rotated) log files. Used only if `log_dir` is not None. \
+            Defaults to False.
 
     Returns:
         StrDict[Any]: Dict config
@@ -189,8 +189,8 @@ def get_logger(
             "`log_dir`/log_<current_date_time>". Defaults to None.
         max_bytes (int, optional): If `max_bytes` > 0, each log file will store at most `max_bytes` bytes. Used only \
             if `log_dir` is not None. Defaults to 10 * (1024 ** 2) = 10 MB.
-        compress (bool, optional): If True, compress backup (i.e., rotated) log files. Used only if `log_dir` is not \
-            None. Defaults to False.
+        compress (bool, optional): Compress backup (i.e., rotated) log files. Used only if `log_dir` is not None. \
+            Defaults to False.
 
     Returns:
         logging.Logger: Custom logger

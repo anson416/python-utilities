@@ -105,7 +105,7 @@ def arr2dict(
     Args:
         arr (Array[Any]): Target array
         start (int, optional): Number from which key starts. Defaults to 0.
-        key_to_str (bool, optional): If True, keys are converted into string. Defaults to False.
+        key_to_str (bool, optional): Convert keys to string. Defaults to False.
 
     Returns:
         Dict[Union[int, str], Any]: Dictionary from an array

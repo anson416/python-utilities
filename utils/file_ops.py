@@ -26,7 +26,7 @@ def get_basename(
 
     Args:
         file_path (Pathlike): Target file
-        split_ext (bool, optional): If True, split extension from basename, creating a 2-tuple. Defaults to False.
+        split_ext (bool, optional): Split extension from basename, creating a 2-tuple. Defaults to False.
 
     Returns:
         Union[str, Tuple[str, str]]: Either basename or file name and extension of a file
@@ -74,8 +74,7 @@ def create_dir(
 
     Args:
         tgt_dir (Pathlike): Target directory
-        remove_existing (bool, optional): If True, remove existing `tgt_dir` (if any) before creation. Defaults to \
-            False.
+        remove_existing (bool, optional): Remove existing `tgt_dir` (if any) before creation. Defaults to False.
 
     Returns:
         bool: True iff `tgt_dir` is created
@@ -101,7 +100,7 @@ def remove_dir(
 
     Args:
         tgt_dir (Pathlike): Target directory
-        only_empty (bool, optional): If True, remove `tgt_dir` only if it is empty. Defaults to False.
+        only_empty (bool, optional): Remove `tgt_dir` only if it is empty. Defaults to False.
 
     Returns:
         bool: True iff `tgt_dir` is removed
@@ -150,7 +149,7 @@ def list_files(
         tgt_dir (Pathlike): Target directory
         exts (Optional[Union[Array[str], str]], optional): If not None, return a file only if its extension is in \
             `exts`. Defaults to None.
-        base_only (bool, optional): If True, return only basename, not the entire path. Defaults to False.
+        base_only (bool, optional): Return only basename, not the entire path. Defaults to False.
 
     Returns:
         List[str]: File paths or names
@@ -186,8 +185,8 @@ def read_file(
 
     Args:
         file_path (Pathlike): Target file
-        remove_spaces (bool, optional): If True, remove leading and trailing whitespaces. Defaults to False.
-        remove_empty (bool, optional): If True, neglect empty lines. Defaults to False.
+        remove_spaces (bool, optional): Remove leading and trailing whitespaces. Defaults to False.
+        remove_empty (bool, optional): Omit empty lines. Defaults to False.
 
     Returns:
         List[str]: Lines in a file
