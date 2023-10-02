@@ -33,7 +33,7 @@ async def _download_file(
     sem: asyncio.Semaphore,
     all_bar: tqdm,
     leave: bool = False,
-) -> Tuple[Pathlike, Pathlike, Union[Exception, int]]:
+) -> Tuple[Pathlike, Pathlike, Union[int, Exception]]:
     async def _download(
         url: Pathlike,
         file_path: Pathlike,
@@ -71,7 +71,7 @@ def download_files(
     max_workers: int = 2,
     leave: bool = False,
     desc: Optional[str] = "Downloading files",
-) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
+) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[int, Exception]]]]:
     """
     Download multiple files from the Internet concurrently.
 
@@ -86,7 +86,7 @@ def download_files(
         desc (Optional[str], optional): Description for the overall progress bar. Defaults to "Downloading files".
 
     Returns:
-        StrDict[List[Tuple[Pathlike, Pathlike, Union[Exception, int]]]]: A dictionary in the form \
+        StrDict[List[Tuple[Pathlike, Pathlike, Union[int, Exception]]]]: A dictionary in the form \
             {"succeeded": [], "failed": []}. Each 3-tuple in the list of "succeeded" contains URL, file name and file \
             size. Each 3-tuple in the list of "failed" contains URL, file name and raised exception.
     """
@@ -96,7 +96,7 @@ def download_files(
         sem: asyncio.Semaphore,
         all_bar: tqdm,
         leave: bool = False,
-    ) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[Exception, int]]]]:
+    ) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[int, Exception]]]]:
         async with aiohttp.ClientSession() as session:
             tasks = [_download_file(*url, session, sem, all_bar, leave) for url in urls]
             results = {"succeeded": [], "failed": []}

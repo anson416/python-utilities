@@ -16,10 +16,10 @@ from .types import Any, Optional, Pathlike, StrDict
 __all__ = ["get_logger"]
 
 _LOG_LEVEL_DICT = {
-    logging.DEBUG: ("DBG", "dark_grey"),
-    logging.INFO: ("INF", "green"),
-    logging.WARNING: ("WRN", "yellow"),
-    logging.ERROR: ("ERR", "light_red"),
+    logging.DEBUG:    ("DBG", "dark_grey"),
+    logging.INFO:     ("INF", "green"),
+    logging.WARNING:  ("WRN", "yellow"),
+    logging.ERROR:    ("ERR", "light_red"),
     logging.CRITICAL: ("CRT", "red"),
 }
 _UNKNOWN_LOG = ("UNK", "white")
