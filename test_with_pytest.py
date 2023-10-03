@@ -12,7 +12,7 @@ from utils.hardware import *
 from utils.logger import *
 from utils.num_ops import *
 from utils.types import *
-from utils.utils import *
+from utils.misc import *
 
 
 def test_nothing():

@@ -21,10 +21,10 @@ def has_package(
         raise_err (bool, optional): Raise ImportError if `package_name` is not found
 
     Raises:
-        ImportError: Raise iff `raise_err` == True and `package_name` is not found
+        ImportError: Raise if `raise_err` is True and `package_name` is not found
 
     Returns:
-        bool: True iff package_name is found
+        bool: True if package_name is found
     """
 
     import importlib.util
@@ -44,6 +44,26 @@ def hashing(
     ver: int = 3,
     digest_size: int = 256,
 ) -> str:
+    """
+    Hash a message.
+
+    Args:
+        msg (Union[str, bytes]): Target message
+        algo (str, optional): Algorithm used to hash. Must be any one in {"sha", "md5"}. Defaults to "sha".
+        ver (int, optional): Specify the version of SHA hashing algorithm. Used only when `algo` is "sha". Must be any \
+            one in {1, 2, 3}. Defaults to 3.
+        digest_size (int, optional): Specify the digest size in SHA hashing algorithm. Used only when `algo` is "sha" \
+            and `ver` in {2, 3}. Must be any one in {224, 256, 384, 512}. Defaults to 256.
+
+    Raises:
+        ValueError: Invalid `algo`
+        ValueError: Invalid `ver`
+        ValueError: Invalid `digest_size`
+
+    Returns:
+        str: Hashed message
+    """
+
     import hashlib
 
     ALGO_DICT = {

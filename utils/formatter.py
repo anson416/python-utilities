@@ -127,7 +127,8 @@ def convert_num(
 
     Args:
         num (Number): Target number
-        threshold (Number, optional): Keep dividing `num` until absolute of `num` < `threshold`. Defaults to 1000.
+        threshold (Number, optional): Keep dividing `num` until absolute of `num` is smaller than `threshold`. \
+            Defaults to 1000.
         div (Number, optional): Divide `num` by `div` in every iteration. Defaults to 1000.
 
     Returns:
@@ -161,7 +162,7 @@ def convert_size(
 
     Args:
         size (int): Data size (in bytes)
-        threshold (Number, optional): Keep dividing `size` until `size` < `threshold`. Defaults to 1024.
+        threshold (Number, optional): Keep dividing `size` until `size` is smaller than `threshold`. Defaults to 1024.
         div (Number, optional): Divide `size` by `div` in every iteration. Defaults to 1024.
 
     Returns:

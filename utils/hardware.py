@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: hardware.py
 
-from .utils import has_package
+from .misc import has_package
 
 __all__ = [
     "get_n_cpu",
