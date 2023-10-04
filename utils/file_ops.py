@@ -7,6 +7,8 @@ from .types import Array, List, Optional, Pathlike, Tuple, Union
 
 __all__ = [
     "get_basename",
+    "get_file_name",
+    "get_file_ext",
     "get_file_size",
     "get_parent_dir",
     "create_dir",
@@ -35,6 +37,34 @@ def get_basename(
     basename = os.path.basename(file_path)
 
     return os.path.splitext(basename) if split_ext else basename
+
+
+def get_file_name(file_path: Pathlike) -> str:
+    """
+    Get file name of a file.
+
+    Args:
+        file_path (Pathlike): Target file
+
+    Returns:
+        str: File name of a file
+    """
+
+    return get_basename(file_path, split_ext=True)[0]
+
+
+def get_file_ext(file_path: Pathlike) -> str:
+    """
+    Get file extension of a file.
+
+    Args:
+        file_path (Pathlike): Target file
+
+    Returns:
+        str: File extension of a file
+    """
+
+    return get_basename(file_path, split_ext=True)[1]
 
 
 def get_file_size(file_path: Pathlike) -> int:
