@@ -10,15 +10,15 @@ from .types import List, Optional, Tuple, Union
 try:
     import aiohttp
 except ImportError:
-    raise ImportError("Could not import aiohttp. Try `pip3 install -U aiohttp`.")
+    raise ImportError("Could not import aiohttp. Try `pip install -U aiohttp`.")
 try:
     from sortedcollections import OrderedSet
 except ImportError:
-    raise ImportError("Could not import sortedcollections. Try `pip3 install -U sortedcollections`.")
+    raise ImportError("Could not import sortedcollections. Try `pip install -U sortedcollections`.")
 try:
     from tqdm import tqdm
 except ImportError:
-    raise ImportError("Could not import tqdm. Try `pip3 install -U tqdm`.")
+    raise ImportError("Could not import tqdm. Try `pip install -U tqdm`.")
 
 from .file_ops import create_dir, get_basename
 from .types import Array, Pathlike, StrDict

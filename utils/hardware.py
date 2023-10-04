@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: hardware.py
 
-from .misc import has_package
-
 __all__ = [
     "get_n_cpu",
     "get_total_mem",
@@ -37,7 +35,7 @@ def get_total_mem() -> int:
     try:
         import psutil
     except ImportError:
-        raise ImportError("Could not import psutil. Try `pip3 install -U psutil`.")
+        raise ImportError("Could not import psutil. Try `pip install -U psutil`.")
     
     return psutil.virtual_memory().total
 
@@ -49,6 +47,8 @@ def get_n_gpu() -> int:
     Returns:
         int: Number of GPUs.
     """
+
+    from .package import has_package
 
     has_torch, has_tf = has_package("torch"), has_package("tensorflow")
 

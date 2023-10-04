@@ -2,7 +2,7 @@
 # File: config.py
 
 from .file_ops import get_basename
-from .types import Any, List, Pathlike
+from .types import Any, Iterator, Pathlike
 
 
 def load_json(json_path: Pathlike) -> Any:
@@ -24,7 +24,7 @@ def load_json(json_path: Pathlike) -> Any:
         return json.load(f_json)
     
 
-def load_jsonl(jsonl_path: Pathlike) -> List[Any]:
+def load_jsonl(jsonl_path: Pathlike) -> Iterator[Any]:
     """
     Load a .jsonl file.
 
@@ -32,7 +32,7 @@ def load_jsonl(jsonl_path: Pathlike) -> List[Any]:
         jsonl_path (Pathlike): Path to .jsonl
 
     Returns:
-        List[Any]: Loaded .json
+        Iterator[Any]: Loaded .jsonl
     """
 
     assert get_basename(jsonl_path, split_ext=True)[1].lower() == ".jsonl", ".jsonl required"
@@ -40,7 +40,8 @@ def load_jsonl(jsonl_path: Pathlike) -> List[Any]:
     import json
 
     with open(jsonl_path, "r") as f_jsonl:
-        return [json.loads(line) for line in f_jsonl]
+        for line in f_jsonl:
+            yield json.loads(line)
 
 
 def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
@@ -60,7 +61,7 @@ def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
     try:
         import yaml
     except ImportError:
-        raise ImportError("Could not import yaml. Try `pip3 install -U pyyaml`.")
+        raise ImportError("Could not import yaml. Try `pip install -U pyyaml`.")
     
     with open(yaml_path, "r") as f_yaml:
         return yaml.safe_load(f_yaml) if safe else yaml.load(f_yaml)
