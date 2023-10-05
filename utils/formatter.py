@@ -190,7 +190,7 @@ def convert_size(
 def trunc_str(
     text: str,
     n: int,
-    mode: int = 0,
+    mode: int = 1,
     replacement: str = "...",
 ) -> str:
     """

@@ -46,7 +46,7 @@ async def _download_file(
             size = int(response.headers.get("Content-Length", 0))
             ind_bar = tqdm(
                 total=size, unit="B", unit_scale=True, unit_divisor=1024, miniters=1, mininterval=0.1, leave=leave,
-                desc=trunc_str(file_path, 50, front=False, affix="..."))
+                desc=trunc_str(file_path, 50, mode=4, replacement="..."))
             with open(file_path, mode="wb") as f, ind_bar:
                 async for chunk in response.content.iter_chunked(512):
                     f.write(chunk)
