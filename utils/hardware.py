@@ -26,7 +26,7 @@ def get_total_mem() -> int:
     Get the total amount of system memory.
 
     Raises:
-        ImportError: Raise iff psutil could not be imported
+        ImportError: Raise if psutil could not be imported
 
     Returns:
         int: Total amount of system memory

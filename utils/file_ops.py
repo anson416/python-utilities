@@ -107,7 +107,7 @@ def create_dir(
         remove_existing (bool, optional): Remove existing `tgt_dir` (if any) before creation. Defaults to False.
 
     Returns:
-        bool: True iff `tgt_dir` is created
+        bool: True if `tgt_dir` is created
     """
 
     if remove_existing:
@@ -133,7 +133,7 @@ def remove_dir(
         only_empty (bool, optional): Remove `tgt_dir` only if it is empty. Defaults to False.
 
     Returns:
-        bool: True iff `tgt_dir` is removed
+        bool: True if `tgt_dir` is removed
     """
 
     import shutil
@@ -155,7 +155,7 @@ def remove_file(file_path: Pathlike) -> bool:
         file_path (Pathlike): Target file
 
     Returns:
-        bool: True iff `file_path` is removed
+        bool: True if `file_path` is removed
     """
 
     removed = False
