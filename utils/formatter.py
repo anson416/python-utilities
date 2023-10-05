@@ -190,27 +190,40 @@ def convert_size(
 def trunc_str(
     text: str,
     n: int,
-    front: bool = True,
-    affix: str = "",
+    mode: int = 0,
+    replacement: str = "...",
 ) -> str:
     """
     Truncate a string (if necessary) to certain length.
 
     Args:
         text (str): Target string
-        n (int): Maximum length of truncated string
-        front (bool, optional): If True, `text` will be truncated at the back. Otherwise, `text` will be truncated at \
-            the front. Defaults to True.
-        affix (str, optional): If `front` is True, `affix` will act as a suffix. Otherwise, `affix` will act as a \
-            prefix. Defaults to "".
+        n (int): Maximum length of substring from `text` in output string
+        mode (int, optional): Mode of truncation. 1: Keeping the left part. 2: Keeping the left and right parts. 3: \
+            Keeping the middle part. 4: Keeping the right part. Must be any one in {1, 2, 3, 4}. Defaults to 0.
+        replacement (str, optional): String to replace the removed substring. Defaults to "...".
 
     Returns:
-        str: Truncated string
+        str: Truncated `text`
     """
+
+    assert mode in (1, 2, 3, 4), "mode must be any one in {1, 2, 3, 4}"
+
+    from .num_ops import is_odd
 
     if len(text) <= n:
         return text
     
-    truncated = text[:n] if front else text[len(text)-n:]
-
-    return f"{'' if front else affix}{truncated}{affix if front else ''}"
+    if mode == 1:
+        truncated = text[:n] + replacement
+    elif mode == 2:
+        left = n // 2
+        right = left + is_odd(n)
+        truncated = text[:left] + replacement + text[-right:]
+    elif mode == 3:
+        mid = (len(text) - n) // 2
+        truncated = replacement + text[mid:mid+n] + replacement
+    else:
+        truncated = replacement + text[-n:]
+    
+    return truncated
