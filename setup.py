@@ -10,7 +10,7 @@ DESCRIPTION = "Utilities that can be used anywhere."
 AUTHOR = "Anson Lam"
 EMAIL = "lamyiufung2003@gmail.com"
 PYTHON_VERSION = ">=3.7.0"
-URL = "https://github.com/anson416/utilities"
+URL = "https://github.com/anson416/python-utilities"
 
 with open(os.path.join(NAME, "__init__.py"), "r") as f:
     version = [line.split("=")[-1].strip().strip("'\"")
