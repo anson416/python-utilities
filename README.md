@@ -5,5 +5,5 @@ This Python package contains functions that could be useful to day-to-day Python
 ## Installation
 
 ```bash
-pip install git+https://github.com/anson416/utilities.git
+pip install -U git+https://github.com/anson416/python-utilities.git
 ```
