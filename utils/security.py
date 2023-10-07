@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: security.py
 
-from .types import Union
+from .types import Optional, Union
 
 __all__ = [
     "hash_",
@@ -14,6 +14,7 @@ def hash_(
     algo: str = "sha",
     ver: int = 3,
     digest_size: int = 256,
+    max_len: Optional[int] = None,
 ) -> str:
     """
     Hash a message.
@@ -26,6 +27,8 @@ def hash_(
             one in {1, 2, 3}. Defaults to 3.
         digest_size (int, optional): Specify the digest size in SHA hash algorithm. Used only when `algo` is "sha" \
             and `ver` is in {2, 3}. Must be any one in {224, 256, 384, 512}. Defaults to 256.
+        max_len (Optional[int], optional): If not None, hashed message will be truncated to `max_len` characters. \
+            Defaults to None.
 
     Raises:
         ValueError: Invalid `algo`. Must be any one in {"sha", "md5"}.
@@ -35,6 +38,9 @@ def hash_(
     Returns:
         str: Hashed message
     """
+
+    if max_len:
+        assert max_len >= 0, "max_len must be non-negative integer"
 
     import hashlib
 
@@ -72,7 +78,7 @@ def hash_(
                 raise ValueError(f"digest_size must be any one in {set(hash_algo.keys())}")
             hash_algo = hash_algo[digest_size]
 
-    return hash_algo(msg).hexdigest()
+    return hash_algo(msg).hexdigest()[:max_len]
 
 
 def gen_key(size: int = 32) -> bytes:
