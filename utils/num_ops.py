@@ -7,6 +7,7 @@ __all__ = [
     "is_even",
     "is_odd",
     "rescale_num",
+    "clamp",
 ]
 
 
@@ -63,3 +64,25 @@ def rescale_num(
     assert c <= d, "c must not be greater than d"
 
     return (num - a) * (d - c) / (b - a) + c
+
+
+def clamp(
+    num: Number,
+    a: Number,
+    b: Number,
+) -> Number:
+    """
+    Restrict a number to a range [a, b].
+
+    Args:
+        num (Number): Target number
+        a (Number): Lower bound of the range
+        b (Number): Upper bound of the range
+
+    Returns:
+        Number: Clamped number
+    """
+
+    assert a <= b, "a must not be greater than b"
+
+    return max(a, min(num, b))
