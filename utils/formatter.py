@@ -7,6 +7,7 @@ __all__ = [
     "arr2str",
     "args2str",
     "dict2str",
+    "print_dict",
     "arr2dict",
     "convert_num",
     "convert_size",
@@ -73,7 +74,7 @@ def dict2str(
     dic: Dict[Any, Any],
     kv_sep: str = " : ",
     item_sep: str = "\n",
-    str_end: str = "",
+    end: str = "",
 ) -> str:
     """
     Convert a dictionary into formatted string.
@@ -82,16 +83,35 @@ def dict2str(
         dic (Dict[Any, Any]): Target dictionary
         kv_sep (str, optional): Separator between key and value. Defaults to " : ".
         item_sep (str, optional): Separator between items. Defaults to "\\n".
-        str_end (str, optional): Ending string. Defaults to "".
+        end (str, optional): Ending string. Defaults to "".
 
     Returns:
         str: String formatted from a dictionary
 
     Examples:
-        dict2str({1: "a", 2: "b"}, kv_sep=" : ", item_sep="--", str_end="??") -> 1 : a--2 : b??
+        dict2str({1: "a", 2: "b"}, kv_sep=" : ", item_sep="--", end="??") -> 1 : a--2 : b??
     """
 
-    return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{str_end}"
+    return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{end}"
+
+
+def print_dict(
+    dic: Dict[Any, Any],
+    indent: int = 4,
+) -> None:
+    """
+    Print a dictionary nicely and return nothing.
+
+    Args:
+        dic (Dict[Any, Any]): Target dictionary
+        indent (int, optional): Indent level. Defaults to 4.
+    """
+
+    assert indent >= 0, "indent must be non-negative integer"
+
+    import json
+
+    print(json.dumps(dic, indent=indent))
 
 
 def arr2dict(
