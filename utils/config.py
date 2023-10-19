@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: config.py
 
-from .file_ops import get_basename
+from .file_ops import get_basename, read_file
 from .types import Any, Iterator, Pathlike
 
 
@@ -39,9 +39,8 @@ def load_jsonl(jsonl_path: Pathlike) -> Iterator[Any]:
 
     import json
 
-    with open(jsonl_path, "r") as f_jsonl:
-        for line in f_jsonl:
-            yield json.loads(line)
+    for line in read_file(jsonl_path):
+        yield json.loads(line)
 
 
 def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:

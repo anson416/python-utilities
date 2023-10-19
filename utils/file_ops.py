@@ -3,7 +3,7 @@
 
 import os
 
-from .types import Array, List, Optional, Pathlike, Tuple, Union
+from .types import Array, Iterator, List, Optional, Pathlike, Tuple, Union
 
 __all__ = [
     "get_basename",
@@ -209,7 +209,7 @@ def read_file(
     file_path: Pathlike,
     remove_spaces: bool = False,
     remove_empty: bool = False,
-) -> List[str]:
+) -> Iterator[str]:
     """
     Read lines from a file (with formatting).
 
@@ -219,16 +219,14 @@ def read_file(
         remove_empty (bool, optional): Omit empty lines. Defaults to False.
 
     Returns:
-        List[str]: Lines in a file
+        Iterator[str]: Lines in a file
     """
 
     with open(file_path, "r") as f:
-        lines = f.read().splitlines()
+        for line in f:
+            line = line.rstrip("\n")
+            line = line.strip() if remove_spaces else line
+            if remove_empty and line == "":
+                continue
 
-    if remove_spaces:
-        lines = list(map(lambda x: x.strip(), lines))
-
-    if remove_empty:
-        lines = [line for line in lines if line != ""]
-
-    return lines
+            yield line

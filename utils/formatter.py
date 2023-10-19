@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
-from .types import Any, Array, Dict, Number, Tuple, Union
+from .types import Any, Array, Dict, Number, StrDict, Tuple, Union
 
 __all__ = [
     "arr2str",
@@ -38,36 +38,41 @@ def arr2str(
     return f"{sep.join(map(str, arr))}{end}"
 
 
-def args2str(
-    args,
+def args2str(args: Tuple[Any, ...]) -> str:
+    """
+    A special case of `arr2str()` that converts function positional arguments into formatted string.
+
+    Args:
+        args (Tuple[Any, ...]): Function positional arguments (maybe from *args)
+
+    Returns:
+        str: String formatted from function positional arguments
+    """
+
+    return arr2str(args, sep=", ")
+
+
+def argparse2str(
+    args: Any,
     sep: str = ", ",
     end: str = "",
 ) -> str:
     """
-    Convert arguments into formatted string.
+    Convert argparse arguments into formatted string.
 
     Args:
-        args (argparse.Namespace): Arguments from argparse.ArgumentParser().parse_args()
+        args (Any): Arguments from argparse.ArgumentParser().parse_args()
         sep (str, optional): Separator between arguments. Defaults to ", ".
         end (str, optional): Ending string. Defaults to "".
 
     Returns:
-        str: String formatted from arguments
+        str: String formatted from argparse arguments
 
     Examples:
-        args2str(Namespace(job='driver', age=47), sep=", ", end="??") -> job=driver, age=47??
+        argparse2str(Namespace(job='driver', age=47), sep=", ", end="??") -> job=driver, age=47??
     """
-
-    def _args2str(
-        args: argparse.Namespace,
-        sep: str,
-        end: str,
-    ) -> str:
-        return f"{sep.join([f'{key}={value}' for key, value in vars(args).items()])}{end}"
-
-    import argparse
     
-    return _args2str(args, sep, end)
+    return f"{sep.join([f'{key}={value}' for key, value in vars(args).items()])}{end}"
 
 
 def dict2str(
@@ -93,6 +98,20 @@ def dict2str(
     """
 
     return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{end}"
+
+
+def kwargs2str(kwargs: StrDict[Any]) -> str:
+    """
+    A special case of `dict2str()` that converts function keyword arguments into formatted string.
+
+    Args:
+        args (StrDict[Any]): Function keyword arguments (maybe from **kwargs)
+
+    Returns:
+        str: String formatted from function keyword arguments
+    """
+
+    return dict2str(kwargs, kv_sep="=", item_sep=", ")
 
 
 def print_dict(

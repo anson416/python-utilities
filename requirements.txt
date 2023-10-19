@@ -1,6 +1,8 @@
 aiohttp
+beartype
 beautifulsoup4
 colorama
+isort
 psutil
 sortedcollections
 termcolor

@@ -197,7 +197,11 @@ def get_logger(
     """
 
     logger_config = _get_logger_config(
-        datetime_format=datetime_format, log_dir=log_dir, max_bytes=max_bytes, compress=compress)
+        datetime_format=datetime_format,
+        log_dir=log_dir,
+        max_bytes=max_bytes,
+        compress=compress,
+    )
     logging.config.dictConfig(logger_config)
     logger = logging.getLogger(name)
 
