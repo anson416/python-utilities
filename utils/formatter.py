@@ -8,7 +8,9 @@ from .types import Array, Number, StrDict
 __all__ = [
     "arr2str",
     "args2str",
+    "argparse2str",
     "dict2str",
+    "kwargs2str",
     "print_dict",
     "arr2dict",
     "convert_num",

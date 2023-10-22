@@ -6,6 +6,11 @@ from typing import Any, Callable, Optional, Tuple
 from .formatter import args2str, kwargs2str
 from .types import StrDict
 
+__all__ = [
+    "timer_",
+    "debugger",
+]
+
 
 def timer_(
     callback: Optional[Callable[[str, Tuple[Any], StrDict[Any], float], None]] = None,

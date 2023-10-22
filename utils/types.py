@@ -5,10 +5,6 @@ from pathlib import Path
 from typing import Dict, List, Tuple, TypeVar, Union
 
 __all__ = [
-    "Dict",
-    "List",
-    "Tuple",
-    "Path",
     "Number",
     "Array",
     "Pathlike",

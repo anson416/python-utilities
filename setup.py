@@ -35,8 +35,7 @@ setup(
     packages=find_packages(),
     install_requires=install_requires,
     # license="Apache-2.0",
-    classifiers=[
-        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[  # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 3 - Alpha",
         # "License :: OSI Approved :: Apache Software License",
         "Natural Language :: English",
