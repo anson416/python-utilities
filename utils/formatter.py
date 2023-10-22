@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
-from .types import Any, Array, Dict, Number, StrDict, Tuple, Union
+from typing import Any, Dict, Tuple, Union
+
+from .types import Array, Number, StrDict
 
 __all__ = [
     "arr2str",

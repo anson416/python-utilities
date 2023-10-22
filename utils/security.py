@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: security.py
 
-from .types import Optional, Union
+from typing import Optional, Union
 
 __all__ = [
     "hash_",

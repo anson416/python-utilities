@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # File: deco.py
 
+from typing import Any, Callable, Optional, Tuple
+
 from .formatter import args2str, kwargs2str
-from .types import Any, Callable, Optional, StrDict, Tuple
+from .types import StrDict
 
 
 def timer_(

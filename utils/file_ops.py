@@ -2,8 +2,9 @@
 # File: file_ops.py
 
 import os
+from typing import Iterator, List, Optional, Tuple, Union
 
-from .types import Array, Iterator, List, Optional, Pathlike, Tuple, Union
+from .types import Array, Pathlike
 
 __all__ = [
     "get_basename",

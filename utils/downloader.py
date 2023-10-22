@@ -3,9 +3,7 @@
 
 import asyncio
 import os
-
-from .formatter import trunc_str
-from .types import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 try:
     import aiohttp
@@ -21,6 +19,7 @@ except ImportError:
     raise ImportError("Could not import tqdm. Try `pip install -U tqdm`.")
 
 from .file_ops import create_dir, get_basename
+from .formatter import trunc_str
 from .types import Array, Pathlike, StrDict
 
 __all__ = ["download_files"]

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # File: config.py
 
+from typing import Any, Iterator
+
 from .file_ops import get_basename, read_file
-from .types import Any, Iterator, Pathlike
+from .types import Pathlike
 
 
 def load_json(json_path: Pathlike) -> Any:

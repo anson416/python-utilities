@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: error.py
 
-from .types import Optional
+from typing import Optional
 
 __all__ = [
     "get_err_type",
