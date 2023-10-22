@@ -2,10 +2,11 @@
 # File: __init__.py
 
 from pathlib import Path
-from typing import (Any, Callable, Dict, Iterator, List, Optional, Tuple,
-                    TypeVar, Union)
+from typing import (Annotated, Any, Callable, Dict, Iterator, List, Optional,
+                    Tuple, TypeVar, Union)
 
 __all__ = [
+    "Annotated",
     "Any",
     "Callable",
     "Dict",

@@ -1,4 +1,5 @@
 aiohttp
+annotated-types
 beartype
 beautifulsoup4
 colorama

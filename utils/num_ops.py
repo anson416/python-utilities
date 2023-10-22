@@ -8,6 +8,7 @@ __all__ = [
     "is_odd",
     "rescale_num",
     "clamp",
+    "get_num_len",
 ]
 
 
@@ -72,7 +73,7 @@ def clamp(
     b: Number,
 ) -> Number:
     """
-    Restrict a number to a range [a, b].
+    Restrict a number to a specific range.
 
     Args:
         num (Number): Target number
@@ -80,9 +81,32 @@ def clamp(
         b (Number): Upper bound of the range
 
     Returns:
-        Number: Clamped number
+        Number: `num` clamped between `a` and `b`. Equivalent to 
+
+        ```python
+        if a <= num <= b:
+            return num
+        elif num < a:
+            return a
+        else:
+            return b
+        ```
     """
 
     assert a <= b, "a must not be greater than b"
 
     return max(a, min(num, b))
+
+
+def get_num_len(num: Number) -> int:
+    """
+    Get the length of a number.
+
+    Args:
+        num (Number): Target number
+
+    Returns:
+        int: Length of `num`
+    """
+
+    return len(str(num))
