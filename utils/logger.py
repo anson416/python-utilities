@@ -12,7 +12,7 @@ from typing import Any, Optional
 from .color import colored
 from .date_time import get_date, get_datetime, get_time
 from .file_ops import create_dir, remove_file
-from .types import Pathlike, StrDict
+from .types import PathLike, StrDict
 
 __all__ = ["get_logger"]
 
@@ -71,7 +71,7 @@ class _InfiniteFileHandler(RotatingFileHandler):
 
     def __init__(
         self,
-        filename: Pathlike,
+        filename: PathLike,
         maxBytes: int = 0,
         compress: bool = False,
     ) -> None:
@@ -101,7 +101,7 @@ class _InfiniteFileHandler(RotatingFileHandler):
 
 def _get_logger_config(
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
-    log_dir: Optional[Pathlike] = None,
+    log_dir: Optional[PathLike] = None,
     max_bytes: int = 0,
     compress: bool = False,
 ) -> StrDict[Any]:
@@ -110,7 +110,7 @@ def _get_logger_config(
 
     Args:
         datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
-        log_dir (Optional[Pathlike], optional): If not None, logs will be written to \
+        log_dir (Optional[PathLike], optional): If not None, logs will be written to \
             "`log_dir`/log_<current_date_time>". Defaults to None.
         max_bytes (int, optional): If `max_bytes` > 0, each log file will store at most `max_bytes` bytes. Used only \
             if `log_dir` is not None. Defaults to 0.
@@ -167,7 +167,7 @@ def _get_logger_config(
 def get_logger(
     name: Optional[str] = __name__,
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
-    log_dir: Optional[Pathlike] = None,
+    log_dir: Optional[PathLike] = None,
     max_bytes: int = 10 * (1024 ** 2),
     compress: bool = False,
 ) -> logging.Logger:
@@ -187,7 +187,7 @@ def get_logger(
     Args:
         name (Optional[str], optional): Name of logger. Defaults to __name__.
         datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
-        log_dir (Optional[Pathlike], optional): If not None, logs will be written to \
+        log_dir (Optional[PathLike], optional): If not None, logs will be written to \
             "`log_dir`/log_<current_date_time>". Defaults to None.
         max_bytes (int, optional): If `max_bytes` > 0, each log file will store at most `max_bytes` bytes. Used only \
             if `log_dir` is not None. Defaults to 10 * (1024 ** 2) = 10 MB.

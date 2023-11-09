@@ -4,7 +4,7 @@
 from pathlib import Path
 from typing import Iterator, List, Optional, Union
 
-from .types import Array, Pathlike
+from .types import Array, PathLike
 
 __all__ = [
     "exists",
@@ -26,12 +26,12 @@ __all__ = [
 ]
 
 
-def exists(path: Pathlike) -> bool:
+def exists(path: PathLike) -> bool:
     """
     Return True if a path exists.
 
     Args:
-        path (Pathlike): Target path
+        path (PathLike): Target path
 
     Returns:
         bool: True if `path` exists
@@ -40,12 +40,12 @@ def exists(path: Pathlike) -> bool:
     return Path(path).exists()
 
 
-def is_dir(path: Pathlike) -> bool:
+def is_dir(path: PathLike) -> bool:
     """
     Return True if a path is a directory.
 
     Args:
-        path (Pathlike): Target path
+        path (PathLike): Target path
 
     Returns:
         bool: True if `path` is a directory
@@ -54,12 +54,12 @@ def is_dir(path: Pathlike) -> bool:
     return Path(path).is_dir()
 
 
-def is_file(path: Pathlike) -> bool:
+def is_file(path: PathLike) -> bool:
     """
     Return True if a path is a regular file.
 
     Args:
-        path (Pathlike): Target path
+        path (PathLike): Target path
 
     Returns:
         bool: True if `path` is a regular file
@@ -68,12 +68,12 @@ def is_file(path: Pathlike) -> bool:
     return Path(path).is_file()
 
 
-def get_basename(file_path: Pathlike) -> str:
+def get_basename(file_path: PathLike) -> str:
     """
     Get the basename of a file.
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         str: Basename of a file
@@ -82,12 +82,12 @@ def get_basename(file_path: Pathlike) -> str:
     return Path(file_path).name
 
 
-def get_filename(file_path: Pathlike) -> str:
+def get_filename(file_path: PathLike) -> str:
     """
     Get the file name of a file.
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         str: File name of a file
@@ -96,12 +96,12 @@ def get_filename(file_path: Pathlike) -> str:
     return Path(file_path).stem
 
 
-def get_file_ext(file_path: Pathlike) -> str:
+def get_file_ext(file_path: PathLike) -> str:
     """
     Get the file extension (including leading period) of a file.
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         str: File extension of a file
@@ -110,12 +110,12 @@ def get_file_ext(file_path: Pathlike) -> str:
     return Path(file_path).suffix
 
 
-def get_file_exts(file_path: Pathlike) -> List[str]:
+def get_file_exts(file_path: PathLike) -> List[str]:
     """
     Get the list of file extensions (including leading period) of a file.
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         List[str]: List of file extensions of a file
@@ -124,12 +124,12 @@ def get_file_exts(file_path: Pathlike) -> List[str]:
     return Path(file_path).suffixes
 
 
-def get_file_size(file_path: Pathlike) -> int:
+def get_file_size(file_path: PathLike) -> int:
     """
     Get the size of a file.
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         int: File size (in bytes)
@@ -138,12 +138,12 @@ def get_file_size(file_path: Pathlike) -> int:
     return Path(file_path).stat().st_size
 
 
-def get_parent(file_path: Pathlike) -> Path:
+def get_parent(file_path: PathLike) -> Path:
     """
     Get the parent directory of a file. To get the parent directory of any Python script, do get_parent(__file__).
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         Path: Parent directory
@@ -153,7 +153,7 @@ def get_parent(file_path: Pathlike) -> Path:
 
 
 def create_dir(
-    tgt_dir: Pathlike,
+    tgt_dir: PathLike,
     remove_existing: bool = False,
     build_tree: bool = True,
     exist_ok: bool = False,
@@ -163,7 +163,7 @@ def create_dir(
     Create a tree of directory.
 
     Args:
-        tgt_dir (Pathlike): Target directory
+        tgt_dir (PathLike): Target directory
         remove_existing (bool, optional): Remove existing `tgt_dir` (if any) before creation. Defaults to False.
         build_tree (bool, optional): Create a leaf directory and all intermediate ones. Defaults to True.
         exist_ok (bool, optional): Raise an OSError if `tgt_dir` already exists. Defaults to False.
@@ -184,14 +184,14 @@ def create_dir(
 
 
 def remove_dir(
-    tgt_dir: Pathlike,
+    tgt_dir: PathLike,
     only_empty: bool = False,
 ) -> bool:
     """
     Remove a directory.
 
     Args:
-        tgt_dir (Pathlike): Target directory
+        tgt_dir (PathLike): Target directory
         only_empty (bool, optional): Remove `tgt_dir` only if it is empty. Defaults to False.
 
     Returns:
@@ -210,12 +210,12 @@ def remove_dir(
     return False
 
 
-def remove_file(file_path: Pathlike) -> bool:
+def remove_file(file_path: PathLike) -> bool:
     """
     Remove a file if it exists.
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
 
     Returns:
         bool: True if `file_path` is removed
@@ -254,21 +254,21 @@ def get_home() -> Path:
 
 
 def list_files(
-    tgt_dir: Pathlike,
+    tgt_dir: PathLike,
     exts: Optional[Union[Array[str], str]] = None,
     basename_only: bool = False,
-) -> List[Pathlike]:
+) -> List[PathLike]:
     """
     Get all file paths or names under a directory recursively. Similar to the ls command on Linux.
 
     Args:
-        tgt_dir (Pathlike): Target directory
+        tgt_dir (PathLike): Target directory
         exts (Optional[Union[Array[str], str]], optional): If not None, return a file only if its extension \
             (including leading period) is in `exts`. Defaults to None.
         basename_only (bool, optional): Return only basename, not the entire path. Defaults to False.
 
     Returns:
-        List[Pathlike]: File paths (Path) or basenames (str)
+        List[PathLike]: File paths (Path) or basenames (str)
     """
 
     tgt_dir = Path(tgt_dir)
@@ -291,7 +291,7 @@ def list_files(
 
 
 def read_file(
-    file_path: Pathlike,
+    file_path: PathLike,
     remove_spaces: bool = False,
     remove_empty: bool = False,
 ) -> Iterator[str]:
@@ -299,7 +299,7 @@ def read_file(
     Read lines from a file (with formatting).
 
     Args:
-        file_path (Pathlike): Target file
+        file_path (PathLike): Target file
         remove_spaces (bool, optional): Remove leading and trailing whitespaces. Defaults to False.
         remove_empty (bool, optional): Omit empty lines. Defaults to False.
 

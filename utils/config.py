@@ -4,7 +4,7 @@
 from typing import Any, Iterator
 
 from .file_ops import get_file_ext, read_file
-from .types import Pathlike
+from .types import PathLike
 
 __all__ = [
     "load_json",
@@ -15,12 +15,12 @@ __all__ = [
 ]
 
 
-def load_json(json_path: Pathlike) -> Any:
+def load_json(json_path: PathLike) -> Any:
     """
     Load a .json file.
 
     Args:
-        json_path (Pathlike): Path to .json
+        json_path (PathLike): Path to .json
 
     Returns:
         Any: Loaded .json
@@ -34,12 +34,12 @@ def load_json(json_path: Pathlike) -> Any:
         return json.load(f_json)
     
 
-def load_jsonl(jsonl_path: Pathlike) -> Iterator[Any]:
+def load_jsonl(jsonl_path: PathLike) -> Iterator[Any]:
     """
     Load a .jsonl file.
 
     Args:
-        jsonl_path (Pathlike): Path to .jsonl
+        jsonl_path (PathLike): Path to .jsonl
 
     Returns:
         Iterator[Any]: Loaded .jsonl
@@ -53,12 +53,12 @@ def load_jsonl(jsonl_path: Pathlike) -> Iterator[Any]:
         yield json.loads(line)
 
 
-def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
+def load_yaml(yaml_path: PathLike, safe: bool = True) -> Any:
     """
     Load a .yaml file.
 
     Args:
-        yaml_path (Pathlike): Path to .yaml
+        yaml_path (PathLike): Path to .yaml
         safe (bool, optional): Load `yaml_path` safely. Defaults to True.
 
     Returns:
@@ -76,18 +76,18 @@ def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
         return yaml.safe_load(f_yaml) if safe else yaml.load(f_yaml)
     
 
-def load_ini(ini_path: Pathlike) -> Any:
+def load_ini(ini_path: PathLike) -> Any:
     """
     Load a .ini file.
 
     Args:
-        ini_path (Pathlike): Path to .ini
+        ini_path (PathLike): Path to .ini
 
     Returns:
         ConfigParser: Loaded .ini
     """
 
-    def _load_ini(ini_path: Pathlike) -> ConfigParser:
+    def _load_ini(ini_path: PathLike) -> ConfigParser:
         config = ConfigParser()
         config.read(ini_path)
 
@@ -100,18 +100,18 @@ def load_ini(ini_path: Pathlike) -> Any:
     return _load_ini(ini_path)
 
 
-def load_xml(xml_path: Pathlike) -> Any:
+def load_xml(xml_path: PathLike) -> Any:
     """
     Load a .xml file.
 
     Args:
-        xml_path (Pathlike): Path to .xml
+        xml_path (PathLike): Path to .xml
 
     Returns:
         BeautifulSoup: Loaded .xml
     """
 
-    def _load_xml(xml_path: Pathlike) -> BeautifulSoup:
+    def _load_xml(xml_path: PathLike) -> BeautifulSoup:
         with open(xml_path, "r") as f_xml:
             return BeautifulSoup(f_xml.read(), features="html.parser")
         

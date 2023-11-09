@@ -20,22 +20,22 @@ except ImportError:
 
 from .file_ops import create_dir, get_basename
 from .formatter import trunc_str
-from .types import Array, Pathlike, StrDict
+from .types import Array, PathLike, StrDict
 
 __all__ = ["download_files"]
 
 
 async def _download_file(
-    url: Pathlike,
-    file_path: Pathlike,
+    url: PathLike,
+    file_path: PathLike,
     session: aiohttp.ClientSession,
     sem: asyncio.Semaphore,
     all_bar: tqdm,
     leave: bool = False,
-) -> Tuple[Pathlike, Pathlike, Union[int, Exception]]:
+) -> Tuple[PathLike, PathLike, Union[int, Exception]]:
     async def _download(
-        url: Pathlike,
-        file_path: Pathlike,
+        url: PathLike,
+        file_path: PathLike,
         session: aiohttp.ClientSession,
         leave: bool = False,
     ) -> int:
@@ -64,38 +64,38 @@ async def _download_file(
     return url, file_path, size
 
 def download_files(
-    urls: Array[Union[Array[Union[Pathlike, str]], Pathlike]],
-    download_dir: Pathlike = "./",
+    urls: Array[Union[Array[Union[PathLike, str]], PathLike]],
+    download_dir: PathLike = "./",
     replace_existing: bool = True,
     max_workers: int = 2,
     leave: bool = False,
     desc: Optional[str] = "Downloading files",
-) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[int, Exception]]]]:
+) -> StrDict[List[Tuple[PathLike, PathLike, Union[int, Exception]]]]:
     """
     Download multiple files from the Internet concurrently.
 
     Args:
-        urls (Array[Union[Array[Union[Pathlike, str]], Pathlike]]): URLs of files to be downloaded. Must be an Array \
+        urls (Array[Union[Array[Union[PathLike, str]], PathLike]]): URLs of files to be downloaded. Must be an Array \
             (list or tuple), in which each element is either a URL or an Array in which the first element is a URL and \
             the second element is a file name.
-        download_dir (Pathlike, optional): Directory to which files will be downloaded. Defaults to "./".
+        download_dir (PathLike, optional): Directory to which files will be downloaded. Defaults to "./".
         replace_existing (bool, optional): Download existing files again. Defaults to True.
         max_workers (int, optional): Max. number of files that can be downloaded at the same time. Defaults to 2.
         leave (bool, optional): Keep progress bar for each file. Defaults to False.
         desc (Optional[str], optional): Description for the overall progress bar. Defaults to "Downloading files".
 
     Returns:
-        StrDict[List[Tuple[Pathlike, Pathlike, Union[int, Exception]]]]: A dictionary in the form \
+        StrDict[List[Tuple[PathLike, PathLike, Union[int, Exception]]]]: A dictionary in the form \
             {"succeeded": [], "failed": []}. Each 3-tuple in the list of "succeeded" contains URL, file name and file \
             size. Each 3-tuple in the list of "failed" contains URL, file name and raised exception.
     """
 
     async def _download_files(
-        urls: List[Tuple[Pathlike, Pathlike]],
+        urls: List[Tuple[PathLike, PathLike]],
         sem: asyncio.Semaphore,
         all_bar: tqdm,
         leave: bool = False,
-    ) -> StrDict[List[Tuple[Pathlike, Pathlike, Union[int, Exception]]]]:
+    ) -> StrDict[List[Tuple[PathLike, PathLike, Union[int, Exception]]]]:
         async with aiohttp.ClientSession() as session:
             tasks = [_download_file(*url, session, sem, all_bar, leave) for url in urls]
             results = {"succeeded": [], "failed": []}
@@ -105,9 +105,9 @@ def download_files(
             return results
         
     def _process_url(
-        url: Pathlike,
+        url: PathLike,
         filename: Optional[str] = None
-    ) -> Tuple[Pathlike, str]:
+    ) -> Tuple[PathLike, str]:
         url = url.strip()
         if isinstance(filename, str):
             filename = filename.strip()
