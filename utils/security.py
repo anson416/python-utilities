@@ -40,7 +40,7 @@ def hash_(
     """
 
     if max_len:
-        assert max_len >= 0, "max_len must be non-negative integer"
+        assert max_len >= 0, f"{max_len} < 0. max_len must be a non-negative integer."
 
     import hashlib
 
@@ -66,16 +66,19 @@ def hash_(
     msg = msg.encode() if isinstance(msg, str) else msg
     algo = algo.lower()
     
-    if algo not in ALGO_DICT:
-        raise ValueError(f"algo must be any one in {set(ALGO_DICT.keys())}")
+    algo_set = set(ALGO_DICT.keys())
+    if algo not in algo_set:
+        raise ValueError(f"{algo} does not belong to {algo_set}. algo must be any one in {algo_set}")
     hash_algo = ALGO_DICT[algo]
     if isinstance(hash_algo, dict):
-        if ver not in hash_algo:
-            raise ValueError(f"ver must be any one in {set(hash_algo.keys())}")
+        ver_set = set(hash_algo.keys())
+        if ver not in ver_set:
+            raise ValueError(f"{ver} does not belong to {ver_set}. ver must be any one in {ver_set}")
         hash_algo = hash_algo[ver]
         if isinstance(hash_algo, dict):
-            if digest_size not in hash_algo:
-                raise ValueError(f"digest_size must be any one in {set(hash_algo.keys())}")
+            digest_set = set(hash_algo.keys())
+            if digest_size not in digest_set:
+                raise ValueError(f"{digest_size} does not belong to {digest_set}. digest_size must be any one in {digest_set}")
             hash_algo = hash_algo[digest_size]
 
     return hash_algo(msg).hexdigest()[:max_len]

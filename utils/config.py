@@ -3,7 +3,7 @@
 
 from typing import Any, Iterator
 
-from .file_ops import get_basename, read_file
+from .file_ops import get_file_ext, read_file
 from .types import Pathlike
 
 __all__ = [
@@ -26,7 +26,7 @@ def load_json(json_path: Pathlike) -> Any:
         Any: Loaded .json
     """
 
-    assert get_basename(json_path, split_ext=True)[1].lower() == ".json", ".json required"
+    assert get_file_ext(json_path).lower() == ".json", ".json required"
 
     import json
 
@@ -45,7 +45,7 @@ def load_jsonl(jsonl_path: Pathlike) -> Iterator[Any]:
         Iterator[Any]: Loaded .jsonl
     """
 
-    assert get_basename(jsonl_path, split_ext=True)[1].lower() == ".jsonl", ".jsonl required"
+    assert get_file_ext(jsonl_path).lower() == ".jsonl", ".jsonl required"
 
     import json
 
@@ -65,7 +65,7 @@ def load_yaml(yaml_path: Pathlike, safe: bool = True) -> Any:
         Any: Loaded .yaml
     """
 
-    assert get_basename(yaml_path, split_ext=True)[1].lower() == ".yaml", ".yaml required"
+    assert get_file_ext(yaml_path).lower() == ".yaml", ".yaml required"
 
     try:
         import yaml
@@ -93,7 +93,7 @@ def load_ini(ini_path: Pathlike) -> Any:
 
         return config
     
-    assert get_basename(ini_path, split_ext=True)[1].lower() == ".ini", ".ini required"
+    assert get_file_ext(ini_path).lower() == ".ini", ".ini required"
 
     from configparser import ConfigParser
 
@@ -115,7 +115,7 @@ def load_xml(xml_path: Pathlike) -> Any:
         with open(xml_path, "r") as f_xml:
             return BeautifulSoup(f_xml.read(), features="html.parser")
         
-    assert get_basename(xml_path, split_ext=True)[1].lower() == ".xml", ".xml required"
+    assert get_file_ext(xml_path).lower() == ".xml", ".xml required"
 
     from bs4 import BeautifulSoup
 

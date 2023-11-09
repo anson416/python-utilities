@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 # File: setup.py
 
-import os
-from setuptools import setup, find_packages
+from pathlib import Path
+
+from setuptools import find_packages, setup
 
 NAME = "utils"
 DESCRIPTION = "Utilities that can be used anywhere."
@@ -12,14 +13,14 @@ EMAIL = "lamyiufung2003@gmail.com"
 PYTHON_VERSION = ">=3.7.0"
 URL = "https://github.com/anson416/python-utilities"
 
-with open(os.path.join(NAME, "__init__.py"), "r") as f:
+with (Path(NAME) / "__init__.py").open() as f:
     version = [line.split("=")[-1].strip().strip("'\"")
                for line in f.read().splitlines() if line.startswith("__version__")][0]
 
-with open("README.md", "r") as f:
+with Path("./README.md").open() as f:
     long_description = f.read()
 
-with open("./requirements.txt", "r") as f:
+with Path("./requirements.txt").open() as f:
     install_requires = f.read().splitlines()
 
 setup(

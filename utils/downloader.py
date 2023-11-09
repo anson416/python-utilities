@@ -106,21 +106,21 @@ def download_files(
         
     def _process_url(
         url: Pathlike,
-        file_name: Optional[str] = None
+        filename: Optional[str] = None
     ) -> Tuple[Pathlike, str]:
         url = url.strip()
-        if isinstance(file_name, str):
-            file_name = file_name.strip()
+        if isinstance(filename, str):
+            filename = filename.strip()
         
-        assert url, "URL cannot be empty"
+        assert url, f"\"{url}\" is empty. URL must not be empty."
 
-        return url, file_name or get_basename(url)
+        return url, filename or get_basename(url)
     
     download_dir = download_dir.strip()
     
-    assert urls, "urls cannot be empty"
-    assert download_dir, "download_dir cannot be empty"
-    assert max_workers > 0, "max_workers must be positive integer"
+    assert urls, f"{urls} is empty. urls must not be empty."
+    assert download_dir, f"\"{download_dir}\" is empty. download_dir must not be empty."
+    assert max_workers > 0, f"{max_workers} <= 0. max_workers must be a positive integer"
 
     create_dir(download_dir)
 
@@ -128,8 +128,8 @@ def download_files(
     for url in urls:
         if isinstance(url, str):
             url = (url,)
-        url, file_name = _process_url(*url)
-        file_path = os.path.join(download_dir, file_name)
+        url, filename = _process_url(*url)
+        file_path = os.path.join(download_dir, filename)
         if replace_existing or not os.path.exists(file_path):
             _urls.append((url, file_path))
 

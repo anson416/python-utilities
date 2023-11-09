@@ -5,8 +5,8 @@ import gzip
 import json
 import logging
 import logging.config
-import os
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 from typing import Any, Optional
 
 from .color import colored
@@ -71,7 +71,7 @@ class _InfiniteFileHandler(RotatingFileHandler):
 
     def __init__(
         self,
-        filename: str,
+        filename: Pathlike,
         maxBytes: int = 0,
         compress: bool = False,
     ) -> None:
@@ -145,16 +145,17 @@ def _get_logger_config(
         }
     }
     if log_dir:
-        assert max_bytes >= 0, "max_bytes must be non-negative integer"
+        assert max_bytes >= 0, f"{max_bytes} < 0. max_bytes must be a non-negative integer."
 
+        log_dir = Path(log_dir)
         date_time = get_datetime(date_format=r'%Y%m%d', time_format=r'%H%M%S', sep='-')
-        log_dir = os.path.join(log_dir, f"log_{date_time}")
+        log_dir = log_dir / f"log_{date_time}"
         create_dir(log_dir)
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,
             "formatter": "file_formatter",
             "level": "INFO",
-            "filename": os.path.join(log_dir, "log.jsonl"),
+            "filename": log_dir / "log.jsonl",
             "maxBytes": max_bytes,
             "compress": compress,
         }

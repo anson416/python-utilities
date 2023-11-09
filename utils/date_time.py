@@ -21,7 +21,7 @@ def get_date(date_format: str = r"%Y-%m-%d") -> str:
         str: Today's date
     """
 
-    assert date_format, "date_format cannot be empty"
+    assert date_format, f"\"{date_format}\" is empty. date_format must not be empty."
 
     return datetime.now().strftime(date_format)
 
@@ -37,7 +37,7 @@ def get_time(time_format: str = r"%H:%M:%S") -> str:
         str: Current time
     """
 
-    assert time_format, "time_format cannot be empty"
+    assert time_format, f"\"{time_format}\" is empty. time_format must not be empty."
 
     return datetime.now().strftime(time_format)
 

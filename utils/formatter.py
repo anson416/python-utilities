@@ -3,7 +3,7 @@
 
 from typing import Any, Dict, Tuple, Union
 
-from .types import Array, Number, StrDict
+from .types import Array, StrDict
 
 __all__ = [
     "arr2str",
@@ -130,7 +130,7 @@ def print_dict(
         indent (int, optional): Indent level. Defaults to 4.
     """
 
-    assert indent >= 0, "indent must be non-negative integer"
+    assert indent >= 0, f"{indent} < 0. indent must be a non-negative integer."
 
     import json
 
@@ -161,28 +161,28 @@ def arr2dict(
 
 
 def convert_num(
-    num: Number,
-    threshold: Number = 1000,
-    div: Number = 1000,
-) -> Tuple[Number, str]:
+    num: float,
+    threshold: float = 1000,
+    div: float = 1000,
+) -> Tuple[float, str]:
     """
     Format a number to smaller one with unit.
 
     Args:
-        num (Number): Target number
-        threshold (Number, optional): Keep dividing `num` until absolute of `num` is smaller than `threshold`. \
+        num (float): Target number
+        threshold (float, optional): Keep dividing `num` until absolute of `num` is smaller than `threshold`. \
             Defaults to 1000.
-        div (Number, optional): Divide `num` by `div` in every iteration. Defaults to 1000.
+        div (float, optional): Divide `num` by `div` in every iteration. Defaults to 1000.
 
     Returns:
-        Tuple[Number, str]: Converted number and corresponding unit
+        Tuple[float, str]: Converted number and corresponding unit
 
     Examples:
         convert_num(1_234_567) -> (1.234567, "M")
     """
 
-    assert threshold > 0, "threshold must be positive number"
-    assert div > 0, "div must be positive number"
+    assert threshold > 0, f"{threshold} <= 0. threshold must be a positive number."
+    assert div > 0, f"{div} <= 0. div must be a positive number."
 
     UNITS = ["", "K", "M", "B", "T", "Q", "Qu", "S", "Sp", "O", "N"]
 
@@ -197,19 +197,19 @@ def convert_num(
 
 def convert_size(
     size: int,
-    threshold: Number = 1024,
-    div: Number = 1024,
-) -> Tuple[Number, str]:
+    threshold: float = 1024,
+    div: float = 1024,
+) -> Tuple[float, str]:
     """
     Convert data size to smaller one with unit.
 
     Args:
         size (int): Data size (in bytes)
-        threshold (Number, optional): Keep dividing `size` until `size` is smaller than `threshold`. Defaults to 1024.
-        div (Number, optional): Divide `size` by `div` in every iteration. Defaults to 1024.
+        threshold (float, optional): Keep dividing `size` until `size` is smaller than `threshold`. Defaults to 1024.
+        div (float, optional): Divide `size` by `div` in every iteration. Defaults to 1024.
 
     Returns:
-        Tuple[Number, str]: Converted size and corresponding unit
+        Tuple[float, str]: Converted size and corresponding unit
 
     Example:
         convert_size(1_298_562) -> (1.2384052276611328, "MB")
@@ -217,9 +217,9 @@ def convert_size(
 
     UNITS = ["", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q"]
 
-    assert size >= 0, "size must be non-negative integer"
-    assert threshold > 0, "threshold must be positive number"
-    assert div > 0, "div must be positive number"
+    assert size >= 0, f"{size} < 0. size must be a non-negative integer."
+    assert threshold > 0, f"{threshold} <= 0. threshold must be a positive number."
+    assert div > 0, f"{div} <= 0. div must be a positive number."
 
     max_idx = len(UNITS) - 1
     i = 0
@@ -250,7 +250,8 @@ def trunc_str(
         str: Truncated `text`
     """
 
-    assert mode in (1, 2, 3, 4), "mode must be any one in {1, 2, 3, 4}"
+    mode_set = {1, 2, 3, 4}
+    assert mode in mode_set, f"{mode} does not belong to {mode_set}. mode must be any one in {mode_set}."
 
     from .num_ops import is_odd
 

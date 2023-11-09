@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: num_ops.py
 
-from .types import Number
-
 __all__ = [
     "is_even",
     "is_odd",
@@ -41,47 +39,47 @@ def is_odd(num: int) -> bool:
 
 
 def rescale_num(
-    num: Number,
-    a: Number,
-    b: Number,
-    c: Number,
-    d: Number,
+    num: float,
+    a: float,
+    b: float,
+    c: float,
+    d: float,
 ) -> float:
     """
     Map a number in [a, b] (a != b) to [c, d].
 
     Args:
-        num (Number): Target number
-        a (Number): Lower bound of original interval
-        b (Number): Upper bound of original interval
-        c (Number): Lower bound of new interval
-        d (Number): Upper bound of new interval
+        num (float): Target number
+        a (float): Lower bound of original interval
+        b (float): Upper bound of original interval
+        c (float): Lower bound of new interval
+        d (float): Upper bound of new interval
 
     Returns:
         float: Rescaled number
     """
 
     assert a < b and a <= num <= b, "num must be in [a, b] where a != b"
-    assert c <= d, "c must not be greater than d"
+    assert c <= d, f"{c} > {d}. c must not be greater than d."
 
     return (num - a) * (d - c) / (b - a) + c
 
 
 def clamp(
-    num: Number,
-    a: Number,
-    b: Number,
-) -> Number:
+    num: float,
+    a: float,
+    b: float,
+) -> float:
     """
     Restrict a number to a specific range.
 
     Args:
-        num (Number): Target number
-        a (Number): Lower bound of the range
-        b (Number): Upper bound of the range
+        num (float): Target number
+        a (float): Lower bound of the range
+        b (float): Upper bound of the range
 
     Returns:
-        Number: `num` clamped between `a` and `b`. Equivalent to 
+        float: `num` clamped between `a` and `b`. Equivalent to 
 
         ```python
         if a <= num <= b:
@@ -93,17 +91,17 @@ def clamp(
         ```
     """
 
-    assert a <= b, "a must not be greater than b"
+    assert a <= b, f"{a} > {b}. a must not be greater than b."
 
     return max(a, min(num, b))
 
 
-def get_num_len(num: Number) -> int:
+def get_num_len(num: float) -> int:
     """
     Get the length of a number.
 
     Args:
-        num (Number): Target number
+        num (float): Target number
 
     Returns:
         int: Length of `num`
