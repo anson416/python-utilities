@@ -4,7 +4,7 @@
 from typing import Any, Callable, Optional, Tuple
 
 from .formatter import args2str, kwargs2str
-from .types import StrDict
+from .types_ import StrDict
 
 __all__ = [
     "timer_",

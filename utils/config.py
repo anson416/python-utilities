@@ -4,7 +4,7 @@
 from typing import Any, Iterator
 
 from .file_ops import get_file_ext, read_file
-from .types import PathLike
+from .types_ import PathLike
 
 __all__ = [
     "load_json",

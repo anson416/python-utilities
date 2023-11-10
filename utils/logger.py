@@ -12,7 +12,7 @@ from typing import Any, Optional
 from .color import colored
 from .date_time import get_date, get_datetime, get_time
 from .file_ops import create_dir, remove_file
-from .types import PathLike, StrDict
+from .types_ import PathLike, StrDict
 
 __all__ = ["get_logger"]
 

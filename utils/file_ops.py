@@ -4,7 +4,7 @@
 from pathlib import Path
 from typing import Iterator, List, Optional, Union
 
-from .types import Array, PathLike
+from .types_ import Array, PathLike
 
 __all__ = [
     "exists",

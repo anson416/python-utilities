@@ -20,7 +20,7 @@ except ImportError:
 
 from .file_ops import create_dir, get_basename
 from .formatter import trunc_str
-from .types import Array, PathLike, StrDict
+from .types_ import Array, PathLike, StrDict
 
 __all__ = ["download_files"]
 

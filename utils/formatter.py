@@ -3,7 +3,7 @@
 
 from typing import Any, Dict, Tuple, Union
 
-from .types import Array, StrDict
+from .types_ import Array, StrDict
 
 __all__ = [
     "arr2str",
@@ -243,7 +243,7 @@ def trunc_str(
         text (str): Target string
         n (int): Maximum length of substring from `text` in output string
         mode (int, optional): Mode of truncation. 1: Keeping the left part. 2: Keeping the left and right parts. 3: \
-            Keeping the middle part. 4: Keeping the right part. Must be any one in {1, 2, 3, 4}. Defaults to 0.
+            Keeping the middle part. 4: Keeping the right part. Must be any one in {1, 2, 3, 4}. Defaults to 1.
         replacement (str, optional): String to replace the removed substring. Defaults to "...".
 
     Returns:
@@ -254,6 +254,8 @@ def trunc_str(
     assert mode in mode_set, f"{mode} does not belong to {mode_set}. mode must be any one in {mode_set}."
 
     from .num_ops import is_odd
+
+    text = str(text)
 
     if len(text) <= n:
         return text
