@@ -279,7 +279,7 @@ def list_files(
     for child in tgt_dir.iterdir():
         if is_file(child):
             file_path = get_basename(child) if basename_only else child
-            if exts:
+            if exts is not None:
                 if get_file_ext(file_path) in exts:
                     files.append(file_path)
             else:

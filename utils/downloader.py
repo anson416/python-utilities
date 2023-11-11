@@ -3,6 +3,7 @@
 
 import asyncio
 import os
+from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
 try:
@@ -107,26 +108,26 @@ def download_files(
     def _process_url(
         url: PathLike,
         filename: Optional[str] = None
-    ) -> Tuple[PathLike, str]:
-        url = url.strip()
+    ) -> Tuple[str, str]:
+        url = str(url).strip()
         if isinstance(filename, str):
             filename = filename.strip()
         
-        assert url, f"\"{url}\" is empty. URL must not be empty."
+        assert url != "", f"\"{url}\" is empty. URL must not be empty."
 
         return url, filename or get_basename(url)
     
     download_dir = download_dir.strip()
     
-    assert urls, f"{urls} is empty. urls must not be empty."
-    assert download_dir, f"\"{download_dir}\" is empty. download_dir must not be empty."
+    assert urls != [], f"{urls} is empty. urls must not be empty."
+    assert download_dir != "", f"\"{download_dir}\" is empty. download_dir must not be empty."
     assert max_workers > 0, f"{max_workers} <= 0. max_workers must be a positive integer"
 
     create_dir(download_dir)
 
     _urls = []
     for url in urls:
-        if isinstance(url, str):
+        if any(map(lambda x: isinstance(url, x), (str, Path))):
             url = (url,)
         url, filename = _process_url(*url)
         file_path = os.path.join(download_dir, filename)

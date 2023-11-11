@@ -21,7 +21,7 @@ def get_date(date_format: str = r"%Y-%m-%d") -> str:
         str: Today's date
     """
 
-    assert date_format, f"\"{date_format}\" is empty. date_format must not be empty."
+    assert date_format != "", f"\"{date_format}\" is empty. date_format must not be empty."
 
     return datetime.now().strftime(date_format)
 
@@ -37,24 +37,24 @@ def get_time(time_format: str = r"%H:%M:%S") -> str:
         str: Current time
     """
 
-    assert time_format, f"\"{time_format}\" is empty. time_format must not be empty."
+    assert time_format != "", f"\"{time_format}\" is empty. time_format must not be empty."
 
     return datetime.now().strftime(time_format)
 
 
 def get_datetime(
-    date_format: str = r"%Y-%m-%d",
-    time_format: str = r"%H:%M:%S",
-    sep: str = " ",
+    date_format: str = r"%Y%m%d",
+    time_format: str = r"%H%M%S",
+    sep: str = "-",
     date_first: bool = True,
 ) -> str:
     """
     Get current date and time.
 
     Args:
-        date_format (str, optional): Format string for date. Defaults to r"%Y-%m-%d".
-        time_format (str, optional): Format string for time. Defaults to r"%H:%M:%S".
-        sep (str, optional): Separator between date and time. Defaults to " ".
+        date_format (str, optional): Format string for date. Defaults to r"%Y%m%d".
+        time_format (str, optional): Format string for time. Defaults to r"%H%M%S".
+        sep (str, optional): Separator between date and time. Defaults to "-".
         date_first (bool, optional): Put date before time. Defaults to True.
 
     Returns:

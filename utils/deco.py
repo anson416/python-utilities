@@ -34,7 +34,7 @@ def timer_(
     def timer__(func: Callable[..., Any]) -> Callable[..., Any]:
         nonlocal callback
 
-        if not callback:
+        if callback is None:
             callback = lambda f, a, k, t: print(f"{f}({args2str(a)}, {kwargs2str(k)}): {round(t, 3)} s")
 
         def inner(*args: Any, **kwargs: Any) -> Any:
@@ -73,9 +73,9 @@ def debugger(
     def debugger_(func: Callable[..., Any]) -> Callable[..., Any]:
         nonlocal call_callback, return_callback
 
-        if not call_callback:
+        if call_callback is None:
             call_callback = lambda f, a, k: print(f"Calling {f}({args2str(a)}, {kwargs2str(k)})")
-        if not return_callback:
+        if return_callback is None:
             return_callback = lambda f, a, k, r: print(f"{f}({args2str(a)}, {kwargs2str(k)}): {r}")
 
         def inner(*args: Any, **kwargs: Any) -> Any:

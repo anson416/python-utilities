@@ -60,7 +60,6 @@ class _FileFormatter(logging.Formatter):
             "time": get_time(),
             "msg": record.msg,
         }
-
         return json.dumps(log_dict)
 
 
@@ -86,7 +85,7 @@ class _InfiniteFileHandler(RotatingFileHandler):
             self.stream = None
 
         self._backup_count += 1
-        date_time = get_datetime(date_format=r'%Y%m%d', time_format=r'%H%M%S', sep='-')
+        date_time = get_datetime()
         backup_name = f"{self.baseFilename}.{date_time}.{self._backup_count}"
         self.rotate(self.baseFilename, backup_name)
         if self._compress:
@@ -148,7 +147,7 @@ def _get_logger_config(
         assert max_bytes >= 0, f"{max_bytes} < 0. max_bytes must be a non-negative integer."
 
         log_dir = Path(log_dir)
-        date_time = get_datetime(date_format=r'%Y%m%d', time_format=r'%H%M%S', sep='-')
+        date_time = get_datetime()
         log_dir = log_dir / f"log_{date_time}"
         create_dir(log_dir)
         logger_config["handlers"]["file_handler"] = {
@@ -205,6 +204,6 @@ def get_logger(
         compress=compress,
     )
     logging.config.dictConfig(logger_config)
-    logger = logging.getLogger(name)
 
+    logger = logging.getLogger(name)
     return logger

@@ -39,7 +39,7 @@ def hash_(
         str: Hashed message
     """
 
-    if max_len:
+    if max_len is not None:
         assert max_len >= 0, f"{max_len} < 0. max_len must be a non-negative integer."
 
     import hashlib
