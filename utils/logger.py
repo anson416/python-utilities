@@ -135,12 +135,12 @@ def _get_logger_config(
             "console_handler": {
                 "class": "logging.StreamHandler",
                 "formatter": "console_formatter",
-                "level": "DEBUG",
+                "level": "INFO",
             }
         },
         "root": {
             "handlers": ["console_handler"],
-            "level": "DEBUG",
+            "level": "INFO",
         }
     }
     if log_dir:
@@ -153,7 +153,7 @@ def _get_logger_config(
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,
             "formatter": "file_formatter",
-            "level": "INFO",
+            "level": "DEBUG",
             "filename": log_dir / "log.jsonl",
             "maxBytes": max_bytes,
             "compress": compress,
