@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 # File: num_ops.py
 
+from typing import Optional
+
 __all__ = [
     "is_even",
     "is_odd",
     "rescale_num",
     "clamp",
     "get_num_len",
+    "round_",
 ]
 
 
@@ -108,3 +111,29 @@ def get_num_len(num: float) -> int:
     """
 
     return len(str(num))
+
+
+def round_(
+    num: float,
+    base: float,
+    prec: Optional[int] = None,
+) -> float:
+    """
+    Round a number to the nearest integral multiple of another number (base). 
+    Credit: https://stackoverflow.com/a/18666678.
+
+    Args:
+        num (float): Target number
+        base (float): Fundamental number of the integral multiple to which `num` will be rounded
+        prec (Optional[int], optional): Precision of the rounded number. Defaults to the precision of `base`.
+
+    Returns:
+        float: Rouneded number
+    """
+
+    assert base > 0, f"{base} <= 0. base must be a positive number."
+
+    return round(
+        base * round(num / base),
+        get_num_len(base) - str(base).index(".") - 1 if prec is None and "." in str(base) else 0,
+    )
