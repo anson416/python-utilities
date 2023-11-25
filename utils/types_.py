@@ -12,7 +12,7 @@ __all__ = [
 
 T = TypeVar("T")
 
-# Type for a union of list and tuple
+# Type for union of list and tuple
 Array = Union[List[T], Tuple[T, ...]]
 
 # Type for file or directory path
