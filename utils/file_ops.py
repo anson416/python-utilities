@@ -304,7 +304,7 @@ def read_file(
         remove_empty (bool, optional): Omit empty lines. Defaults to False.
 
     Returns:
-        Iterator[str]: Lines in a file
+        Iterator[str]: Lines from `file_path`
     """
 
     with Path(file_path).open() as f:
