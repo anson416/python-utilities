@@ -39,19 +39,18 @@ def split_arr(
 
     Args:
         arr (Array[Any]): Target array
-        weights (Array[Real]): Unnormalized weights based on which `arr` will be splitted
+        weights (Array[Real]): Unnormalized weights based on which `arr` will be split
 
     Yields:
-        Iterator[Array[Any]]: Splitted arrays
+        Iterator[Array[Any]]: Split arrays
     """
 
     assert len(weights) > 0, "weights must be non-empty"
     assert all(map(lambda x: x >= 0, weights)), "weights must contain only non-negative numbers"
 
-    weights_ = tuple(map(lambda x: x / sum(weights), weights[:-1]))  # Last split is determined by previous splits
     start_idx = 0
-    for weight in weights_:
-        yield arr[start_idx:(start_idx := start_idx + round(len(arr) * weight))]
+    for weight in map(lambda x: x / sum(weights), weights[:-1]):  # Last split is determined by previous splits
+        yield arr[start_idx:(start_idx := start_idx + round(len(arr) * weight))]  # := operator requires Python 3.8
     else:
         yield arr[start_idx:]
 
@@ -61,7 +60,7 @@ def get_batches(
     batch_size: int,
 ) -> Iterator[Array[Any]]:
     """
-    Get evenly splitted batches from an array.
+    Get evenly split batches from an array.
 
     Args:
         arr (Array[Any]): Target array

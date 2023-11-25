@@ -66,18 +66,13 @@ def hash_(
     msg = msg.encode() if isinstance(msg, str) else msg
     algo = algo.lower()
     
-    algo_set = set(ALGO_DICT.keys())
-    if algo not in algo_set:
+    if algo not in (algo_set := set(ALGO_DICT.keys())):
         raise ValueError(f"{algo} does not belong to {algo_set}. algo must be any one in {algo_set}")
-    hash_algo = ALGO_DICT[algo]
-    if isinstance(hash_algo, dict):
-        ver_set = set(hash_algo.keys())
-        if ver not in ver_set:
+    if isinstance(hash_algo := ALGO_DICT[algo], dict):  # Chosen algorithm is SHA
+        if ver not in (ver_set := set(hash_algo.keys())):
             raise ValueError(f"{ver} does not belong to {ver_set}. ver must be any one in {ver_set}")
-        hash_algo = hash_algo[ver]
-        if isinstance(hash_algo, dict):
-            digest_set = set(hash_algo.keys())
-            if digest_size not in digest_set:
+        if isinstance(hash_algo := hash_algo[ver], dict):  # Chosen version is either 2 or 3
+            if digest_size not in (digest_set := set(hash_algo.keys())):
                 raise ValueError(f"{digest_size} does not belong to {digest_set}. digest_size must be any one in {digest_set}")
             hash_algo = hash_algo[digest_size]
 

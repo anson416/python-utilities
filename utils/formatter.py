@@ -188,8 +188,7 @@ def convert_num(
     UNITS = ["", "K", "M", "B", "T", "Q", "Qu", "S", "Sp", "O", "N"]
 
     max_idx = len(UNITS) - 1
-    i = 0
-    while abs(num) >= threshold and i < max_idx:
+    while abs(num) >= threshold and (i := 0) < max_idx:
         num /= div
         i += 1
 
@@ -223,8 +222,7 @@ def convert_size(
     assert div > 0, f"{div} <= 0. div must be a positive number."
 
     max_idx = len(UNITS) - 1
-    i = 0
-    while size >= threshold and i < max_idx:
+    while size >= threshold and (i := 0) < max_idx:
         size /= div
         i += 1
 
@@ -261,6 +259,7 @@ def trunc_str(
     if len(text) <= n:
         return text
     
+    # Switch statements can be used in Python 3.10
     if mode == 1:
         truncated = text[:n] + replacement
     elif mode == 2:
