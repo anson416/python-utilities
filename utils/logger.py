@@ -7,7 +7,7 @@ import logging
 import logging.config
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from .color import colored
 from .date_time import get_date, get_datetime, get_time
@@ -54,7 +54,8 @@ class _FileFormatter(logging.Formatter):
         log_dict = {
             "name": record.name,
             "level": _LOG_LEVEL_DICT.get(record.levelno, _UNKNOWN_LOG[:1])[0],
-            "func": f"{record.filename}/{record.funcName}",
+            "file": record.filename,
+            "func": record.funcName,
             "line": record.lineno,
             "date": get_date(),
             "time": get_time(),
@@ -99,15 +100,20 @@ class _InfiniteFileHandler(RotatingFileHandler):
 
 
 def _get_logger_config(
+    name: str = __name__,
+    level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO",
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
     log_dir: Optional[PathLike] = None,
     max_bytes: int = 0,
     compress: bool = False,
 ) -> StrDict[Any]:
     """
-    Construct a dict config for logging.config.dictConfig().
+    Construct a configuration dictionary for logging.config.dictConfig().
 
     Args:
+        name (str, optional): Name of logger. Defaults to __name__.
+        level (Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], optional): Level of logging. Defaults to \
+            "INFO".
         datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
         log_dir (Optional[PathLike], optional): If not None, logs will be written to \
             "`log_dir`/log_<current_date_time>". Defaults to None.
@@ -117,7 +123,7 @@ def _get_logger_config(
             Defaults to False.
 
     Returns:
-        StrDict[Any]: Dict config
+        StrDict[Any]: Configuration dictionary
     """
 
     logger_config = {
@@ -135,36 +141,37 @@ def _get_logger_config(
             "console_handler": {
                 "class": "logging.StreamHandler",
                 "formatter": "console_formatter",
-                "level": "INFO",
+                "level": level,
             }
         },
-        "root": {
-            "handlers": ["console_handler"],
-            "level": "INFO",
-        }
+        "loggers": {
+            name: {
+                "handlers": ["console_handler"],
+                "level": logging.DEBUG,
+                "propagate": False,
+            },
+        },
     }
-    if log_dir:
+    if log_dir is not None:
         assert max_bytes >= 0, f"{max_bytes} < 0. max_bytes must be a non-negative integer."
 
-        log_dir = Path(log_dir)
-        date_time = get_datetime()
-        log_dir = log_dir / f"log_{date_time}"
+        log_dir = Path(log_dir) / f"log_{get_datetime()}"
         create_dir(log_dir)
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,
             "formatter": "file_formatter",
-            "level": "DEBUG",
+            "level": logging.DEBUG,
             "filename": log_dir / "log.jsonl",
             "maxBytes": max_bytes,
             "compress": compress,
         }
-        logger_config["root"]["handlers"].append("file_handler")
+        logger_config["loggers"][name]["handlers"].append("file_handler")
 
     return logger_config
 
 
 def get_logger(
-    name: Optional[str] = __name__,
+    name: str = __name__,
     datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
     log_dir: Optional[PathLike] = None,
     max_bytes: int = 10 * (1024 ** 2),
@@ -184,7 +191,7 @@ def get_logger(
         ```
 
     Args:
-        name (Optional[str], optional): Name of logger. Defaults to __name__.
+        name (str, optional): Name of logger. Defaults to __name__.
         datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
         log_dir (Optional[PathLike], optional): If not None, logs will be written to \
             "`log_dir`/log_<current_date_time>". Defaults to None.
@@ -198,6 +205,7 @@ def get_logger(
     """
 
     logger_config = _get_logger_config(
+        name=name,
         datetime_format=datetime_format,
         log_dir=log_dir,
         max_bytes=max_bytes,
@@ -205,5 +213,4 @@ def get_logger(
     )
     logging.config.dictConfig(logger_config)
 
-    logger = logging.getLogger(name)
-    return logger
+    return logging.getLogger(name)
