@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: test_with_pytest.py
 
+from utils.array import *
 from utils.color import *
 from utils.config import *
 from utils.date_time import *
