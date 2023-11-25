@@ -39,7 +39,7 @@ def split_arr(
 
     Args:
         arr (Array[Any]): Target array
-        weights (Array[Real]): (Unnormalized) weights based on which `arr` will be splitted
+        weights (Array[Real]): Unnormalized weights based on which `arr` will be splitted
 
     Yields:
         Iterator[Array[Any]]: Splitted arrays
@@ -48,17 +48,12 @@ def split_arr(
     assert len(weights) > 0, "weights must be non-empty"
     assert all(map(lambda x: x >= 0, weights)), "weights must contain only non-negative numbers"
 
-    total = sum(weights)
-    weights_ = tuple(map(lambda x: x / total, weights[:-1]))
-
+    weights_ = tuple(map(lambda x: x / sum(weights), weights[:-1]))  # Last split is determined by previous splits
     start_idx = 0
     for weight in weights_:
-        length = round(len(arr) * weight)
-        yield arr[start_idx:start_idx + length]
-        start_idx = start_idx + length
+        yield arr[start_idx:(start_idx := start_idx + round(len(arr) * weight))]
     else:
-        if start_idx < len(arr):  # Prevent empty split
-            yield arr[start_idx:]
+        yield arr[start_idx:]
 
 
 def get_batches(
@@ -78,4 +73,6 @@ def get_batches(
 
     assert batch_size > 0, f"{batch_size} <= 0. batch_size must be a positive number"
 
-    return (batch for batch in split_arr(arr, [batch_size] * (len(arr) // batch_size) + [len(arr) % batch_size]))
+    return (batch
+            for batch in split_arr(arr, [batch_size] * (len(arr) // batch_size) + [len(arr) % batch_size])
+            if len(batch) > 0)  # Filter out empty batch
