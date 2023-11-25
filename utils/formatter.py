@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: formatter.py
 
+from numbers import Real
 from typing import Any, Dict, Tuple, Union
 
 from .types_ import Array, StrDict
@@ -161,21 +162,21 @@ def arr2dict(
 
 
 def convert_num(
-    num: float,
-    threshold: float = 1000,
-    div: float = 1000,
-) -> Tuple[float, str]:
+    num: Real,
+    threshold: Real = 1000,
+    div: Real = 1000,
+) -> Tuple[Real, str]:
     """
-    Format a number to smaller one with unit.
+    Format a number to a smaller one with unit.
 
     Args:
-        num (float): Target number
-        threshold (float, optional): Keep dividing `num` until absolute of `num` is smaller than `threshold`. \
+        num (Real): Target number
+        threshold (Real, optional): Keep dividing `num` until absolute of `num` is smaller than `threshold`. \
             Defaults to 1000.
-        div (float, optional): Divide `num` by `div` in every iteration. Defaults to 1000.
+        div (Real, optional): Divide `num` by `div` in every iteration. Defaults to 1000.
 
     Returns:
-        Tuple[float, str]: Converted number and corresponding unit
+        Tuple[Real, str]: Converted number and corresponding unit
 
     Examples:
         convert_num(1_234_567) -> (1.234567, "M")
@@ -197,19 +198,19 @@ def convert_num(
 
 def convert_size(
     size: int,
-    threshold: float = 1024,
-    div: float = 1024,
-) -> Tuple[float, str]:
+    threshold: Real = 1024,
+    div: Real = 1024,
+) -> Tuple[Real, str]:
     """
     Convert data size to smaller one with unit.
 
     Args:
         size (int): Data size (in bytes)
-        threshold (float, optional): Keep dividing `size` until `size` is smaller than `threshold`. Defaults to 1024.
-        div (float, optional): Divide `size` by `div` in every iteration. Defaults to 1024.
+        threshold (Real, optional): Keep dividing `size` until `size` is smaller than `threshold`. Defaults to 1024.
+        div (Real, optional): Divide `size` by `div` in every iteration. Defaults to 1024.
 
     Returns:
-        Tuple[float, str]: Converted size and corresponding unit
+        Tuple[Real, str]: Converted size and corresponding unit
 
     Example:
         convert_size(1_298_562) -> (1.2384052276611328, "MB")

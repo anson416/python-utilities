@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: num_ops.py
 
+from numbers import Real
 from typing import Optional
 
 __all__ = [
@@ -42,21 +43,21 @@ def is_odd(num: int) -> bool:
 
 
 def rescale_num(
-    num: float,
-    a: float,
-    b: float,
-    c: float,
-    d: float,
+    num: Real,
+    a: Real,
+    b: Real,
+    c: Real,
+    d: Real,
 ) -> float:
     """
     Map a number in [a, b] (a != b) to [c, d].
 
     Args:
-        num (float): Target number
-        a (float): Lower bound of original interval
-        b (float): Upper bound of original interval
-        c (float): Lower bound of new interval
-        d (float): Upper bound of new interval
+        num (Real): Target number
+        a (Real): Lower bound of original interval
+        b (Real): Upper bound of original interval
+        c (Real): Lower bound of new interval
+        d (Real): Upper bound of new interval
 
     Returns:
         float: Rescaled number
@@ -69,20 +70,20 @@ def rescale_num(
 
 
 def clamp(
-    num: float,
-    a: float,
-    b: float,
-) -> float:
+    num: Real,
+    a: Real,
+    b: Real,
+) -> Real:
     """
     Restrict a number to a specific range.
 
     Args:
-        num (float): Target number
-        a (float): Lower bound of the range
-        b (float): Upper bound of the range
+        num (Real): Target number
+        a (Real): Lower bound of the range
+        b (Real): Upper bound of the range
 
     Returns:
-        float: `num` clamped between `a` and `b`. Equivalent to 
+        Real: `num` clamped between `a` and `b`. Equivalent to 
 
         ```python
         if a <= num <= b:
@@ -99,12 +100,12 @@ def clamp(
     return max(a, min(num, b))
 
 
-def get_num_len(num: float) -> int:
+def get_num_len(num: Real) -> int:
     """
     Get the length of a number.
 
     Args:
-        num (float): Target number
+        num (Real): Target number
 
     Returns:
         int: Length of `num`
@@ -114,21 +115,21 @@ def get_num_len(num: float) -> int:
 
 
 def round_(
-    num: float,
-    base: float,
+    num: Real,
+    base: Real,
     prec: Optional[int] = None,
-) -> float:
+) -> Real:
     """
     Round a number to the nearest integral multiple of another number (base). 
     Credit: https://stackoverflow.com/a/18666678.
 
     Args:
-        num (float): Target number
-        base (float): Fundamental number of the integral multiple to which `num` will be rounded
+        num (Real): Target number
+        base (Real): Fundamental number of the integral multiple to which `num` will be rounded
         prec (Optional[int], optional): Precision of the rounded number. Defaults to the precision of `base`.
 
     Returns:
-        float: Rouneded number
+        Real: Rouneded number
     """
 
     assert base > 0, f"{base} <= 0. base must be a positive number."
