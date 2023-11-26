@@ -61,5 +61,4 @@ def raise_err(
     """
 
     import builtins
-
-    raise getattr(builtins, get_err_type(err), Exception)(msg if msg else err)
+    raise getattr(builtins, get_err_type(err), Exception)(msg if msg is not None else err)

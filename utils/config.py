@@ -31,7 +31,6 @@ def load_json(json_path: PathLike) -> Any:
     assert get_file_ext(json_path).lower() == ".json", ".json required"
 
     import json
-
     with json_path.open() as f_json:
         return json.load(f_json)
     
@@ -51,7 +50,6 @@ def load_jsonl(jsonl_path: PathLike) -> Iterator[Any]:
     assert get_file_ext(jsonl_path).lower() == ".jsonl", ".jsonl required"
 
     import json
-
     for line in read_file(jsonl_path):
         yield json.loads(line)
 
@@ -100,7 +98,6 @@ def load_ini(ini_path: PathLike) -> Any:
     assert get_file_ext(ini_path).lower() == ".ini", ".ini required"
 
     from configparser import ConfigParser
-
     return _load_ini(ini_path)
 
 
@@ -123,5 +120,4 @@ def load_xml(xml_path: PathLike) -> Any:
     assert get_file_ext(xml_path).lower() == ".xml", ".xml required"
 
     from bs4 import BeautifulSoup
-
     return _load_xml(xml_path)

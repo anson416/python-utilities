@@ -25,7 +25,6 @@ def get_all_combs(arr: Array[Any]) -> Iterator[Tuple[Any, ...]]:
     """
 
     from itertools import combinations
-
     return (c for comb in map(lambda x: tuple(combinations(arr, x)), range(1, len(arr) + 1)) for c in comb)
 
 
@@ -71,7 +70,6 @@ def get_batches(
     """
 
     assert batch_size > 0, f"{batch_size} <= 0. batch_size must be a positive number"
-
     return (batch
             for batch in split_arr(arr, [batch_size] * (len(arr) // batch_size) + [len(arr) % batch_size])
             if len(batch) > 0)  # Filter out empty batch

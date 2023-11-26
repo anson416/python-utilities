@@ -17,7 +17,6 @@ def get_n_cpu() -> int:
     """
 
     import multiprocessing
-
     return multiprocessing.cpu_count()
 
 
@@ -51,7 +50,6 @@ def get_n_gpu() -> int:
     from .package import has_package
 
     has_torch, has_tf = has_package("torch"), has_package("tensorflow")
-
     assert has_torch or has_tf, "Need either pytorch or tensorflow"
     
     if has_torch:

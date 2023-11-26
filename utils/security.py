@@ -92,5 +92,4 @@ def gen_key(size: int = 32) -> bytes:
 
     import base64
     import os
-
     return base64.urlsafe_b64encode(os.urandom(size))

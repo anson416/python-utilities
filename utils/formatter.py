@@ -132,16 +132,14 @@ def print_dict(
     """
 
     assert indent >= 0, f"{indent} < 0. indent must be a non-negative integer."
-
     import json
-
     print(json.dumps(dic, indent=indent))
 
 
 def arr2dict(
     arr: Array[Any],
     start: int = 0,
-    key_to_str: bool = False,
+    str_key: bool = False,
 ) -> Dict[Union[int, str], Any]:
     """
     Convert an array into dictionary.
@@ -149,16 +147,16 @@ def arr2dict(
     Args:
         arr (Array[Any]): Target array
         start (int, optional): Number from which key starts. Defaults to 0.
-        key_to_str (bool, optional): Convert keys to string. Defaults to False.
+        str_key (bool, optional): Convert keys to string. Defaults to False.
 
     Returns:
         Dict[Union[int, str], Any]: Dictionary from an array
 
     Examples:
-        arr2dict(["a", "b"], start=1, key_to_str=True) -> {"1": "a", "2": "b"}
+        arr2dict(["a", "b"], start=1, str_key=True) -> {"1": "a", "2": "b"}
     """
 
-    return {(str(i) if key_to_str else i): item for i, item in enumerate(arr, start=start)}
+    return {(str(i) if str_key else i): item for i, item in enumerate(arr, start=start)}
 
 
 def convert_num(
@@ -256,6 +254,7 @@ def trunc_str(
 
     text = str(text)
 
+    # Return `text` itself if no truncation is needed
     if len(text) <= n:
         return text
     
