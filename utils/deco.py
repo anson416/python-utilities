@@ -19,14 +19,14 @@ def timer_(
     A decorator for measuring a function's execution time using time.perf_counter().
 
     Args:
-        callback (Optional[Callable[[str, Tuple[Any], StrDict[Any], float], None]], optional): A function that takes \
-            the target function's name (str), positional (tuple) and keyword (dict) arguments passed to that function, \
-            and execution time (float) as inputs, and returns nothing. Defaults to \
+        callback (Optional[Callable[[str, Tuple[Any], StrDict[Any], float], None]], optional): A function that takes 
+            the target function's name (str), positional (tuple) and keyword (dict) arguments passed to that function, 
+            and execution time (float) as inputs, and returns nothing. Defaults to 
             `lambda f, a, k, t: print(f"{f}({args2str(a)}, {kwargs2str(k)}): {round(t, 3)} s")`.
 
     Returns:
-        Callable[[Callable[..., Any]], Callable[..., Any]]: A function that behaves the same way as the target \
-            function with added logging capability
+        Callable[[Callable[..., Any]], Callable[..., Any]]: A function that behaves the same way as the target function 
+            with added logging capability.
     """
 
     import time

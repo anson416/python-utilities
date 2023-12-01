@@ -14,18 +14,19 @@ def has_package(
     Return True if a package is installed in the current environment.
 
     Args:
-        package_name (str): Name of package
-        raise_err (bool, optional): Raise ImportError if `package_name` is not found
+        package_name (str): Name of package.
+        raise_err (bool, optional): Raise ImportError if `package_name` is not 
+            found.
 
     Raises:
-        ImportError: Raise if `raise_err` is True and `package_name` is not found
+        ImportError: Raise if `raise_err` is True and `package_name` is not 
+            found.
 
     Returns:
-        bool: True if package_name is found
+        bool: True if package_name is found.
     """
 
     import importlib.util
-
     if importlib.util.find_spec(package_name):
         return True
     else:

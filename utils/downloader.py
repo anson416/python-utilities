@@ -76,8 +76,8 @@ def download_files(
     Download multiple files from the Internet concurrently.
 
     Args:
-        urls (Array[Union[Array[Union[PathLike, str]], PathLike]]): URLs of files to be downloaded. Must be an Array \
-            (list or tuple), in which each element is either a URL or an Array in which the first element is a URL and \
+        urls (Array[Union[Array[Union[PathLike, str]], PathLike]]): URLs of files to be downloaded. Must be an Array 
+            (list or tuple), in which each element is either a URL or an Array in which the first element is a URL and 
             the second element is a file name.
         download_dir (PathLike, optional): Directory to which files will be downloaded. Defaults to "./".
         replace_existing (bool, optional): Download existing files again. Defaults to True.
@@ -87,7 +87,7 @@ def download_files(
 
     Returns:
         StrDict[List[Tuple[PathLike, PathLike, Union[int, Exception]]]]: A dictionary in the form \
-            {"succeeded": [], "failed": []}. Each 3-tuple in the list of "succeeded" contains URL, file name and file \
+            {"succeeded": [], "failed": []}. Each 3-tuple in the list of "succeeded" contains URL, file name and file 
             size. Each 3-tuple in the list of "failed" contains URL, file name and raised exception.
     """
 
@@ -123,7 +123,7 @@ def download_files(
     assert download_dir != "", f"\"{download_dir}\" is empty. download_dir must not be empty."
     assert max_workers > 0, f"{max_workers} <= 0. max_workers must be a positive integer"
 
-    create_dir(download_dir)
+    create_dir(download_dir, exist_ok=True)
 
     _urls = []
     for url in urls:

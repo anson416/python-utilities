@@ -37,10 +37,8 @@ class _ConsoleFormatter(logging.Formatter):
         msg = colored("%(message)s", "white")
         abbrev, color = _LOG_LEVEL_DICT.get(record.levelno, _UNKNOWN_LOG)
         fmt = f"{colored(f'{info} [{abbrev}]', color)} {msg}"
-
         self._style._fmt = fmt
         self._fmt = fmt
-        
         return super().format(record)
     
 
@@ -84,7 +82,6 @@ class _InfiniteFileHandler(RotatingFileHandler):
         if self.stream:
             self.stream.close()
             self.stream = None
-
         self._backup_count += 1
         date_time = get_datetime()
         backup_name = f"{self.baseFilename}.{date_time}.{self._backup_count}"
@@ -94,7 +91,6 @@ class _InfiniteFileHandler(RotatingFileHandler):
                  gzip.open(f"{backup_name}.gz", "wb") as f_out:
                 f_out.writelines(f_in)
             remove_file(backup_name)
-
         if not self.delay:
             self.stream = self._open()
 
@@ -112,20 +108,24 @@ def _get_logger_config(
 
     Args:
         name (str, optional): Name of logger. Defaults to __name__.
-        level (Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], optional): Level of logging. Defaults to \
+        level (str, optional): Level of logging. Must be any one in 
+            {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}. Defaults to 
             "INFO".
-        datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
-        log_dir (Optional[PathLike], optional): If not None, logs will be written to \
-            "`log_dir`/log_<current_date_time>". Defaults to None.
-        max_bytes (int, optional): If `max_bytes` > 0, each log file will store at most `max_bytes` bytes. Used only \
-            if `log_dir` is not None. Defaults to 0.
-        compress (bool, optional): Compress backup (i.e., rotated) log files. Used only if `log_dir` is not None. \
-            Defaults to False.
+        datetime_format (Optional[str], optional): Date and time format. 
+            Defaults to r"%Y-%m-%d %H:%M:%S".
+        log_dir (Optional[PathLike], optional): If not None, logs will be 
+            written to "`log_dir`/log_<current_date_time>". Defaults to None.
+        max_bytes (int, optional): If `max_bytes` > 0, each log file will 
+            store at most `max_bytes` bytes (i.e., rollover). Used only if 
+            `log_dir` is not None. Defaults to 0.
+        compress (bool, optional): Compress backup (i.e., rotated) log files. 
+            Used only if `log_dir` is not None. Defaults to False.
 
     Returns:
-        StrDict[Any]: Configuration dictionary
+        StrDict[Any]: Configuration dictionary.
     """
 
+    # Basic configuration dictionary
     logger_config = {
         "version": 1,
         "formatters": {
@@ -152,11 +152,11 @@ def _get_logger_config(
             },
         },
     }
-    if log_dir is not None:
-        assert max_bytes >= 0, f"{max_bytes} < 0. max_bytes must be a non-negative integer."
 
-        log_dir = Path(log_dir) / f"log_{get_datetime()}"
-        create_dir(log_dir)
+    # Modify configuration to save logs to files
+    if log_dir is not None:
+        assert max_bytes >= 0, f"{max_bytes} < 0. `max_bytes` must be a non-negative integer."
+        create_dir(log_dir := Path(log_dir) / f"log_{get_datetime()}", exist_ok=True)
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,
             "formatter": "file_formatter",
@@ -181,6 +181,7 @@ def get_logger(
     Get custom logger.
 
     Usage:
+
         ```python
         logger = get_logger()
         logger.debug("log debug message")
@@ -191,17 +192,19 @@ def get_logger(
         ```
 
     Args:
-        name (str, optional): Name of logger. Defaults to __name__.
-        datetime_format (Optional[str], optional): Date and time format. Defaults to r"%Y-%m-%d %H:%M:%S".
-        log_dir (Optional[PathLike], optional): If not None, logs will be written to \
-            "`log_dir`/log_<current_date_time>". Defaults to None.
-        max_bytes (int, optional): If `max_bytes` > 0, each log file will store at most `max_bytes` bytes. Used only \
-            if `log_dir` is not None. Defaults to 10 * (1024 ** 2) = 10 MB.
-        compress (bool, optional): Compress backup (i.e., rotated) log files. Used only if `log_dir` is not None. \
-            Defaults to False.
+        name (str, optional): Name of logger. Defaults to `__name__`.
+        datetime_format (Optional[str], optional): Date and time format. 
+            Defaults to r"%Y-%m-%d %H:%M:%S".
+        log_dir (Optional[PathLike], optional): If not None, logs will be 
+            written to "`log_dir`/log_<current_date_time>". Defaults to None.
+        max_bytes (int, optional): If `max_bytes` > 0, each log file will 
+            store at most `max_bytes` bytes. Used only if `log_dir` is not 
+            None. Defaults to 10 * (1024 ** 2) = 10 MB.
+        compress (bool, optional): Compress backup (i.e., rotated) log files. 
+            Used only if `log_dir` is not None. Defaults to False.
 
     Returns:
-        logging.Logger: Custom logger
+        logging.Logger: Custom logger.
     """
 
     logger_config = _get_logger_config(
@@ -212,5 +215,4 @@ def get_logger(
         compress=compress,
     )
     logging.config.dictConfig(logger_config)
-
     return logging.getLogger(name)
