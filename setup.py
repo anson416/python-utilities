@@ -8,14 +8,15 @@ from setuptools import find_packages, setup
 
 NAME = "utils"
 DESCRIPTION = "Utilities that can be used anywhere."
-AUTHOR = "Anson Lam"
 EMAIL = "lamyiufung2003@gmail.com"
 PYTHON_VERSION = ">=3.8.0"
 URL = "https://github.com/anson416/python-utilities"
 
 with (Path(NAME) / "__init__.py").open() as f:
-    version = [line.split("=")[-1].strip().strip("'\"")
+    version = [line.split("=")[-1].strip(" '\"")
                for line in f.read().splitlines() if line.startswith("__version__")][0]
+    author = [line.split("=")[-1].strip(" '\"")
+              for line in f.read().splitlines() if line.startswith("__author__")][0]
 
 with Path("./README.md").open() as f:
     long_description = f.read()
@@ -29,7 +30,7 @@ setup(
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author=AUTHOR,
+    author=author,
     author_email=EMAIL,
     python_requires=PYTHON_VERSION,
     url=URL,
