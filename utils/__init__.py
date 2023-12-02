@@ -2,8 +2,9 @@
 # File: __init__.py
 
 """
-Utilities that can be used anywhere.
+This package contains functions that could be useful to day-to-day Python 
+programming.
 """
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 __author__ = "Anson Lam"
