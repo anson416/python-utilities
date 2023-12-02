@@ -246,10 +246,12 @@ def trunc_str(
     Args:
         text (str): Target string.
         n (int): Maximum length of substring from `text` in output string.
-        mode (int, optional): Mode of truncation. 1: Keeping the left part. 
-            2: Keeping the left and right parts. 3: Keeping the middle part. 
-            4: Keeping the right part. Must be any one in {1, 2, 3, 4}. 
-            Defaults to 1.
+        mode (int, optional): Mode of truncation. Must be any one in 
+            {1, 2, 3, 4}. Defaults to 1.
+            1: Keeping the left part.
+            2: Keeping the left and right parts.
+            3: Keeping the middle part. 
+            4: Keeping the right part.
         replacement (str, optional): String to replace the removed substring. 
             Defaults to "...".
 
@@ -257,8 +259,7 @@ def trunc_str(
         str: Truncated `text`.
     """
 
-    mode_set = {1, 2, 3, 4}
-    assert mode in mode_set, f"{mode} does not belong to {mode_set}. `mode` must be any one in {mode_set}."
+    assert mode in (mode_set := {1, 2, 3, 4}), f"{mode} does not belong to {mode_set}. `mode` must be any one in {mode_set}."
 
     from .num_ops import is_odd
 
