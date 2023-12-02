@@ -2,7 +2,7 @@
 # File: array.py
 
 from numbers import Real
-from typing import Any, Iterator, Tuple
+from typing import Any, Iterator, Literal, Tuple
 
 from .types_ import Array
 
@@ -79,3 +79,41 @@ def get_batches(
     return (batch
             for batch in split_arr(arr, [batch_size] * (len(arr) // batch_size) + [len(arr) % batch_size])
             if len(batch) > 0)  # Filter out empty batch
+
+
+def range_(
+    base: Real,
+    n: int,
+    step: int = 1,
+    mode: Literal[1, 2, 3, 4] = 1,
+) -> Iterator[Real]:
+    """
+    Generate a finite sorted sequence of values separated by a given step.
+
+    Args:
+        base (Real): Base value from which the sequence is generated.
+        n (int): Number of values to generate.
+        step (int, optional): Difference between consecutive values in the 
+            sequence. Defaults to 1.
+        mode (int, optional): Mode of sequence generation. Must be any one in 
+            {1, 2, 3, 4}. Defaults to 1.
+            1: The sequence is generated forward from `base` (incremental).
+            2: The middle of the sequence is `base` (left-aligned).
+            3: The middle of the sequence is `base` (right-aligned).
+            4: The sequence is generated backward from `base` (decremental).
+
+    Yields:
+        Iterator[Real]: Sorted sequence of values.
+    """
+
+    assert n > 0, f"{n} <= 0. `n` must be a positive integer."
+    assert step > 0, f"{step} <= 0. `step` must be a positive integer."
+    assert mode in (mode_set := {1, 2, 3, 4}), f"{mode} does not belong to {mode_set}. `mode` must be any one in {mode_set}."
+
+    from .num_ops import is_even
+
+    if (left_align := mode == 2) or mode == 3:
+        base -= (n // 2 - (1 - (not left_align)) * is_even(n)) * step
+    elif mode == 4:
+        base -= (n - 1) * step
+    return (base + i * step for i in range(n))
