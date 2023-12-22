@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # File: date_time.py
 
-from typing import Tuple
-
 __all__ = [
     "get_date",
     "get_time",
