@@ -23,6 +23,7 @@ __all__ = [
     "get_home",
     "list_files",
     "read_file",
+    "copy_file",
 ]
 
 
@@ -319,3 +320,19 @@ def read_file(
             if remove_empty and line == "":
                 continue
             yield line
+
+
+def copy_file(
+    src: PathLike,
+    dst: PathLike,
+) -> None:
+    """
+    Copy a file.
+
+    Args:
+        src (PathLike): Source path.
+        dst (PathLike): Destination path.
+    """
+
+    import shutil
+    shutil.copy(src, dst)
