@@ -26,13 +26,13 @@ def get_n_cpu() -> int:
 
 def get_total_mem() -> int:
     """
-    Get the total amount of system memory (bytes).
+    Get the total amount of system memory (in bytes).
 
     Raises:
         ImportError: Raise if psutil could not be imported.
 
     Returns:
-        int: Total amount of system memory (bytes).
+        int: Total amount of system memory (in bytes).
     """
 
     try:

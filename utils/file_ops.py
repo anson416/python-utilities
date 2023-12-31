@@ -331,7 +331,7 @@ def copy_file(
 
     Args:
         src (PathLike): Source path. Must be a file.
-        dst (PathLike): Destination path. It can be a file or directory.
+        dst (PathLike): Destination path. Can be a file or directory.
     """
 
     import shutil
