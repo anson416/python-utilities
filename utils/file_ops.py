@@ -2,9 +2,9 @@
 # File: file_ops.py
 
 from pathlib import Path
-from typing import Iterator, List, Optional, Union
+from typing import Iterator, List, Optional, Set
 
-from .types_ import Array, PathLike
+from .types_ import PathLike
 
 __all__ = [
     "exists",
@@ -257,42 +257,47 @@ def get_home() -> Path:
 
 def list_files(
     tgt_dir: PathLike,
-    exts: Optional[Union[Array[str], str]] = None,
-    basename_only: bool = False,
-) -> List[PathLike]:
+    exts: Optional[Set[str]] = None,
+    case_insensitive: bool = False,
+    recursive: bool = False,
+) -> Iterator[Path]:
     """
-    Get all file paths or names under a directory recursively. Similar to the 
-    `ls` command on Linux.
+    Get all file paths under a directory (recursively). Similar to the `ls -a` 
+    command on Linux.
 
     Args:
         tgt_dir (PathLike): Target directory.
-        exts (Optional[Union[Array[str], str]], optional): If not None, return 
-            a file only if its extension (including leading period) is in 
-            `exts`. Defaults to None.
-        basename_only (bool, optional): Return only basename, not the entire 
-            path. Defaults to False.
+        exts (Optional[Set[str]], optional): If not None, return a file only if 
+            its extension (including leading period) is in `exts`. Defaults to 
+            None.
+        case_insensitive (bool, optional): Neglect case of file extensions. 
+            Used only if `exts` is not None. Defaults to False.
+        recursive (bool, optional): Recurse into sub-directories. Defaults to 
+            False.
 
     Returns:
-        List[PathLike]: File paths (Path) or basenames (str).
+        Iterator[Path]: File paths under `tgt_dir`.
     """
 
-    exts = (exts,) if isinstance(exts, str) else exts
-    files = []
+    exts = set(map(lambda x: x.lower(), exts)) if exts is not None and case_insensitive else exts
     for child in (tgt_dir := Path(tgt_dir)).iterdir():
         if is_file(child):
-            file_path = get_basename(child) if basename_only else child
             if exts is not None:
-                if get_file_ext(file_path) in exts:
-                    files.append(file_path)
+                ext = get_file_ext(child)
+                if (ext.lower() if case_insensitive else ext) in exts:
+                    yield child
             else:
-                files.append(file_path)
+                yield child
         elif is_dir(child):
-            files.extend(list_files(
-                child,
-                exts=exts,
-                basename_only=basename_only,
-            ))
-    return files
+            if exts is None:
+                yield child
+            if recursive:
+                yield from list_files(
+                    child,
+                    exts=exts,
+                    case_insensitive=case_insensitive,
+                    recursive=recursive,
+                )
 
 
 def read_file(
