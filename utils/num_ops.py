@@ -5,27 +5,13 @@ from numbers import Real
 from typing import Optional
 
 __all__ = [
-    "is_even",
     "is_odd",
+    "is_even",
     "rescale",
     "clamp",
     "get_num_len",
     "round_",
 ]
-
-
-def is_even(num: int) -> bool:
-    """
-    Return True if a number is even.
-
-    Args:
-        num (int): Target number.
-
-    Returns:
-        bool: True if `num` is even.
-    """
-
-    return num % 2 == 0
 
 
 def is_odd(num: int) -> bool:
@@ -40,6 +26,20 @@ def is_odd(num: int) -> bool:
     """
 
     return num % 2 != 0
+
+
+def is_even(num: int) -> bool:
+    """
+    Return True if a number is even.
+
+    Args:
+        num (int): Target number.
+
+    Returns:
+        bool: True if `num` is even.
+    """
+
+    return not is_odd(num)
 
 
 def rescale(
