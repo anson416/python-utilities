@@ -7,7 +7,7 @@ from typing import Optional
 __all__ = [
     "is_even",
     "is_odd",
-    "rescale_num",
+    "rescale",
     "clamp",
     "get_num_len",
     "round_",
@@ -42,7 +42,7 @@ def is_odd(num: int) -> bool:
     return num % 2 != 0
 
 
-def rescale_num(
+def rescale(
     num: Real,
     a: Real,
     b: Real,
