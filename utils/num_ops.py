@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: num_ops.py
+# File: utils/num_ops.py
 
 from numbers import Real
 from typing import Optional
@@ -82,7 +82,7 @@ def clamp(
         b (Real): Upper bound of the range.
 
     Returns:
-        Real: `num` clamped between `a` and `b`. Equivalent to 
+        Real: `num` clamped between `a` and `b`. Equivalent to
 
         ```python
         if a <= num <= b:
@@ -118,14 +118,14 @@ def round_(
     prec: Optional[int] = None,
 ) -> Real:
     """
-    Round a number to the nearest integral multiple of another number (base). 
+    Round a number to the nearest integral multiple of another number (base).
     Credit: https://stackoverflow.com/a/18666678.
 
     Args:
         num (Real): Target number.
-        base (Real): Fundamental number of the integral multiple to which 
+        base (Real): Fundamental number of the integral multiple to which
             `num` will be rounded.
-        prec (Optional[int], optional): Precision of the rounded number. 
+        prec (Optional[int], optional): Precision of the rounded number.
             Defaults to the precision of `base`.
 
     Returns:
@@ -135,5 +135,7 @@ def round_(
     assert base > 0, f"{base} <= 0. `base` must be a positive number."
     return round(
         base * round(num / base),
-        get_num_len(base) - str(base).index(".") - 1 if prec is None and "." in str(base) else 0,
+        get_num_len(base) - str(base).index(".") - 1
+        if prec is None and "." in str(base)
+        else 0,
     )

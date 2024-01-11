@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: __init__.py
+# File: utils/__init__.py
 
 """
 This package contains functions that could be useful to day-to-day Python 

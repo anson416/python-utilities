@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: downloader.py
+# File: utils/downloader.py
 
 import asyncio
 import os
@@ -13,7 +13,9 @@ except ImportError:
 try:
     from sortedcollections import OrderedSet
 except ImportError:
-    raise ImportError("Could not import sortedcollections. Try `pip install -U sortedcollections`.")
+    raise ImportError(
+        "Could not import sortedcollections. Try `pip install -U sortedcollections`."
+    )
 try:
     from tqdm import tqdm
 except ImportError:
@@ -42,11 +44,18 @@ async def _download_file(
     ) -> int:
         async with session.get(url) as response:
             assert response.status == 200, f"Could not access {url}"
-            
+
             size = int(response.headers.get("Content-Length", 0))
             ind_bar = tqdm(
-                total=size, unit="B", unit_scale=True, unit_divisor=1024, miniters=1, mininterval=0.1, leave=leave,
-                desc=trunc_str(file_path, 50, mode=4, replacement="..."))
+                total=size,
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+                miniters=1,
+                mininterval=0.1,
+                leave=leave,
+                desc=trunc_str(file_path, 50, mode=4, replacement="..."),
+            )
             with open(file_path, mode="wb") as f, ind_bar:
                 async for chunk in response.content.iter_chunked(512):
                     f.write(chunk)
@@ -63,6 +72,7 @@ async def _download_file(
         all_bar.update()
 
     return url, file_path, size
+
 
 def download_files(
     urls: Array[Union[Array[Union[PathLike, str]], PathLike]],
@@ -101,27 +111,30 @@ def download_files(
             tasks = [_download_file(*url, session, sem, all_bar, leave) for url in urls]
             results = {"succeeded": [], "failed": []}
             for result in await asyncio.gather(*tasks):
-                results["succeeded"].append(result) if isinstance(result[-1], int) else results["failed"].append(result)
-            
+                results["succeeded"].append(result) if isinstance(
+                    result[-1], int
+                ) else results["failed"].append(result)
+
             return results
-        
-    def _process_url(
-        url: PathLike,
-        filename: Optional[str] = None
-    ) -> Tuple[str, str]:
+
+    def _process_url(url: PathLike, filename: Optional[str] = None) -> Tuple[str, str]:
         url = str(url).strip()
         if isinstance(filename, str):
             filename = filename.strip()
-        
-        assert url != "", f"\"{url}\" is empty. URL must not be empty."
+
+        assert url != "", f'"{url}" is empty. URL must not be empty.'
 
         return url, filename or get_basename(url)
-    
+
     download_dir = download_dir.strip()
-    
+
     assert urls != [], f"{urls} is empty. urls must not be empty."
-    assert download_dir != "", f"\"{download_dir}\" is empty. download_dir must not be empty."
-    assert max_workers > 0, f"{max_workers} <= 0. max_workers must be a positive integer"
+    assert (
+        download_dir != ""
+    ), f'"{download_dir}" is empty. download_dir must not be empty.'
+    assert (
+        max_workers > 0
+    ), f"{max_workers} <= 0. max_workers must be a positive integer"
 
     create_dir(download_dir, exist_ok=True)
 
@@ -139,7 +152,9 @@ def download_files(
     with tqdm(total=len(_urls), desc=desc) as all_bar:
         loop = asyncio.get_event_loop()
         try:
-            return loop.run_until_complete(_download_files(list(OrderedSet(_urls)), sem, all_bar, leave))
+            return loop.run_until_complete(
+                _download_files(list(OrderedSet(_urls)), sem, all_bar, leave)
+            )
         finally:
             loop.run_until_complete(loop.shutdown_asyncgens())
             loop.close()

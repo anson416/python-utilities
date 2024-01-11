@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: formatter.py
+# File: utils/formatter.py
 
 from numbers import Real
 from typing import Any, Dict, Literal, Tuple, Union
@@ -30,7 +30,7 @@ def arr2str(
 
     Args:
         arr (Array[Any]): Target array.
-        sep (str, optional): Separator between elements in `arr`. Defaults to 
+        sep (str, optional): Separator between elements in `arr`. Defaults to
             "\\n".
         end (str, optional): Ending string. Defaults to "".
 
@@ -46,7 +46,7 @@ def arr2str(
 
 def args2str(args: Tuple[Any, ...]) -> str:
     """
-    A special case of `arr2str()` that converts function positional arguments 
+    A special case of `arr2str()` that converts function positional arguments
     into formatted string.
 
     Args:
@@ -76,10 +76,10 @@ def argparse2str(
         str: String formatted from argparse arguments.
 
     Examples:
-        argparse2str(Namespace(job='driver', age=47), sep=", ", end="??") -> 
+        argparse2str(Namespace(job='driver', age=47), sep=", ", end="??") ->
             job=driver, age=47??
     """
-    
+
     return f"{sep.join([f'{key}={value}' for key, value in vars(args).items()])}{end}"
 
 
@@ -94,7 +94,7 @@ def dict2str(
 
     Args:
         dic (Dict[Any, Any]): Target dictionary.
-        kv_sep (str, optional): Separator between key and value. Defaults to 
+        kv_sep (str, optional): Separator between key and value. Defaults to
             " : ".
         item_sep (str, optional): Separator between items. Defaults to "\\n".
         end (str, optional): Ending string. Defaults to "".
@@ -103,16 +103,18 @@ def dict2str(
         str: String formatted from a dictionary.
 
     Examples:
-        dict2str({1: "a", 2: "b"}, kv_sep=" : ", item_sep="--", end="??") -> 
+        dict2str({1: "a", 2: "b"}, kv_sep=" : ", item_sep="--", end="??") ->
             1 : a--2 : b??
     """
 
-    return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{end}"
+    return (
+        f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{end}"
+    )
 
 
 def kwargs2str(kwargs: StrDict[Any]) -> str:
     """
-    A special case of `dict2str()` that converts function keyword arguments 
+    A special case of `dict2str()` that converts function keyword arguments
     into formatted string.
 
     Args:
@@ -139,6 +141,7 @@ def print_dict(
 
     assert indent >= 0, f"{indent} < 0. indent must be a non-negative integer."
     import json
+
     print(json.dumps(dic, indent=indent))
 
 
@@ -175,9 +178,9 @@ def convert_num(
 
     Args:
         num (Real): Target number.
-        threshold (Real, optional): Keep dividing `num` until absolute of 
+        threshold (Real, optional): Keep dividing `num` until absolute of
             `num` is smaller than `threshold`. Defaults to 1000.
-        div (Real, optional): Divide `num` by `div` in every iteration. 
+        div (Real, optional): Divide `num` by `div` in every iteration.
             Defaults to 1000.
 
     Returns:
@@ -209,9 +212,9 @@ def convert_size(
 
     Args:
         size (int): Data size (in bytes).
-        threshold (Real, optional): Keep dividing `size` until `size` is 
+        threshold (Real, optional): Keep dividing `size` until `size` is
             smaller than `threshold`. Defaults to 1024.
-        div (Real, optional): Divide `size` by `div` in every iteration. 
+        div (Real, optional): Divide `size` by `div` in every iteration.
             Defaults to 1024.
 
     Returns:
@@ -246,34 +249,40 @@ def trunc_str(
     Args:
         text (str): Target string.
         n (int): Maximum length of substring from `text` in output string.
-        mode (int, optional): Mode of truncation. Must be any one in 
+        mode (int, optional): Mode of truncation. Must be any one in
             {1, 2, 3, 4}. Defaults to 1.
             1: Keeping the left part.
             2: Keeping the left and right parts.
-            3: Keeping the middle part. 
+            3: Keeping the middle part.
             4: Keeping the right part.
-        replacement (str, optional): String to replace the removed substring. 
+        replacement (str, optional): String to replace the removed substring.
             Defaults to "...".
 
     Returns:
         str: Truncated `text`.
     """
 
-    assert mode in (mode_set := {1, 2, 3, 4}), f"{mode} does not belong to {mode_set}. `mode` must be any one in {mode_set}."
+    assert mode in (
+        mode_set := {1, 2, 3, 4}
+    ), f"{mode} does not belong to {mode_set}. `mode` must be any one in {mode_set}."
 
     from .num_ops import is_odd
 
     # Return `text` itself if no truncation is needed
     if len(text := str(text)) <= n:
         return text
-    
+
     # Switch statements can be used in Python 3.10
     if mode == 1:
         truncated = "".join((text[:n], replacement))
     elif mode == 2:
-        truncated = "".join((text[:(left := n // 2)], replacement, text[-(left + is_odd(n)):]))
+        truncated = "".join(
+            (text[: (left := n // 2)], replacement, text[-(left + is_odd(n)) :])
+        )
     elif mode == 3:
-        truncated = "".join((replacement, text[(mid := (len(text) - n) // 2):mid + n], replacement))
+        truncated = "".join(
+            (replacement, text[(mid := (len(text) - n) // 2) : mid + n], replacement)
+        )
     else:
         truncated = "".join((replacement, text[-n:]))
     return truncated

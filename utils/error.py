@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: error.py
+# File: utils/error.py
 
 from typing import Optional
 
@@ -33,7 +33,7 @@ def err2str(
 
     Args:
         err (Exception): Error from try-except.
-        sep (str, optional): Separator between error type and error message. 
+        sep (str, optional): Separator between error type and error message.
             Defaults to ": ".
 
     Returns:
@@ -62,4 +62,7 @@ def raise_err(
     """
 
     import builtins
-    raise getattr(builtins, get_err_type(err), Exception)(msg if msg is not None else err)
+
+    raise getattr(builtins, get_err_type(err), Exception)(
+        msg if msg is not None else err
+    )

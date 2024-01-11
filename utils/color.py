@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: color.py
+# File: utils/color.py
 
 try:
     from colorama import just_fix_windows_console
