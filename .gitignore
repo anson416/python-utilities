@@ -1,4 +1,5 @@
 # User-defined
+.DS_Store
 test*.py
 !test_with_pytest.py
 
