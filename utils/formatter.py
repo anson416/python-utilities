@@ -139,7 +139,7 @@ def print_dict(
         indent (int, optional): Indent level. Defaults to 4.
     """
 
-    assert indent >= 0, f"{indent} < 0. indent must be a non-negative integer."
+    assert indent >= 0, f"{indent} >= 0. indent must be a non-negative integer."
     import json
 
     print(json.dumps(dic, indent=indent))
@@ -190,8 +190,8 @@ def convert_num(
         convert_num(1_234_567) -> (1.234567, "M")
     """
 
-    assert threshold > 0, f"{threshold} <= 0. `threshold` must be a positive number."
-    assert div > 0, f"{div} <= 0. `div` must be a positive number."
+    assert threshold > 0, f"{threshold} > 0. `threshold` must be a positive number."
+    assert div > 0, f"{div} > 0. `div` must be a positive number."
 
     UNITS = ["", "K", "M", "B", "T", "Q", "Qu", "S", "Sp", "O", "N"]
     max_idx = len(UNITS) - 1
@@ -224,9 +224,9 @@ def convert_size(
         convert_size(1_298_562) -> (1.2384052276611328, "MB")
     """
 
-    assert size >= 0, f"{size} < 0. `size` must be a non-negative integer."
-    assert threshold > 0, f"{threshold} <= 0. `threshold` must be a positive number."
-    assert div > 0, f"{div} <= 0. `div` must be a positive number."
+    assert size >= 0, f"{size} >= 0. `size` must be a non-negative integer."
+    assert threshold > 0, f"{threshold} > 0. `threshold` must be a positive number."
+    assert div > 0, f"{div} > 0. `div` must be a positive number."
 
     UNITS = ["", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q"]
     max_idx = len(UNITS) - 1

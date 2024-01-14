@@ -132,9 +132,7 @@ def download_files(
     assert (
         download_dir != ""
     ), f'"{download_dir}" is empty. download_dir must not be empty.'
-    assert (
-        max_workers > 0
-    ), f"{max_workers} <= 0. max_workers must be a positive integer"
+    assert max_workers > 0, f"{max_workers} > 0. max_workers must be a positive integer"
 
     create_dir(download_dir, exist_ok=True)
 

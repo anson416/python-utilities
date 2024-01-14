@@ -158,7 +158,7 @@ def _get_logger_config(
     if log_dir is not None:
         assert (
             max_bytes >= 0
-        ), f"{max_bytes} < 0. `max_bytes` must be a non-negative integer."
+        ), f"{max_bytes} >= 0. `max_bytes` must be a non-negative integer."
         create_dir(log_dir := Path(log_dir) / f"log_{get_datetime()}", exist_ok=True)
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,

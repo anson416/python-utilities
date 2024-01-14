@@ -82,9 +82,7 @@ def get_batches(
             most `batch_size`.
     """
 
-    assert (
-        batch_size > 0
-    ), f"{batch_size} <= 0. `batch_size` must be a positive integer."
+    assert batch_size > 0, f"{batch_size} > 0. `batch_size` must be a positive integer."
     return (
         batch
         for batch in split_arr(
@@ -119,8 +117,8 @@ def range_(
         Iterator[Real]: Sorted sequence of values.
     """
 
-    assert n > 0, f"{n} <= 0. `n` must be a positive integer."
-    assert step > 0, f"{step} <= 0. `step` must be a positive integer."
+    assert n > 0, f"{n} > 0. `n` must be a positive integer."
+    assert step > 0, f"{step} > 0. `step` must be a positive integer."
     assert mode in (
         mode_set := {1, 2, 3, 4}
     ), f"{mode} does not belong to {mode_set}. `mode` must be any one in {mode_set}."

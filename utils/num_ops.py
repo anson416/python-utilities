@@ -48,7 +48,7 @@ def rescale(
     b: Real,
     c: Real,
     d: Real,
-) -> float:
+) -> Real:
     """
     Map a number in [a, b] (a != b) to [c, d].
 
@@ -60,11 +60,11 @@ def rescale(
         d (Real): Upper bound of new interval.
 
     Returns:
-        float: Rescaled number.
+        Real: Rescaled number.
     """
 
     assert a < b and a <= num <= b, "`num` must be in [`a`, `b`] where `a` != `b`."
-    assert c <= d, f"{c} > {d}. `c` must not be greater than `d`."
+    assert c <= d, f"{c} <= {d}. `c` must not be greater than `d`."
     return (num - a) * (d - c) / (b - a) + c
 
 
@@ -94,7 +94,7 @@ def clamp(
         ```
     """
 
-    assert a <= b, f"{a} > {b}. `a` must not be greater than `b`."
+    assert a <= b, f"{a} <= {b}. `a` must not be greater than `b`."
     return max(a, min(num, b))
 
 
@@ -132,7 +132,7 @@ def round_(
         Real: Rouneded number.
     """
 
-    assert base > 0, f"{base} <= 0. `base` must be a positive number."
+    assert base > 0, f"{base} > 0. `base` must be a positive number."
     return round(
         base * round(num / base),
         get_num_len(base) - str(base).index(".") - 1

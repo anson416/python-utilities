@@ -94,8 +94,8 @@ def get_etr(
         float: ETR of the process.
     """
 
-    assert total > 0, f"{total} <= 0. `total` must be a positive integer."
+    assert total > 0, f"{total} > 0. `total` must be a positive integer."
     assert (
         0 < progress <= total
-    ), f"{progress} <= 0 or {progress} > {total}. `progress` must be a positive integer not greater than `total`."
+    ), f"0 < {progress} <= {total}. `progress` must be a positive integer not greater than `total`."
     return time_elapsed * ((total / progress) - 1)

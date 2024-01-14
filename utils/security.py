@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: utils/security.py
 
-from typing import Optional, Union, Literal
+from typing import Literal, Optional, Union
 
 __all__ = [
     "hash_",
@@ -44,7 +44,7 @@ def hash_(
     """
 
     if max_len is not None:
-        assert max_len >= 0, f"{max_len} < 0. max_len must be a non-negative integer."
+        assert max_len >= 0, f"{max_len} >= 0. max_len must be a non-negative integer."
 
     import hashlib
 
