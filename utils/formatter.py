@@ -107,9 +107,7 @@ def dict2str(
             1 : a--2 : b??
     """
 
-    return (
-        f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{end}"
-    )
+    return f"{item_sep.join([f'{key}{kv_sep}{value}' for key, value in dic.items()])}{end}"
 
 
 def kwargs2str(kwargs: StrDict[Any]) -> str:
@@ -276,13 +274,9 @@ def trunc_str(
     if mode == 1:
         truncated = "".join((text[:n], replacement))
     elif mode == 2:
-        truncated = "".join(
-            (text[: (left := n // 2)], replacement, text[-(left + is_odd(n)) :])
-        )
+        truncated = "".join((text[: (left := n // 2)], replacement, text[-(left + is_odd(n)) :]))
     elif mode == 3:
-        truncated = "".join(
-            (replacement, text[(mid := (len(text) - n) // 2) : mid + n], replacement)
-        )
+        truncated = "".join((replacement, text[(mid := (len(text) - n) // 2) : mid + n], replacement))
     else:
         truncated = "".join((replacement, text[-n:]))
     return truncated

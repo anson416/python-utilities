@@ -67,26 +67,20 @@ def hash_(
         "md5": hashlib.md5,
     }
 
+    # Select correct hashing algorithm
     if (algo := algo.lower()) not in (algo_set := set(ALGO_DICT.keys())):
-        raise ValueError(
-            f"{algo} does not belong to {algo_set}. `algo` must be any one in {algo_set}."
-        )
+        raise ValueError(f"{algo} does not belong to {algo_set}. `algo` must be any one in {algo_set}.")
     if isinstance(hash_algo := ALGO_DICT[algo], dict):  # Chosen algorithm is SHA
         if ver not in (ver_set := set(hash_algo.keys())):
-            raise ValueError(
-                f"{ver} does not belong to {ver_set}. `ver` must be any one in {ver_set}."
-            )
-        if isinstance(
-            hash_algo := hash_algo[ver], dict
-        ):  # Chosen version is either 2 or 3
+            raise ValueError(f"{ver} does not belong to {ver_set}. `ver` must be any one in {ver_set}.")
+        if isinstance(hash_algo := hash_algo[ver], dict):  # Chosen version is either 2 or 3
             if digest_size not in (digest_set := set(hash_algo.keys())):
                 raise ValueError(
                     f"{digest_size} does not belong to {digest_set}. `digest_size` must be any one in {digest_set}."
                 )
             hash_algo = hash_algo[digest_size]
-    return hash_algo(msg.encode() if isinstance(msg, str) else msg).hexdigest()[
-        :max_len
-    ]
+
+    return hash_algo(msg.encode() if isinstance(msg, str) else msg).hexdigest()[:max_len]
 
 
 def gen_key(size: int = 32) -> bytes:

@@ -27,9 +27,8 @@ def load_json(json_path: PathLike) -> Any:
         Any: Python object loaded from `json_path`.
     """
 
-    assert (
-        get_file_ext(json_path := Path(json_path)).lower() == ".json"
-    ), ".json required."
+    assert get_file_ext(json_path := Path(json_path)).lower() == ".json", ".json required."
+
     import json
 
     with json_path.open() as f_json:
@@ -47,9 +46,8 @@ def load_jsonl(jsonl_path: PathLike) -> Iterator[Any]:
         Iterator[Any]: Python objects loaded from each line in `jsonl_path`.
     """
 
-    assert (
-        get_file_ext(jsonl_path := Path(jsonl_path)).lower() == ".jsonl"
-    ), ".jsonl required."
+    assert get_file_ext(jsonl_path := Path(jsonl_path)).lower() == ".jsonl", ".jsonl required."
+
     import json
 
     for line in read_file(jsonl_path):
@@ -68,9 +66,8 @@ def load_yaml(yaml_path: PathLike, safe: bool = True) -> Any:
         Any: Python object loaded from `yaml_path`.
     """
 
-    assert (
-        get_file_ext(yaml_path := Path(yaml_path)).lower() == ".yaml"
-    ), ".yaml required."
+    assert get_file_ext(yaml_path := Path(yaml_path)).lower() == ".yaml", ".yaml required."
+
     try:
         import yaml
     except ImportError:
@@ -90,6 +87,8 @@ def load_ini(ini_path: PathLike) -> Any:
         ConfigParser: Loaded `ini_path`.
     """
 
+    assert get_file_ext(ini_path := Path(ini_path)).lower() == ".ini", ".ini required."
+
     from configparser import ConfigParser
 
     def _load_ini(ini_path: PathLike) -> ConfigParser:
@@ -97,7 +96,6 @@ def load_ini(ini_path: PathLike) -> Any:
         config.read(ini_path)
         return config
 
-    assert get_file_ext(ini_path := Path(ini_path)).lower() == ".ini", ".ini required."
     return _load_ini(ini_path)
 
 
@@ -112,11 +110,12 @@ def load_xml(xml_path: PathLike) -> Any:
         BeautifulSoup: Loaded `xml_path`.
     """
 
+    assert get_file_ext(xml_path := Path(xml_path)).lower() == ".xml", ".xml required."
+
     from bs4 import BeautifulSoup
 
     def _load_xml(xml_path: PathLike) -> BeautifulSoup:
         with xml_path.open() as f_xml:
             return BeautifulSoup(f_xml.read(), features="html.parser")
 
-    assert get_file_ext(xml_path := Path(xml_path)).lower() == ".xml", ".xml required."
     return _load_xml(xml_path)

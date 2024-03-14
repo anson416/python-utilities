@@ -35,16 +35,13 @@ def timer_(
         nonlocal callback
 
         if callback is None:
-            callback = lambda f, a, k, t: print(
-                f"{f}({args2str(a)}, {kwargs2str(k)}): {round(t, 3)} s"
-            )
+            callback = lambda f, a, k, t: print(f"{f}({args2str(a)}, {kwargs2str(k)}): {round(t, 3)} s")
 
         def inner(*args: Any, **kwargs: Any) -> Any:
             start_time = time.perf_counter()
             result = func(*args, **kwargs)
             end_time = time.perf_counter()
             callback(func.__name__, args, kwargs, end_time - start_time)
-
             return result
 
         return inner
@@ -54,9 +51,7 @@ def timer_(
 
 def debugger(
     call_callback: Optional[Callable[[str, Tuple[Any], StrDict[Any]], None]] = None,
-    return_callback: Optional[
-        Callable[[str, Tuple[Any], StrDict[Any], Any], None]
-    ] = None,
+    return_callback: Optional[Callable[[str, Tuple[Any], StrDict[Any], Any], None]] = None,
 ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     A decorator for showing what arguments are passed to the target function (useful for debugging).
@@ -80,19 +75,14 @@ def debugger(
         nonlocal call_callback, return_callback
 
         if call_callback is None:
-            call_callback = lambda f, a, k: print(
-                f"Calling {f}({args2str(a)}, {kwargs2str(k)})"
-            )
+            call_callback = lambda f, a, k: print(f"Calling {f}({args2str(a)}, {kwargs2str(k)})")
         if return_callback is None:
-            return_callback = lambda f, a, k, r: print(
-                f"{f}({args2str(a)}, {kwargs2str(k)}): {r}"
-            )
+            return_callback = lambda f, a, k, r: print(f"{f}({args2str(a)}, {kwargs2str(k)}): {r}")
 
         def inner(*args: Any, **kwargs: Any) -> Any:
             call_callback(func.__name__, args, kwargs)
             result = func(*args, **kwargs)
             return_callback(func.__name__, args, kwargs, result)
-
             return result
 
         return inner

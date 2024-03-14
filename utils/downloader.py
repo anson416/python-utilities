@@ -13,9 +13,7 @@ except ImportError:
 try:
     from sortedcollections import OrderedSet
 except ImportError:
-    raise ImportError(
-        "Could not import sortedcollections. Try `pip install -U sortedcollections`."
-    )
+    raise ImportError("Could not import sortedcollections. Try `pip install -U sortedcollections`.")
 try:
     from tqdm import tqdm
 except ImportError:
@@ -111,9 +109,11 @@ def download_files(
             tasks = [_download_file(*url, session, sem, all_bar, leave) for url in urls]
             results = {"succeeded": [], "failed": []}
             for result in await asyncio.gather(*tasks):
-                results["succeeded"].append(result) if isinstance(
-                    result[-1], int
-                ) else results["failed"].append(result)
+                (
+                    results["succeeded"].append(result)
+                    if isinstance(result[-1], int)
+                    else results["failed"].append(result)
+                )
 
             return results
 
@@ -129,9 +129,7 @@ def download_files(
     download_dir = download_dir.strip()
 
     assert urls != [], f"{urls} is empty. urls must not be empty."
-    assert (
-        download_dir != ""
-    ), f'"{download_dir}" is empty. download_dir must not be empty.'
+    assert download_dir != "", f'"{download_dir}" is empty. download_dir must not be empty.'
     assert max_workers > 0, f"{max_workers} > 0. max_workers must be a positive integer"
 
     create_dir(download_dir, exist_ok=True)
@@ -150,9 +148,7 @@ def download_files(
     with tqdm(total=len(_urls), desc=desc) as all_bar:
         loop = asyncio.get_event_loop()
         try:
-            return loop.run_until_complete(
-                _download_files(list(OrderedSet(_urls)), sem, all_bar, leave)
-            )
+            return loop.run_until_complete(_download_files(list(OrderedSet(_urls)), sem, all_bar, leave))
         finally:
             loop.run_until_complete(loop.shutdown_asyncgens())
             loop.close()

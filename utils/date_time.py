@@ -21,9 +21,8 @@ def get_date(date_format: str = r"%Y-%m-%d") -> str:
         str: Today's date.
     """
 
-    assert (
-        date_format != ""
-    ), f'"{date_format}" is empty. `date_format` must not be empty.'
+    assert date_format != "", f'"{date_format}" is empty. `date_format` must not be empty.'
+
     from datetime import datetime
 
     return datetime.now().strftime(date_format)
@@ -41,9 +40,8 @@ def get_time(time_format: str = r"%H:%M:%S") -> str:
         str: Current time.
     """
 
-    assert (
-        time_format != ""
-    ), f'"{time_format}" is empty. `time_format` must not be empty.'
+    assert time_format != "", f'"{time_format}" is empty. `time_format` must not be empty.'
+
     from datetime import datetime
 
     return datetime.now().strftime(time_format)
@@ -70,9 +68,7 @@ def get_datetime(
         str: Today's date and current time.
     """
 
-    return sep.join(
-        (get_date(date_format), get_time(time_format))[:: (-1) ** (not date_first)]
-    )
+    return sep.join((get_date(date_format), get_time(time_format))[:: (-1) ** (not date_first)])
 
 
 def get_etr(
@@ -98,4 +94,5 @@ def get_etr(
     assert (
         0 < progress <= total
     ), f"0 < {progress} <= {total}. `progress` must be a positive integer not greater than `total`."
+
     return time_elapsed * ((total / progress) - 1)

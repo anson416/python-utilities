@@ -27,11 +27,7 @@ def get_all_combs(arr: Array[Any]) -> Iterator[Tuple[Any, ...]]:
 
     from itertools import combinations
 
-    return (
-        c
-        for comb in map(lambda x: tuple(combinations(arr, x)), range(1, len(arr) + 1))
-        for c in comb
-    )
+    return (c for comb in map(lambda x: tuple(combinations(arr, x)), range(1, len(arr) + 1)) for c in comb)
 
 
 def split_arr(
@@ -53,14 +49,10 @@ def split_arr(
     """
 
     assert len(weights) > 0, "`weights` must be non-empty."
-    assert all(
-        map(lambda x: x >= 0, weights)
-    ), "`weights` must contain only non-negative numbers."
+    assert all(map(lambda x: x >= 0, weights)), "`weights` must contain only non-negative numbers."
 
     start_idx = 0
-    for weight in map(
-        lambda x: x / sum(weights), weights[:-1]
-    ):  # Last split is determined by previous splits
+    for weight in map(lambda x: x / sum(weights), weights[:-1]):  # Last split is determined by previous splits
         yield arr[start_idx : (start_idx := start_idx + round(len(arr) * weight))]
     else:
         yield arr[start_idx:]
@@ -83,11 +75,10 @@ def get_batches(
     """
 
     assert batch_size > 0, f"{batch_size} > 0. `batch_size` must be a positive integer."
+
     return (
         batch
-        for batch in split_arr(
-            arr, [batch_size] * (len(arr) // batch_size) + [len(arr) % batch_size]
-        )
+        for batch in split_arr(arr, [batch_size] * (len(arr) // batch_size) + [len(arr) % batch_size])
         if len(batch) > 0
     )  # Filter out empty batch
 

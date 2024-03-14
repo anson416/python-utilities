@@ -87,9 +87,7 @@ class _InfiniteFileHandler(RotatingFileHandler):
         backup_name = f"{self.baseFilename}.{date_time}.{self._backup_count}"
         self.rotate(self.baseFilename, backup_name)
         if self._compress:
-            with open(backup_name, "rb") as f_in, gzip.open(
-                f"{backup_name}.gz", "wb"
-            ) as f_out:
+            with open(backup_name, "rb") as f_in, gzip.open(f"{backup_name}.gz", "wb") as f_out:
                 f_out.writelines(f_in)
             remove_file(backup_name)
         if not self.delay:
@@ -156,9 +154,7 @@ def _get_logger_config(
 
     # Modify configuration to save logs to files
     if log_dir is not None:
-        assert (
-            max_bytes >= 0
-        ), f"{max_bytes} >= 0. `max_bytes` must be a non-negative integer."
+        assert max_bytes >= 0, f"{max_bytes} >= 0. `max_bytes` must be a non-negative integer."
         create_dir(log_dir := Path(log_dir) / f"log_{get_datetime()}", exist_ok=True)
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,

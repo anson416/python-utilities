@@ -65,6 +65,7 @@ def rescale(
 
     assert a < b and a <= num <= b, "`num` must be in [`a`, `b`] where `a` != `b`."
     assert c <= d, f"{c} <= {d}. `c` must not be greater than `d`."
+
     return (num - a) * (d - c) / (b - a) + c
 
 
@@ -95,6 +96,7 @@ def clamp(
     """
 
     assert a <= b, f"{a} <= {b}. `a` must not be greater than `b`."
+
     return max(a, min(num, b))
 
 
@@ -133,9 +135,8 @@ def round_(
     """
 
     assert base > 0, f"{base} > 0. `base` must be a positive number."
+
     return round(
         base * round(num / base),
-        get_num_len(base) - str(base).index(".") - 1
-        if prec is None and "." in str(base)
-        else 0,
+        get_num_len(base) - str(base).index(".") - 1 if prec is None and "." in str(base) else 0,
     )

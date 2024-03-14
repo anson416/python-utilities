@@ -223,9 +223,7 @@ def remove_dir(
 
     if exists(tgt_dir := Path(tgt_dir)):
         if not is_dir(tgt_dir):
-            raise NotADirectoryError(
-                f"{str(tgt_dir)} is not a directory. `tgt_dir` must be a directory"
-            )
+            raise NotADirectoryError(f"{str(tgt_dir)} is not a directory. `tgt_dir` must be a directory")
         tgt_dir.rmdir() if only_empty else shutil.rmtree(tgt_dir)
         return True
     return False
@@ -244,9 +242,7 @@ def remove_file(path: PathLike) -> bool:
 
     if exists(path := Path(path)):
         if not is_file(path):
-            raise OSError(
-                f"{str(path)} is not a regular file. `path` must be a regular file."
-            )
+            raise OSError(f"{str(path)} is not a regular file. `path` must be a regular file.")
         path.unlink()
         return True
     return False
@@ -282,7 +278,7 @@ def list_files(
 ) -> Iterator[Path]:
     """
     Get all file paths under a directory (recursively). Similar to the `ls -a`
-    command on Linux.
+    (`ls -R` for recursive directory listing) command on Linux.
 
     Args:
         tgt_dir (PathLike): Target directory.
@@ -298,11 +294,7 @@ def list_files(
         Iterator[Path]: File paths under `tgt_dir`.
     """
 
-    exts = (
-        set(map(lambda x: x.lower(), exts))
-        if exts is not None and case_insensitive
-        else exts
-    )
+    exts = set(map(lambda x: x.lower(), exts)) if exts is not None and case_insensitive else exts
     for child in (tgt_dir := Path(tgt_dir)).iterdir():
         if is_file(child):
             if exts is not None:
@@ -315,12 +307,7 @@ def list_files(
             if exts is None:
                 yield child
             if recursive:
-                yield from list_files(
-                    child,
-                    exts=exts,
-                    case_insensitive=case_insensitive,
-                    recursive=recursive,
-                )
+                yield from list_files(child, exts=exts, case_insensitive=case_insensitive, recursive=recursive)
 
 
 def read_file(
