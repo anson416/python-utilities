@@ -304,8 +304,6 @@ def list_files(
             else:
                 yield child
         elif is_dir(child):
-            if exts is None:
-                yield child
             if recursive:
                 yield from list_files(child, exts=exts, case_insensitive=case_insensitive, recursive=recursive)
 
