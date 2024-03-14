@@ -22,7 +22,7 @@ __all__ = [
     "remove_file",
     "get_cwd",
     "get_home",
-    "list_files",
+    "iter_files",
     "read_file",
     "copy_file",
 ]
@@ -270,7 +270,7 @@ def get_home() -> Path:
     return Path.home()
 
 
-def list_files(
+def iter_files(
     tgt_dir: PathLike,
     exts: Optional[Set[str]] = None,
     case_insensitive: bool = False,
@@ -305,7 +305,7 @@ def list_files(
                 yield child
         elif is_dir(child):
             if recursive:
-                yield from list_files(child, exts=exts, case_insensitive=case_insensitive, recursive=recursive)
+                yield from iter_files(child, exts=exts, case_insensitive=case_insensitive, recursive=recursive)
 
 
 def read_file(
