@@ -282,9 +282,9 @@ def list_files(
 
     Args:
         tgt_dir (PathLike): Target directory.
-        exts (Optional[Set[str]], optional): If not None, return a file only if
-            its extension (including leading period) is in `exts`. Defaults to
-            None.
+        exts (Optional[Set[str]], optional): If not None, return a file path
+            only if its extension (including leading period) is in `exts`.
+            Defaults to None.
         case_insensitive (bool, optional): Neglect case of file extensions.
             Used only if `exts` is not None. Defaults to False.
         recursive (bool, optional): Recurse into sub-directories. Defaults to
