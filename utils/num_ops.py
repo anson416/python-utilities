@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # File: utils/num_ops.py
 
+from decimal import Decimal
 from numbers import Real
 from typing import Optional
 
@@ -121,7 +122,7 @@ def round_(
 ) -> Real:
     """
     Round a number to the nearest integral multiple of another number (base).
-    Credit: https://stackoverflow.com/a/18666678.
+    Reference: https://stackoverflow.com/a/18666678.
 
     Args:
         num (Real): Target number.
@@ -140,3 +141,7 @@ def round_(
         base * round(num / base),
         get_num_len(base) - str(base).index(".") - 1 if prec is None and "." in str(base) else 0,
     )
+
+
+def float_(x: Real) -> Decimal:
+    return Decimal(str(x))
