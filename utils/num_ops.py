@@ -12,6 +12,7 @@ __all__ = [
     "clamp",
     "get_num_len",
     "round_",
+    "float_",
 ]
 
 
