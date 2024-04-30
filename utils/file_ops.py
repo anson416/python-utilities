@@ -274,6 +274,7 @@ def iter_files(
     tgt_dir: PathLike,
     exts: Optional[Set[str]] = None,
     case_insensitive: bool = False,
+    include_dir: bool = False,
     recursive: bool = False,
 ) -> Iterator[Path]:
     """
@@ -287,6 +288,8 @@ def iter_files(
             Defaults to None.
         case_insensitive (bool, optional): Neglect case of file extensions.
             Used only if `exts` is not None. Defaults to False.
+        include_dir (bool, optional): Return directory paths together with file
+            paths. Defaults to False.
         recursive (bool, optional): Recurse into sub-directories. Defaults to
             False.
 
@@ -304,6 +307,8 @@ def iter_files(
             else:
                 yield child
         elif is_dir(child):
+            if include_dir:
+                yield child
             if recursive:
                 yield from iter_files(child, exts=exts, case_insensitive=case_insensitive, recursive=recursive)
 
