@@ -1,15 +1,16 @@
-# -*- coding: utf-8 -*-
-# File: utils/color.py
+import warnings
+from typing import Any
 
 try:
-    from colorama import just_fix_windows_console
+    from colorama import just_fix_windows_console  # type: ignore
+
+    just_fix_windows_console()
 except ImportError:
-    raise ImportError("Could not import colorama. Try `pip install -U colorama`.")
+    pass
 try:
-    from termcolor import colored
+    from termcolor import colored  # type: ignore
 except ImportError:
-    raise ImportError("Could not import termcolor. Try `pip install -U termcolor`.")
+    warnings.warn("termcolor is not installed")
 
-__all__ = ["colored"]
-
-just_fix_windows_console()
+    def colored(text: object, *args: Any, **kwargs: Any) -> str:
+        return str(text)

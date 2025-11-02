@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "utils"
+authors = [{ name = "Anson Lam", email = "anson.y.lam@gmail.com" }]
+dynamic = ["version"]
+dependencies = [
+    "colorama",
+    "json_repair",
+    "numpy",
+    "openai",
+    "opencv-python",
+    "pillow",
+    "pydantic",
+    "termcolor",
+    "tqdm",
+    "typing_extensions",
+
+]
+requires-python = ">=3.9"
+readme = "README.md"
+
+[tool.setuptools]
+packages = ["utils"]
+
+[tool.setuptools.dynamic]
+version = { attr = "utils.__version__" }

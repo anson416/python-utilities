@@ -1,7 +1,18 @@
 # User-defined
+*
+!utils/
+!utils/**
+!pyproject.toml
+
+# GitHub
+!.gitignore
+!LICENSE
+!README.md
+
+# System files
 .DS_Store
-test*.py
-!test_with_pytest.py
+Thumbs.db
+desktop.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

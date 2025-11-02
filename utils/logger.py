@@ -1,20 +1,15 @@
-# -*- coding: utf-8 -*-
-# File: utils/logger.py
-
 import gzip
 import json
 import logging
 import logging.config
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, Type
+
+from pydantic import validate_call
 
 from .color import colored
-from .date_time import get_date, get_datetime, get_time
-from .file_ops import create_dir, remove_file
-from .types_ import PathLike, StrDict
-
-__all__ = ["get_logger"]
+from .misc import get_datetime
 
 _LOG_LEVEL_DICT = {
     logging.DEBUG: ("DBG", "dark_grey"),
@@ -33,12 +28,11 @@ class _ConsoleFormatter(logging.Formatter):
 
     # Override
     def format(self, record: logging.LogRecord) -> str:
-        info = "[%(asctime)s @%(name)s/%(filename)s:%(lineno)d]"
+        info = "[%(asctime)s %(name)s @ %(pathname)s:%(lineno)d]"
         msg = colored("%(message)s", "white")
         abbrev, color = _LOG_LEVEL_DICT.get(record.levelno, _UNKNOWN_LOG)
         fmt = f"{colored(f'{info} [{abbrev}]', color)} {msg}"
-        self._style._fmt = fmt
-        self._fmt = fmt
+        self._style._fmt = self._fmt = fmt
         return super().format(record)
 
 
@@ -55,8 +49,7 @@ class _FileFormatter(logging.Formatter):
             "file": record.filename,
             "func": record.funcName,
             "line": record.lineno,
-            "date": get_date(),
-            "time": get_time(),
+            "time": get_datetime(r"%Y-%m-%d %H:%M:%S"),
             "msg": record.msg,
         }
         return json.dumps(log_dict)
@@ -68,10 +61,7 @@ class _InfiniteFileHandler(RotatingFileHandler):
     """
 
     def __init__(
-        self,
-        filename: PathLike,
-        maxBytes: int = 0,
-        compress: bool = False,
+        self, filename: Path, maxBytes: int = 0, compress: bool = False
     ) -> None:
         super().__init__(filename, maxBytes=maxBytes)
         self._compress = compress
@@ -87,54 +77,81 @@ class _InfiniteFileHandler(RotatingFileHandler):
         backup_name = f"{self.baseFilename}.{date_time}.{self._backup_count}"
         self.rotate(self.baseFilename, backup_name)
         if self._compress:
-            with open(backup_name, "rb") as f_in, gzip.open(f"{backup_name}.gz", "wb") as f_out:
+            with (
+                open(backup_name, "rb") as f_in,
+                gzip.open(f"{backup_name}.gz", "wb") as f_out,
+            ):
                 f_out.writelines(f_in)
-            remove_file(backup_name)
+            Path(backup_name).unlink()
         if not self.delay:
             self.stream = self._open()
+
+
+class _CustomLogger(logging.Logger):
+    def error(
+        self,
+        msg: Any,
+        *args: Any,
+        exc: Optional[Type[BaseException]] = None,
+        **kwargs: Any,
+    ) -> None:
+        _msg = msg if exc is None else f"{exc.__name__}: {msg}"
+        super().error(_msg, *args, **kwargs)
+        if self.isEnabledFor(logging.ERROR) and exc is not None:
+            raise exc(str(msg))
+
+    def critical(
+        self,
+        msg: Any,
+        *args: Any,
+        exc: Optional[Type[BaseException]] = None,
+        **kwargs: Any,
+    ) -> None:
+        _msg = msg if exc is None else f"{exc.__name__}: {msg}"
+        super().critical(_msg, *args, **kwargs)
+        if self.isEnabledFor(logging.CRITICAL) and exc is not None:
+            raise exc(str(msg))
 
 
 def _get_logger_config(
     name: str = __name__,
     level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO",
-    datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
-    log_dir: Optional[PathLike] = None,
+    datetime_format: Optional[str] = None,
+    log_dir: Optional[str] = None,
     max_bytes: int = 0,
     compress: bool = False,
-) -> StrDict[Any]:
+) -> dict[str, Any]:
     """
     Construct a configuration dictionary for logging.config.dictConfig().
 
     Args:
         name (str, optional): Name of logger. Defaults to __name__.
-        level (str, optional): Level of logging. Must be any one in
-            {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}. Defaults to
-            "INFO".
+        level (Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], optional):
+            Level of logging. Defaults to "INFO".
         datetime_format (Optional[str], optional): Date and time format.
             Defaults to r"%Y-%m-%d %H:%M:%S".
-        log_dir (Optional[PathLike], optional): If not None, logs will be
-            written to "`log_dir`/log_<current_date_time>". Defaults to None.
-        max_bytes (int, optional): If `max_bytes` > 0, each log file will
-            store at most `max_bytes` bytes (i.e., rollover). Used only if
-            `log_dir` is not None. Defaults to 0.
+        log_dir (Optional[str], optional): If not None, logs will be written \
+            to "`log_dir`/log_<current_date_time>". Defaults to None.
+        max_bytes (int, optional): If `max_bytes` > 0, each log file will store
+            at most `max_bytes` bytes. Used only if `log_dir` is not None.
+            Defaults to 0.
         compress (bool, optional): Compress backup (i.e., rotated) log files.
             Used only if `log_dir` is not None. Defaults to False.
 
     Returns:
-        StrDict[Any]: Configuration dictionary.
+        SDict[Any]: Configuration dictionary
     """
 
-    # Basic configuration dictionary
     logger_config = {
         "version": 1,
         "formatters": {
             "console_formatter": {
                 "()": _ConsoleFormatter,
-                "datefmt": datetime_format,
+                "datefmt": datetime_format
+                if datetime_format is not None
+                else r"%Y-%m-%d %H:%M:%S",
             },
-            "file_formatter": {
-                "()": _FileFormatter,
-            },
+            "file_formatter": {"()": _FileFormatter},
         },
         "handlers": {
             "console_handler": {
@@ -148,19 +165,21 @@ def _get_logger_config(
                 "handlers": ["console_handler"],
                 "level": logging.DEBUG,
                 "propagate": False,
-            },
+            }
         },
     }
-
-    # Modify configuration to save logs to files
     if log_dir is not None:
-        assert max_bytes >= 0, f"{max_bytes} >= 0. `max_bytes` must be a non-negative integer."
-        create_dir(log_dir := Path(log_dir) / f"log_{get_datetime()}", exist_ok=True)
+        if max_bytes < 0:
+            raise ValueError(
+                f"`max_bytes` must be a non-negative integer, got {max_bytes}"
+            )
+        _log_dir = Path(log_dir) / f"log_{get_datetime()}"
+        _log_dir.mkdir(parents=True)
         logger_config["handlers"]["file_handler"] = {
             "()": _InfiniteFileHandler,
             "formatter": "file_formatter",
             "level": logging.DEBUG,
-            "filename": log_dir / "log.jsonl",
+            "filename": _log_dir / "log.jsonl",
             "maxBytes": max_bytes,
             "compress": compress,
         }
@@ -169,43 +188,45 @@ def _get_logger_config(
     return logger_config
 
 
+@validate_call
 def get_logger(
     name: str = __name__,
-    datetime_format: Optional[str] = r"%Y-%m-%d %H:%M:%S",
-    log_dir: Optional[PathLike] = None,
+    datetime_format: Optional[str] = None,
+    log_dir: Optional[str] = None,
     max_bytes: int = 10 * (1024**2),
-    compress: bool = False,
-) -> logging.Logger:
+    compress: bool = True,
+) -> _CustomLogger:
     """
     Get custom logger.
 
     Usage:
-
         ```python
         logger = get_logger()
         logger.debug("log debug message")
         logger.info("log info message")
         logger.warning("log warning message")
-        logger.error("log error message")
-        logger.critical("log critical message")
+        logger.error("log error message", exc=BaseException)
+        logger.critical("log critical message", exc=BaseException)
         ```
 
     Args:
-        name (str, optional): Name of logger. Defaults to `__name__`.
+        name (str, optional): Name of logger. Defaults to __name__.
         datetime_format (Optional[str], optional): Date and time format.
             Defaults to r"%Y-%m-%d %H:%M:%S".
-        log_dir (Optional[PathLike], optional): If not None, logs will be
+        log_dir (Optional[str], optional): If not None, logs will be
             written to "`log_dir`/log_<current_date_time>". Defaults to None.
-        max_bytes (int, optional): If `max_bytes` > 0, each log file will
-            store at most `max_bytes` bytes. Used only if `log_dir` is not
-            None. Defaults to 10 * (1024 ** 2) = 10 MB.
+        max_bytes (int, optional): If `max_bytes` > 0, each log file will store
+            at most `max_bytes` bytes. Used only if `log_dir` is not None.
+            Defaults to 10 * (1024 ** 2) = 10 MB.
         compress (bool, optional): Compress backup (i.e., rotated) log files.
-            Used only if `log_dir` is not None. Defaults to False.
+            Used only if `log_dir` is not None. Defaults to True.
 
     Returns:
-        logging.Logger: Custom logger.
+        __CustomLogger: Custom logger
     """
 
+    old_logger_class = logging.getLoggerClass()
+    logging.setLoggerClass(_CustomLogger)
     logger_config = _get_logger_config(
         name=name,
         datetime_format=datetime_format,
@@ -214,4 +235,6 @@ def get_logger(
         compress=compress,
     )
     logging.config.dictConfig(logger_config)
-    return logging.getLogger(name)
+    logger = logging.getLogger(name)
+    logging.setLoggerClass(old_logger_class)
+    return logger
