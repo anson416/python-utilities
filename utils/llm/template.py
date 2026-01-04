@@ -13,7 +13,7 @@ Your JSON must be complete (i.e., from a proper start with "{" to a proper end w
 DEFAULT_COSTAR_JSON_TONE = "Neutral"
 
 DEFAULT_COSTAR_JSON_AUDIENCE = """\
-A computer program that will parse your JSON response strictly."""
+A computer program that will strictly parse your JSON response."""
 
 
 class PromptTemplate(object):
